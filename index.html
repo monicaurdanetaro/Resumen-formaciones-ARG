@@ -409,26 +409,36 @@ function switchView(){
 const COURSES = [
   { id:0, name:'Asesoría Farmacéutica · Farmacéuticos', short:'Asesoría Farm.', color:'#3b5fe2', colorLt:'#eef1fd',
     population:'Farmacéuticos', duration:'4 horas', total:40, perGroup:20,
+    responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
     facilitators:'Reinaldo Contreras, Yessika Santos, Soledad Diaz Otañez, Cecilia Soria, Rafael Amaro' },
   { id:1, name:'Atención en el mostrador de farmacia', short:'Mostrador Farm.', color:'#27ae60', colorLt:'#e9f7ef',
     population:'Personal base de farmacia', duration:'4 horas', total:200, displaySessions:7, perGroup:30,
+    responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
     facilitators:'Reinaldo Contreras, Yessika Santos, Soledad Diaz Otañez, Cecilia Soria, Rafael Amaro' },
   { id:2, name:'Servicio al Cliente y 5 Conductas', short:'Servicio Cliente', color:'#e67e22', colorLt:'#fef3e7',
     population:'Base', duration:'2.5 horas', total:300, displaySessions:11, perGroup:30,
+    responsible:'Equipo de Capacitación',
+    asyncProgram:{ name:'Programa 5 Conductas de Servicio', from:'2026-07-02', to:'2026-07-14', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1SdJg00FOlAJ58igMBFakVQJWFvpHOZyBtEDJOP5AI_8/edit?tab=t.0',
     facilitators:'Cristian Diaz, Oswaldo Saldivia, Carlos Carrión' },
   { id:3, name:'Orden y Limpieza · Piso de Ventas', short:'Orden y Limpieza', color:'#e74c3c', colorLt:'#fdecea',
     population:'Supervisores', duration:'4 horas', total:111,
+    responsible:'Karol Brinckmann',
+    asyncProgram:{ name:'Programa Manejo de Planogramas', from:'2026-06-22', to:'2026-07-03', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1dWsYU8fl6dYglVpahdahO3CdsDSMU3msC-42DOSeZ8g/edit?tab=t.0',
     facilitators:'Gerentes de área' },
   { id:4, name:'Pilares de la Operación', short:'Pilares Op.', color:'#8e44ad', colorLt:'#f5eefa',
     population:'Supervisores', duration:'4 horas', total:111,
+    responsible:'Karol Brinckmann',
+    asyncProgram:{ name:'Programa Pilares de la Operación', from:'2026-07-06', to:'2026-07-17', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1OQAMR61w9wkcc1pHOluiWblImdW8Ysdx_dE3bqv9kxQ/edit?tab=t.0',
     facilitators:'Gerentes de área' },
   { id:5, name:'Conteo y Ajuste de Inventario', short:'Inventario', color:'#16a085', colorLt:'#e8f8f5',
     population:'Supervisores', duration:'4 horas', total:111,
+    responsible:'Karol Brinckmann',
+    asyncProgram:{ name:'Programa Manejo de Inventarios', from:'2026-07-20', to:'2026-07-31', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1bF0szNOUwmYi4V-oC51TZ_v08tZnVkufIbQuxpeBs3o/edit?tab=t.0',
     facilitators:'Gerentes de área' },
 ];
@@ -439,6 +449,7 @@ const SESSIONS = [
   {date:'2026-06-23',cid:1,group:'G3',slot:'am'},{date:'2026-06-23',cid:1,group:'G4',slot:'pm'},
   {date:'2026-06-25',cid:1,group:'G5',slot:'am'},{date:'2026-06-25',cid:1,group:'G6',slot:'pm'},
   {date:'2026-06-30',cid:1,group:'G7',slot:'am'},
+  {date:'2026-06-29',cid:2,group:'Entrenamiento de facilitadores',trainer:true},
   {date:'2026-07-02',cid:2,group:'G1, G2 y G3',simultaneous:true},{date:'2026-07-07',cid:2,group:'G4, G5 y G6',simultaneous:true},
   {date:'2026-07-09',cid:2,group:'G7, G8 y G9',simultaneous:true},{date:'2026-07-14',cid:2,group:'G10 y G11',simultaneous:true},
   {date:'2026-06-22',cid:3,group:'Tienda 1'},{date:'2026-06-23',cid:3,group:'Tienda 2'},
@@ -511,7 +522,8 @@ function openCourseModal(c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     <div class="mfield"><div class="mfield-lbl">🔢 Personas</div><div class="mfield-val">${c.total} personas</div></div>
     <div class="mfield"><div class="mfield-lbl">📅 Grupos</div><div class="mfield-val">${totalSess} grupos</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -572,6 +584,8 @@ function renderCalendar(){
     visibleCourses.forEach(c=>{
       const tr=document.createElement('tr');
       const ltd=document.createElement('td'); ltd.className='row-label-col';
+      // If course has async, span 2 rows so label covers both presencial + async rows
+      if(c.asyncProgram) ltd.rowSpan=2;
       ltd.innerHTML=`<div class="row-label-inner"><div class="row-label-bar" style="background:${c.color}"></div><div><div class="row-label-name">${c.short}</div><div class="row-label-pop">${c.population}</div></div></div>`;
       tr.appendChild(ltd);
       allDays.forEach(day=>{
@@ -581,7 +595,12 @@ function renderCalendar(){
           const pill=document.createElement('div'); pill.className='sess-pill'; pill.style.cssText=`background:${c.colorLt};border-left-color:${c.color};`;
           const isSplit=sessArr.length===2&&sessArr.some(s=>s.slot);
           const isSim=sessArr.length===1&&sessArr[0].simultaneous;
-          if(isSplit){
+          const isTrainer=sessArr.length===1&&sessArr[0].trainer;
+          if(isTrainer){
+            pill.style.cssText='background:#f0f0f4;border-left-color:#9aa0b0;border-left-width:4px;border-left-style:solid;border-radius:8px;padding:5px 7px;height:62px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;cursor:pointer;transition:all .15s;';
+            pill.innerHTML=`<div style="font-size:8px;font-weight:800;color:#9aa0b0;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;white-space:nowrap">Preparación</div><div style="font-size:8.5px;font-weight:700;color:#5a6070;line-height:1.25;word-break:break-word">Entrenamiento facilitadores</div>`;
+            pill.onclick=()=>openTrainerModal(sessArr[0],day,c);
+          } else if(isSplit){
             pill.innerHTML=`<div class="sess-pill-name" style="margin-bottom:4px">${c.short}</div><div style="display:flex;flex-direction:column;gap:3px">
               <span style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}44;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:800;line-height:1.4;display:inline-block">${sessArr[0].group} · AM</span>
               <span style="background:${c.color}11;color:${c.color};border:1px solid ${c.color}33;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:800;line-height:1.4;display:inline-block">${sessArr[1].group} · PM</span></div>`;
@@ -593,7 +612,9 @@ function renderCalendar(){
             pill.onclick=()=>openModal(sessArr[0],day);
           } else {
             const s=sessArr[0];
-            pill.innerHTML=`<div class="sess-pill-name">${c.short}</div><div class="sess-pill-group" style="color:${c.color}">${s.slot?s.group+' · '+(s.slot==='am'?'AM':'PM'):s.group}</div>`;
+            const slotSuffix = s.slot ? (s.slot === 'am' ? ' · AM' : ' · PM') : '';
+            const groupLabel = s.slot ? s.group + slotSuffix : s.group;
+            pill.innerHTML=`<div class="sess-pill-name">${c.short}</div><div class="sess-pill-group" style="color:${c.color}">${groupLabel}</div>`;
             pill.onclick=()=>openModal(s,day);
           }
           pill.addEventListener('mouseenter',()=>{ pill.style.filter='brightness(.93)'; pill.style.transform='translateY(-1px)'; pill.style.boxShadow='var(--shadow)'; });
@@ -603,6 +624,55 @@ function renderCalendar(){
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
+
+      // ── ASYNC ROW: single spanning bar, no left label, same visual block as presencial
+      if(c.asyncProgram){
+        const fromDate=new Date(c.asyncProgram.from+'T00:00:00');
+        const toDate=new Date(c.asyncProgram.to+'T00:00:00');
+        let startIdx=-1, endIdx=-1;
+        allDays.forEach((day,i)=>{
+          if(ds(day)===ds(fromDate)) startIdx=i;
+          if(ds(day)===ds(toDate)) endIdx=i;
+        });
+
+        if(startIdx>=0 && endIdx>=0){
+          const atr=document.createElement('tr');
+
+          // NO label cell here — covered by rowspan=2 on the presencial label
+
+          // Cells before the bar (empty spacers)
+          for(let i=0; i<startIdx; i++){
+            const spacer=document.createElement('td');
+            spacer.style.cssText='border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:#fafafa;padding:0;';
+            spacer.innerHTML='<div style="height:26px"></div>';
+            atr.appendChild(spacer);
+          }
+
+          // ONE spanning cell for the bar
+          const barSpan = endIdx - startIdx + 1;
+          const bartd=document.createElement('td');
+          bartd.colSpan=barSpan;
+          bartd.style.cssText='border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:4px 0;background:#fafafa;';
+          const bar=document.createElement('div');
+          bar.style.cssText='height:22px;background:#dde2ec;border-radius:6px;margin:0 4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;overflow:hidden;white-space:nowrap;';
+          bar.innerHTML='<span style="font-size:9px;font-weight:800;color:#5a6477;letter-spacing:.03em">📱 ' + c.asyncProgram.name + '<span style="margin:0 8px;color:#9aa6b8;font-weight:400">|</span><span style="font-weight:600;color:#7a8499">Academia Farmatodo</span></span>';
+          bar.addEventListener('mouseenter', ()=>{ bar.style.background='#c8cfe0'; });
+          bar.addEventListener('mouseleave', ()=>{ bar.style.background='#dde2ec'; });
+          bar.onclick=()=>openAsyncModal(c);
+          bartd.appendChild(bar);
+          atr.appendChild(bartd);
+
+          // Cells after the bar (empty spacers)
+          for(let i=endIdx+1; i<allDays.length; i++){
+            const spacer=document.createElement('td');
+            spacer.style.cssText='border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:#fafafa;padding:0;';
+            spacer.innerHTML='<div style="height:26px"></div>';
+            atr.appendChild(spacer);
+          }
+
+          tbody.appendChild(atr);
+        }
+      }
     });
   }
   table.appendChild(tbody); scroll.appendChild(table); wrap.appendChild(scroll); cont.appendChild(wrap);
@@ -610,16 +680,21 @@ function renderCalendar(){
 
 function openModal(sess,day){
   const c=COURSES[sess.cid]; const dateStr=`${DAYS[day.getDay()]} ${day.getDate()} de ${MONTHS[day.getMonth()]} ${day.getFullYear()}`;
-  const slotLabel=sess.slot?(sess.slot==='am'?' · Turno Mañana':' · Turno Tarde'):'';
+  let slotLabel = '';
+  if(sess.slot === 'am') slotLabel = ' \u00B7 Turno Ma\u00F1ana';
+  else if(sess.slot === 'pm') slotLabel = ' \u00B7 Turno Tarde';
   document.getElementById('mEyebrow').style.color=c.color; document.getElementById('mEyebrow').textContent='📚 Detalle de la Formación';
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background='var(--blue-lt)'; db.style.color='var(--blue2)'; db.textContent='📅 '+dateStr+slotLabel;
   const pf=c.perGroup?`<div class="mfield"><div class="mfield-lbl">🔢 Personas por grupo</div><div class="mfield-val">${c.perGroup} personas</div></div>`:'';
+  const wideClass = c.perGroup ? "" : "wide";
+  const simultLabel = sess.simultaneous ? " \u00B7 Simult\u00E1neo" : "";
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
-    ${pf}<div class="mfield ${c.perGroup?'':'wide'}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${sess.simultaneous?' · Simultáneo':''}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
+    ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${simultLabel}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -635,12 +710,45 @@ function openModalMulti(sessArr,day,c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pr}<div class="mfield"><div class="mfield-lbl">☀️ Turno Mañana</div><div class="mfield-val">${sessArr[0].group}</div></div>
     <div class="mfield"><div class="mfield-lbl">🌙 Turno Tarde</div><div class="mfield-val">${sessArr[1].group}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
+function openAsyncModal(c){
+  document.getElementById('mEyebrow').style.color='#6b7a99';
+  document.getElementById('mEyebrow').textContent='📱 Programa Asíncrono · Academia Farmatodo';
+  document.getElementById('mTitle').textContent=c.asyncProgram.name;
+  const db=document.getElementById('mDate'); db.style.background='#f0f0f4'; db.style.color='#6b7a99'; db.textContent='🎓 Academia Farmatodo';
+  document.getElementById('mGrid').innerHTML=`
+    <div class="mfield wide"><div class="mfield-lbl">📚 Formación presencial asociada</div><div class="mfield-val">${c.name}</div></div>
+    <div class="mfield"><div class="mfield-lbl">👥 Población</div><div class="mfield-val">${c.population}</div></div>
+    <div class="mfield"><div class="mfield-lbl">🗓️ Disponible desde</div><div class="mfield-val">${c.asyncProgram.from.split('-').reverse().join('/')}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+  const lnk=document.getElementById('mLink');
+  lnk.style.background='#6b7a99'; lnk.href=c.asyncProgram.link;
+  lnk.innerHTML='🎓 Ir a la Academia Farmatodo →';
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openTrainerModal(sess,day,c){
+  const dateStr=`${DAYS[day.getDay()]} ${day.getDate()} de ${MONTHS[day.getMonth()]} ${day.getFullYear()}`;
+  document.getElementById('mEyebrow').style.color='#9aa0b0';
+  document.getElementById('mEyebrow').textContent='🎯 Preparación de Facilitadores';
+  document.getElementById('mTitle').textContent='Entrenamiento de Facilitadores';
+  const db=document.getElementById('mDate'); db.style.background='#f0f0f4'; db.style.color='#5a6070'; db.textContent='📅 '+dateStr;
+  document.getElementById('mGrid').innerHTML=`
+    <div class="mfield"><div class="mfield-lbl">📚 Formación asociada</div><div class="mfield-val">${c.name}</div></div>
+    <div class="mfield"><div class="mfield-lbl">⏱ Duración estimada</div><div class="mfield-val">${c.duration}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div><div class="mfield-val">${c.facilitators}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">Por definir</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+  document.getElementById('mLink').style.background='#9aa0b0';
+  document.getElementById('mLink').href=c.link;
+  document.getElementById('overlay').classList.add('open');
+}
 function overlayClick(e){ if(e.target===document.getElementById('overlay'))closeModal(); }
-function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.getElementById('mLink').innerHTML='📁 Ver archivo de contenido →'; }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeModal(); });
 </script>
 </body>
