@@ -86,6 +86,9 @@ body { font-family:'Nunito',sans-serif; min-height:100vh; overflow-x:hidden; }
 .cap-facilitators { font-size:11px; font-weight:600; color:var(--muted); margin-top:10px; padding-top:10px; border-top:1px solid var(--border-ex); display:flex; align-items:flex-start; gap:5px; }
 .cap-facilitators-icon { font-size:11px; flex-shrink:0; }
 .cap-facilitators-label { font-weight:800; color:var(--muted); margin-right:3px; }
+.area-list { display:flex; flex-direction:column; gap:3px; }
+.area-item { display:flex; align-items:center; gap:5px; font-size:10.5px; font-weight:600; color:var(--muted); }
+.area-badge { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; background:var(--offwhite); border:1px solid var(--border-ex); color:var(--navy); padding:1px 6px; border-radius:4px; flex-shrink:0; white-space:nowrap; }
 
 .roadmap-wrap { background:var(--white); border-radius:16px; border:1px solid var(--border-ex); overflow:hidden; margin-bottom:52px; overflow-x:auto; }
 .roadmap-header { display:grid; grid-template-columns:200px repeat(7,1fr); background:var(--navy); min-width:700px; }
@@ -201,6 +204,11 @@ thead th.week-even .date-box { background:#eef2fb; }
 .modal-link-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; background:var(--blue2); color:#fff; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; padding:12px; border-radius:12px; text-decoration:none; transition:background .15s; cursor:pointer; border:none; }
 .modal-link-btn:hover { background:var(--navy); }
 
+/* Area badges in modal */
+.area-modal-list { display:flex; flex-direction:column; gap:5px; }
+.area-modal-item { display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--navy); }
+.area-modal-badge { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; background:var(--bg2); border:1px solid var(--border); color:var(--navy); padding:2px 8px; border-radius:5px; flex-shrink:0; white-space:nowrap; }
+
 @media(max-width:860px){ .cap-grid{grid-template-columns:1fr 1fr;} .hero-ex{padding:36px 24px 32px;} .content-ex{padding:32px 20px 80px;} }
 @media(max-width:700px){ .main-det{padding:20px 12px 80px;} .hero-det{padding:30px 16px 24px;} .modal-grid{grid-template-columns:1fr;} .cap-grid{grid-template-columns:1fr;} .fab{bottom:16px;right:16px;} }
 </style>
@@ -250,7 +258,17 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jul</span><span class="cap-tag">23 grupos</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 300 personas · 15 c/u</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Cristian Díaz, Oswaldo Saldivia, Carlos Carrión, Yajaira Urdaneta, Ana Caterine Antury, Guillermo Dulce</span></div>
+        <div class="cap-facilitators">
+          <span class="cap-facilitators-icon">🎓</span>
+          <div>
+            <span class="cap-facilitators-label">Facilitadores:</span>
+            <div class="area-list" style="margin-top:5px">
+              <div class="area-item"><span class="area-badge">Área 1</span>Yajaira Urdaneta · Guillermo Dulce</div>
+              <div class="area-item"><span class="area-badge">Área 2</span>Carlos Carrión · Oswaldo Saldivia</div>
+              <div class="area-item"><span class="area-badge">Área 3</span>Cristian Díaz · Katherine Anturi</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c3)">
@@ -367,7 +385,13 @@ const COURSES = [
     responsible:'Equipo de Capacitación',
     asyncProgram:{ name:'Programa 5 Conductas de Servicio', from:'2026-07-03', to:'2026-07-28', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1SdJg00FOlAJ58igMBFakVQJWFvpHOZyBtEDJOP5AI_8/edit?tab=t.0',
-    facilitators:'Cristian Díaz, Oswaldo Saldivia, Carlos Carrión, Yajaira Urdaneta, Ana Caterine Antury, Guillermo Dulce' },
+    facilitators:'Área 1: Yajaira Urdaneta · Guillermo Dulce | Área 2: Carlos Carrión · Oswaldo Saldivia | Área 3: Cristian Díaz · Katherine Anturi',
+    facilitatorsAreas: [
+      { area: 'Área 1', names: 'Yajaira Urdaneta · Guillermo Dulce' },
+      { area: 'Área 2', names: 'Carlos Carrión · Oswaldo Saldivia' },
+      { area: 'Área 3', names: 'Cristian Díaz · Katherine Anturi' },
+    ]
+  },
   { id:3, name:'Orden y Limpieza · Piso de Ventas', short:'Orden y Limpieza', color:'#e74c3c', colorLt:'#fdecea',
     population:'Supervisores y toda la tienda', duration:'1 hora', total:111,
     responsible:'Karol Brinckmann',
@@ -415,12 +439,12 @@ const SESSIONS = [
   {date:'2026-07-02',cid:2,group:'Entrenamiento de facilitadores',trainer:true,facilitator:'Equipo de Capacitación'},
   {date:'2026-07-03',cid:2,group:'G1',slot:'am',facilitator:'Facilita Capacitación'},
   {date:'2026-07-03',cid:2,group:'G2',slot:'pm',facilitator:'Facilita Capacitación'},
-  {date:'2026-07-06',cid:2,group:'G3',slot:'am',facilitator:'Carlos Carrión'},
-  {date:'2026-07-06',cid:2,group:'G4',slot:'pm',facilitator:'Oswaldo Saldivia'},
-  {date:'2026-07-07',cid:2,group:'G5',slot:'am',facilitator:'Cristian Díaz'},
-  {date:'2026-07-07',cid:2,group:'G6',slot:'pm',facilitator:'Ana Caterine Antury'},
-  {date:'2026-07-08',cid:2,group:'G7',slot:'am',facilitator:'Yajaira Urdaneta'},
-  {date:'2026-07-08',cid:2,group:'G8',slot:'pm',facilitator:'Guillermo Dulce'},
+  {date:'2026-07-06',cid:2,group:'G3',slot:'am',facilitator:'Área 2: Carlos Carrión'},
+  {date:'2026-07-06',cid:2,group:'G4',slot:'pm',facilitator:'Área 2: Oswaldo Saldivia'},
+  {date:'2026-07-07',cid:2,group:'G5',slot:'am',facilitator:'Área 3: Cristian Díaz'},
+  {date:'2026-07-07',cid:2,group:'G6',slot:'pm',facilitator:'Área 3: Katherine Anturi'},
+  {date:'2026-07-08',cid:2,group:'G7',slot:'am',facilitator:'Área 1: Yajaira Urdaneta'},
+  {date:'2026-07-08',cid:2,group:'G8',slot:'pm',facilitator:'Área 1: Guillermo Dulce'},
 
   {date:'2026-07-13',cid:2,group:'G9, G10 y G11',simultaneous:true},
   {date:'2026-07-15',cid:2,group:'G12, G13 y G14',simultaneous:true},
@@ -480,6 +504,27 @@ function renderCourses(){
   });
 }
 
+// Helper: render facilitators field — with areas if available
+function renderFacilitatorsField(c) {
+  if (c.facilitatorsAreas) {
+    const rows = c.facilitatorsAreas.map(a =>
+      `<div class="area-modal-item"><span class="area-modal-badge">${a.area}</span>${a.names}</div>`
+    ).join('');
+    return `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val"><div class="area-modal-list">${rows}</div></div></div>`;
+  }
+  return `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
+}
+
+// Helper: render single session facilitator — detect area prefix
+function renderSessionFacilitator(facilitatorVal) {
+  // Check if it's an area-prefixed string like "Área 1: ..."
+  const match = facilitatorVal.match(/^(Área \d+):\s*(.+)$/);
+  if (match) {
+    return `<div class="area-modal-list"><div class="area-modal-item"><span class="area-modal-badge">${match[1]}</span>${match[2]}</div></div>`;
+  }
+  return facilitatorVal;
+}
+
 function openCourseModal(c){
   const totalSess=c.displaySessions||SESSIONS.filter(s=>s.cid===c.id).length;
   document.getElementById('mEyebrow').style.color=c.color;
@@ -491,7 +536,7 @@ function openCourseModal(c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     <div class="mfield"><div class="mfield-lbl">🔢 Personas</div><div class="mfield-val">${c.total} personas</div></div>
     <div class="mfield"><div class="mfield-lbl">📅 Grupos</div><div class="mfield-val">${totalSess} grupos</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    ${renderFacilitatorsField(c)}
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -683,20 +728,20 @@ function renderCalendar(){
 function openModal(sess,day){
   const c=COURSES[sess.cid]; const dateStr=`${DAYS[day.getDay()]} ${day.getDate()} de ${MONTHS[day.getMonth()]} ${day.getFullYear()}`;
   let slotLabel = '';
-  if(sess.slot === 'am') slotLabel = ' \u00B7 Turno Ma\u00F1ana';
-  else if(sess.slot === 'pm') slotLabel = ' \u00B7 Turno Tarde';
+  if(sess.slot === 'am') slotLabel = ' · Turno Mañana';
+  else if(sess.slot === 'pm') slotLabel = ' · Turno Tarde';
   const facilitatorVal = sess.facilitator || c.facilitators;
   document.getElementById('mEyebrow').style.color=c.color; document.getElementById('mEyebrow').textContent='📚 Detalle de la Formación';
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background='var(--blue-lt)'; db.style.color='var(--blue2)'; db.textContent='📅 '+dateStr+slotLabel;
   const pf=c.perGroup?`<div class="mfield"><div class="mfield-lbl">🔢 Personas por grupo</div><div class="mfield-val">${c.perGroup} personas</div></div>`:'';
   const wideClass = c.perGroup ? "" : "wide";
-  const simultLabel = sess.simultaneous ? " \u00B7 Simult\u00E1neo" : "";
+  const simultLabel = sess.simultaneous ? " · Simultáneo" : "";
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${simultLabel}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${facilitatorVal}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${renderSessionFacilitator(facilitatorVal)}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -708,12 +753,18 @@ function openModalMulti(sessArr,day,c){
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background='var(--blue-lt)'; db.style.color='var(--blue2)'; db.textContent='📅 '+dateStr+' · Dos turnos';
   const pr=c.perGroup?`<div class="mfield wide"><div class="mfield-lbl">🔢 Personas por grupo</div><div class="mfield-val">${c.perGroup} personas</div></div>`:'';
+  // For multi-session, show individual facilitators if available, otherwise course-level
+  const amFac = sessArr[0].facilitator ? renderSessionFacilitator(sessArr[0].facilitator) : '';
+  const pmFac = sessArr[1].facilitator ? renderSessionFacilitator(sessArr[1].facilitator) : '';
+  const facFieldAM = amFac ? `<div class="mfield"><div class="mfield-lbl">☀️ Facilitador AM</div><div class="mfield-val">${amFac}</div></div>` : '';
+  const facFieldPM = pmFac ? `<div class="mfield"><div class="mfield-lbl">🌙 Facilitador PM</div><div class="mfield-val">${pmFac}</div></div>` : '';
+  const generalFac = (!amFac && !pmFac) ? `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${renderFacilitatorsField(c).match(/mfield-val">(.*?)<\/div>/s)?.[1]||c.facilitators}</div></div>` : '';
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pr}<div class="mfield"><div class="mfield-lbl">☀️ Turno Mañana</div><div class="mfield-val">${sessArr[0].group}</div></div>
     <div class="mfield"><div class="mfield-lbl">🌙 Turno Tarde</div><div class="mfield-val">${sessArr[1].group}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    ${facFieldAM}${facFieldPM}${generalFac}
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -723,11 +774,11 @@ function openContinuousModal(c){
   document.getElementById('mEyebrow').textContent='📚 Detalle de la Formación';
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background=c.colorLt; db.style.color=c.color;
-  db.textContent=c.continuous.from.split('-').reverse().join('/') + ' \u2013 ' + c.continuous.to.split('-').reverse().join('/');
+  db.textContent=c.continuous.from.split('-').reverse().join('/') + ' – ' + c.continuous.to.split('-').reverse().join('/');
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
+    ${renderFacilitatorsField(c)}
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -758,7 +809,15 @@ function openTrainerModal(sess,day,c){
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">📚 Formación asociada</div><div class="mfield-val">${c.name}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración estimada</div><div class="mfield-val">${c.duration}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div><div class="mfield-val">${c.facilitators}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div>
+      <div class="mfield-val">
+        <div class="area-modal-list">
+          <div class="area-modal-item"><span class="area-modal-badge">Área 1</span>Yajaira Urdaneta · Guillermo Dulce</div>
+          <div class="area-modal-item"><span class="area-modal-badge">Área 2</span>Carlos Carrión · Oswaldo Saldivia</div>
+          <div class="area-modal-item"><span class="area-modal-badge">Área 3</span>Cristian Díaz · Katherine Anturi</div>
+        </div>
+      </div>
+    </div>
     <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">Por definir</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background='#9aa0b0';
