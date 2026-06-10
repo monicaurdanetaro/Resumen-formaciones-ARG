@@ -86,9 +86,6 @@ body { font-family:'Nunito',sans-serif; min-height:100vh; overflow-x:hidden; }
 .cap-facilitators { font-size:11px; font-weight:600; color:var(--muted); margin-top:10px; padding-top:10px; border-top:1px solid var(--border-ex); display:flex; align-items:flex-start; gap:5px; }
 .cap-facilitators-icon { font-size:11px; flex-shrink:0; }
 .cap-facilitators-label { font-weight:800; color:var(--muted); margin-right:3px; }
-.area-list { display:flex; flex-direction:column; gap:3px; }
-.area-item { display:flex; align-items:center; gap:5px; font-size:10.5px; font-weight:600; color:var(--muted); }
-.area-badge { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; background:var(--offwhite); border:1px solid var(--border-ex); color:var(--navy); padding:1px 6px; border-radius:4px; flex-shrink:0; white-space:nowrap; }
 
 .roadmap-wrap { background:var(--white); border-radius:16px; border:1px solid var(--border-ex); overflow:hidden; margin-bottom:52px; overflow-x:auto; }
 .roadmap-header { display:grid; grid-template-columns:200px repeat(7,1fr); background:var(--navy); min-width:700px; }
@@ -204,11 +201,6 @@ thead th.week-even .date-box { background:#eef2fb; }
 .modal-link-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; background:var(--blue2); color:#fff; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; padding:12px; border-radius:12px; text-decoration:none; transition:background .15s; cursor:pointer; border:none; }
 .modal-link-btn:hover { background:var(--navy); }
 
-/* Area badges in modal */
-.area-modal-list { display:flex; flex-direction:column; gap:5px; }
-.area-modal-item { display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--navy); }
-.area-modal-badge { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; background:var(--bg2); border:1px solid var(--border); color:var(--navy); padding:2px 8px; border-radius:5px; flex-shrink:0; white-space:nowrap; }
-
 @media(max-width:860px){ .cap-grid{grid-template-columns:1fr 1fr;} .hero-ex{padding:36px 24px 32px;} .content-ex{padding:32px 20px 80px;} }
 @media(max-width:700px){ .main-det{padding:20px 12px 80px;} .hero-det{padding:30px 16px 24px;} .modal-grid{grid-template-columns:1fr;} .cap-grid{grid-template-columns:1fr;} .fab{bottom:16px;right:16px;} }
 </style>
@@ -240,41 +232,32 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c0)">
         <div class="cap-population" style="color:var(--c0)">Farmacéuticos</div>
         <div class="cap-name">Asesoría Farmacéutica</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 40 personas</span></div>
+        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 32 personas</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz</span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz <span style="color:var(--muted);font-weight:500">(2 facilitadores más por definir)</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c1)">
         <div class="cap-population" style="color:var(--c1)">Personal base de farmacia</div>
         <div class="cap-name">Atención en el mostrador de farmacia</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">14 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 210 personas</span></div>
+        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">10 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 150 personas*</span></div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">* Cantidad por validar</div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz</span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz <span style="color:var(--muted);font-weight:500">(2 facilitadores más por definir)</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c2)">
         <div class="cap-population" style="color:var(--c2)">Personal base</div>
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jul</span><span class="cap-tag">23 grupos</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 300 personas · 15 c/u</span></div>
+        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jul</span><span class="cap-tag">16 grupos</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 240 personas · 15 c/u</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
-        <div class="cap-facilitators">
-          <span class="cap-facilitators-icon">🎓</span>
-          <div>
-            <span class="cap-facilitators-label">Facilitadores:</span>
-            <div class="area-list" style="margin-top:5px">
-              <div class="area-item"><span class="area-badge">Área 1</span>Yajaira Urdaneta · Guillermo Dulce</div>
-              <div class="area-item"><span class="area-badge">Área 2</span>Carlos Carrión · Oswaldo Saldivia</div>
-              <div class="area-item"><span class="area-badge">Área 3</span>Cristian Díaz · Katherine Anturi</div>
-            </div>
-          </div>
-        </div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Katherine Antury</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c3)">
         <div class="cap-population" style="color:var(--c3)">Supervisores y toda la tienda</div>
         <div class="cap-name">Orden y Limpieza · Piso de Ventas</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">16–30 Jun</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 111 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9–30 Jun</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Estándares de fachada y piso · Método FIFO/PEPS · Control de vencidos · Surtido y planograma</div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
       </div>
@@ -282,7 +265,7 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c4)">
         <div class="cap-population" style="color:var(--c4)">Supervisores y toda la tienda</div>
         <div class="cap-name">Pilares de la Operación</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">1–31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 111 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">1–31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
       </div>
@@ -290,7 +273,7 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c5)">
         <div class="cap-population" style="color:var(--c5)">Supervisores</div>
         <div class="cap-name">Conteo y Ajuste de Inventario</div>
-        <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">3 grupos</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 111 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">3 grupos</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sistema SIM · Conteos cíclicos y Ad Hoc · Autorización de ajustes · Prevención de descuadre</div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
       </div>
@@ -371,92 +354,86 @@ function switchView(){
 // ── DATA
 const COURSES = [
   { id:0, name:'Asesoría Farmacéutica · Farmacéuticos', short:'Asesoría Farm.', color:'#3b5fe2', colorLt:'#eef1fd',
-    population:'Farmacéuticos', duration:'2.5 horas', total:40, perGroup:20,
+    population:'Farmacéuticos', duration:'2.5 horas', total:32, perGroup:16,
     responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
-    facilitators:'Yessika Santos y Soledad Díaz' },
+    facilitators:'Yessika Santos y Soledad Díaz (2 facilitadores más por definir)' },
   { id:1, name:'Atención en el mostrador de farmacia', short:'Mostrador Farm.', color:'#27ae60', colorLt:'#e9f7ef',
-    population:'Personal base de farmacia', duration:'2.5 horas', total:210, displaySessions:14, perGroup:15,
+    population:'Personal base de farmacia', duration:'2.5 horas', total:150, displaySessions:10, perGroup:15,
     responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
-    facilitators:'Yessika Santos y Soledad Díaz' },
+    facilitators:'Yessika Santos y Soledad Díaz (2 facilitadores más por definir)',
+    note:'Cantidad por validar' },
   { id:2, name:'Servicio al Cliente y 5 Conductas', short:'Servicio Cliente', color:'#e67e22', colorLt:'#fef3e7',
-    population:'Base', duration:'2.5 horas', total:300, displaySessions:23, perGroup:15,
+    population:'Base', duration:'2.5 horas', total:240, displaySessions:16, perGroup:15,
     responsible:'Equipo de Capacitación',
-    asyncProgram:{ name:'Programa 5 Conductas de Servicio', from:'2026-07-03', to:'2026-07-28', link:'https://academia.farmatodo.com' },
+    asyncProgram:{ name:'Programa 5 Conductas de Servicio', from:'2026-07-03', to:'2026-07-29', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1SdJg00FOlAJ58igMBFakVQJWFvpHOZyBtEDJOP5AI_8/edit?tab=t.0',
-    facilitators:'Área 1: Yajaira Urdaneta · Guillermo Dulce | Área 2: Carlos Carrión · Oswaldo Saldivia | Área 3: Cristian Díaz · Katherine Anturi',
-    facilitatorsAreas: [
-      { area: 'Área 1', names: 'Yajaira Urdaneta · Guillermo Dulce' },
-      { area: 'Área 2', names: 'Carlos Carrión · Oswaldo Saldivia' },
-      { area: 'Área 3', names: 'Cristian Díaz · Katherine Anturi' },
-    ]
-  },
+    facilitators:'<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Katherine Antury</span>' },
   { id:3, name:'Orden y Limpieza · Piso de Ventas', short:'Orden y Limpieza', color:'#e74c3c', colorLt:'#fdecea',
-    population:'Supervisores y toda la tienda', duration:'1 hora', total:111,
+    population:'Supervisores y toda la tienda', duration:'1 hora', total:72,
     responsible:'Karol Brinckmann',
-    continuous:{ from:'2026-06-16', to:'2026-06-30', label:'Formación en tiendas' },
-    asyncProgram:{ name:'Programa Manejo de Planogramas', from:'2026-06-16', to:'2026-06-30', link:'https://academia.farmatodo.com' },
+    continuous:{ from:'2026-06-09', to:'2026-06-30', label:'Formación en tiendas' },
+    asyncProgram:{ name:'Programa Manejo de Planogramas', from:'2026-06-09', to:'2026-06-30', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1dWsYU8fl6dYglVpahdahO3CdsDSMU3msC-42DOSeZ8g/edit?tab=t.0',
     facilitators:'Gerentes de área' },
   { id:4, name:'Pilares de la Operación', short:'Pilares Op.', color:'#8e44ad', colorLt:'#f5eefa',
-    population:'Supervisores y toda la tienda', duration:'1 hora', total:111,
+    population:'Supervisores y toda la tienda', duration:'1 hora', total:72,
     responsible:'Karol Brinckmann',
     continuous:{ from:'2026-07-01', to:'2026-07-31', label:'Formación en tiendas' },
     asyncProgram:{ name:'Programa Pilares de la Operación', from:'2026-07-01', to:'2026-07-31', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1OQAMR61w9wkcc1pHOluiWblImdW8Ysdx_dE3bqv9kxQ/edit?tab=t.0',
     facilitators:'Gerentes de área' },
   { id:5, name:'Conteo y Ajuste de Inventario', short:'Inventario', color:'#16a085', colorLt:'#e8f8f5',
-    population:'Supervisores', duration:'3 horas', total:111, displaySessions:3,
+    population:'Supervisores', duration:'3 horas', total:72, displaySessions:3,
     responsible:'Karol Brinckmann',
     asyncProgram:{ name:'Programa Manejo de Inventarios', from:'2026-06-25', to:'2026-07-14', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1bF0szNOUwmYi4V-oC51TZ_v08tZnVkufIbQuxpeBs3o/edit?tab=t.0',
     facilitators:'Gerentes de área' },
 ];
 
+// Holidays - shown as grey overlay in calendar
+const HOLIDAYS = ['2026-07-09','2026-07-10'];
+
 const SESSIONS = [
-  // Asesoría Farmacéutica - Farmacéuticos (2.5h, 23 y 25 junio am)
+  // Asesoría Farmacéutica - Farmacéuticos
   {date:'2026-06-23',cid:0,group:'G1',slot:'am'},
   {date:'2026-06-25',cid:0,group:'G2',slot:'am'},
 
-  // Atención mostrador farmacia (14 grupos, AM/PM)
-  {date:'2026-06-23',cid:1,group:'G1',slot:'pm'},
-  {date:'2026-06-25',cid:1,group:'G2',slot:'pm'},
-  {date:'2026-06-30',cid:1,group:'G3',slot:'am'},
-  {date:'2026-06-30',cid:1,group:'G4',slot:'pm'},
-  {date:'2026-07-02',cid:1,group:'G5',slot:'am'},
-  {date:'2026-07-02',cid:1,group:'G6',slot:'pm'},
-  {date:'2026-07-07',cid:1,group:'G7',slot:'am'},
-  {date:'2026-07-07',cid:1,group:'G8',slot:'pm'},
-  {date:'2026-07-14',cid:1,group:'G9',slot:'am'},
-  {date:'2026-07-14',cid:1,group:'G10',slot:'pm'},
-  {date:'2026-07-16',cid:1,group:'G11',slot:'am'},
-  {date:'2026-07-16',cid:1,group:'G12',slot:'pm'},
-  {date:'2026-07-21',cid:1,group:'G13',slot:'am'},
-  {date:'2026-07-21',cid:1,group:'G14',slot:'pm'},
+  // Atención mostrador farmacia (10 grupos, sin AM/PM - un grupo por día)
+  {date:'2026-06-30',cid:1,group:'G1'},
+  {date:'2026-07-07',cid:1,group:'G2',slot:'am'},
+  {date:'2026-07-07',cid:1,group:'G3',slot:'pm'},
+  {date:'2026-07-14',cid:1,group:'G4',slot:'am'},
+  {date:'2026-07-14',cid:1,group:'G5',slot:'pm'},
+  {date:'2026-07-16',cid:1,group:'G6'},
+  {date:'2026-07-21',cid:1,group:'G7'},
+  {date:'2026-07-23',cid:1,group:'G8'},
+  {date:'2026-07-28',cid:1,group:'G9'},
+  {date:'2026-07-30',cid:1,group:'G10'},
 
-  // Servicio al Cliente
+  // Servicio al Cliente (16 grupos + entrenamiento)
   {date:'2026-07-02',cid:2,group:'Entrenamiento de facilitadores',trainer:true,facilitator:'Equipo de Capacitación'},
-  {date:'2026-07-03',cid:2,group:'G1',slot:'am',facilitator:'Facilita Capacitación'},
-  {date:'2026-07-03',cid:2,group:'G2',slot:'pm',facilitator:'Facilita Capacitación'},
-  {date:'2026-07-06',cid:2,group:'G3',slot:'am',facilitator:'Área 2: Carlos Carrión'},
-  {date:'2026-07-06',cid:2,group:'G4',slot:'pm',facilitator:'Área 2: Oswaldo Saldivia'},
-  {date:'2026-07-07',cid:2,group:'G5',slot:'am',facilitator:'Área 3: Cristian Díaz'},
-  {date:'2026-07-07',cid:2,group:'G6',slot:'pm',facilitator:'Área 3: Katherine Anturi'},
-  {date:'2026-07-08',cid:2,group:'G7',slot:'am',facilitator:'Área 1: Yajaira Urdaneta'},
-  {date:'2026-07-08',cid:2,group:'G8',slot:'pm',facilitator:'Área 1: Guillermo Dulce'},
+  {date:'2026-07-03',cid:2,group:'G1 y G2',slot:'am',facilitator:'Facilita Capacitación'},
+  {date:'2026-07-06',cid:2,group:'G3 y G4',slot:'am',facilitator:'Carlos Carrión / Oswaldo Saldivia'},
+  {date:'2026-07-07',cid:2,group:'G5 y G6',slot:'am',facilitator:'Cristian Díaz / Ana Caterine Antury'},
+  {date:'2026-07-08',cid:2,group:'G7 y G8',slot:'am',facilitator:'Yajaira Urdaneta / Guillermo Dulce'},
+  {date:'2026-07-13',cid:2,group:'G9',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-15',cid:2,group:'G10',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-17',cid:2,group:'G11',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-20',cid:2,group:'G12',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-22',cid:2,group:'G13',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-24',cid:2,group:'G14',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-27',cid:2,group:'G15',slot:'am',facilitator:'Por definir'},
+  {date:'2026-07-29',cid:2,group:'G16',slot:'am',facilitator:'Por definir'},
 
-  {date:'2026-07-13',cid:2,group:'G9, G10 y G11',simultaneous:true},
-  {date:'2026-07-15',cid:2,group:'G12, G13 y G14',simultaneous:true},
-  {date:'2026-07-20',cid:2,group:'G15, G16 y G17',simultaneous:true},
-  {date:'2026-07-22',cid:2,group:'G18, G19 y G20',simultaneous:true},
-  {date:'2026-07-28',cid:2,group:'G21, G22 y G23 · Rezagados',simultaneous:true},
-  {date:'2026-06-16',cid:3,group:'Formación en tiendas',continuous:true},
+  // Orden y Limpieza - continuo desde 9/06
+  {date:'2026-06-09',cid:3,group:'Formación en tiendas',continuous:true},
 
   // Pilares - continuo
   {date:'2026-07-01',cid:4,group:'Formación en tiendas',continuous:true},
 
-  // Inventario - 3 grupos
+  // Inventario - 3 fechas
   {date:'2026-06-25',cid:5,group:'De acuerdo a cada GA'},
   {date:'2026-07-02',cid:5,group:'De acuerdo a cada GA'},
   {date:'2026-07-14',cid:5,group:'De acuerdo a cada GA'},
@@ -504,27 +481,6 @@ function renderCourses(){
   });
 }
 
-// Helper: render facilitators field — with areas if available
-function renderFacilitatorsField(c) {
-  if (c.facilitatorsAreas) {
-    const rows = c.facilitatorsAreas.map(a =>
-      `<div class="area-modal-item"><span class="area-modal-badge">${a.area}</span>${a.names}</div>`
-    ).join('');
-    return `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val"><div class="area-modal-list">${rows}</div></div></div>`;
-  }
-  return `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
-}
-
-// Helper: render single session facilitator — detect area prefix
-function renderSessionFacilitator(facilitatorVal) {
-  // Check if it's an area-prefixed string like "Área 1: ..."
-  const match = facilitatorVal.match(/^(Área \d+):\s*(.+)$/);
-  if (match) {
-    return `<div class="area-modal-list"><div class="area-modal-item"><span class="area-modal-badge">${match[1]}</span>${match[2]}</div></div>`;
-  }
-  return facilitatorVal;
-}
-
 function openCourseModal(c){
   const totalSess=c.displaySessions||SESSIONS.filter(s=>s.cid===c.id).length;
   document.getElementById('mEyebrow').style.color=c.color;
@@ -536,7 +492,7 @@ function openCourseModal(c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     <div class="mfield"><div class="mfield-lbl">🔢 Personas</div><div class="mfield-val">${c.total} personas</div></div>
     <div class="mfield"><div class="mfield-lbl">📅 Grupos</div><div class="mfield-val">${totalSess} grupos</div></div>
-    ${renderFacilitatorsField(c)}
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -587,7 +543,7 @@ function renderCalendar(){
   // Row 2: day headers
   const headRow=document.createElement('tr');
   const cth=document.createElement('th'); cth.className='label-th'; cth.style.cssText='background:#f8f9fd;'; headRow.appendChild(cth);
-  allDays.forEach(day=>{ const wi=dayWeekIndex[ds(day)]; const th=document.createElement('th'); th.className=wi%2===0?'week-even':'week-odd'; th.innerHTML=`<div class="date-box"><div class="date-box-dayname">${DAYS[day.getDay()]}</div><div class="date-box-num">${day.getDate()}</div></div>`; headRow.appendChild(th); });
+  allDays.forEach(day=>{ const wi=dayWeekIndex[ds(day)]; const th=document.createElement('th'); const isHol=HOLIDAYS.includes(ds(day)); if(isHol){ th.style.cssText='border-right:1px solid var(--border);border-bottom:2px solid var(--border);padding:0;'; th.innerHTML=`<div class="date-box" style="background:#e8e8e8"><div class="date-box-dayname" style="color:#bbb">${DAYS[day.getDay()]}</div><div class="date-box-num" style="color:#bbb">${day.getDate()}</div><div style="font-size:7px;font-weight:800;color:#bbb;text-transform:uppercase;letter-spacing:.04em;margin-top:1px">Feriado</div></div>`; } else { th.className=wi%2===0?'week-even':'week-odd'; th.innerHTML=`<div class="date-box"><div class="date-box-dayname">${DAYS[day.getDay()]}</div><div class="date-box-num">${day.getDate()}</div></div>`; } headRow.appendChild(th); });
   thead.appendChild(headRow);
   table.appendChild(thead);
 
@@ -636,6 +592,7 @@ function renderCalendar(){
       // Normal day-by-day rendering
       allDays.forEach(day=>{
         const key=ds(day); const td=document.createElement('td'); td.className='data-cell';
+        if(HOLIDAYS.includes(key)) td.style.background='#f4f4f4';
         const sessArr=byDate[key]&&byDate[key][c.id];
         if(sessArr&&sessArr.length>0){
           const pill=document.createElement('div'); pill.className='sess-pill'; pill.style.cssText=`background:${c.colorLt};border-left-color:${c.color};`;
@@ -728,20 +685,20 @@ function renderCalendar(){
 function openModal(sess,day){
   const c=COURSES[sess.cid]; const dateStr=`${DAYS[day.getDay()]} ${day.getDate()} de ${MONTHS[day.getMonth()]} ${day.getFullYear()}`;
   let slotLabel = '';
-  if(sess.slot === 'am') slotLabel = ' · Turno Mañana';
-  else if(sess.slot === 'pm') slotLabel = ' · Turno Tarde';
+  if(sess.slot === 'am') slotLabel = ' \u00B7 Turno Ma\u00F1ana';
+  else if(sess.slot === 'pm') slotLabel = ' \u00B7 Turno Tarde';
   const facilitatorVal = sess.facilitator || c.facilitators;
   document.getElementById('mEyebrow').style.color=c.color; document.getElementById('mEyebrow').textContent='📚 Detalle de la Formación';
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background='var(--blue-lt)'; db.style.color='var(--blue2)'; db.textContent='📅 '+dateStr+slotLabel;
   const pf=c.perGroup?`<div class="mfield"><div class="mfield-lbl">🔢 Personas por grupo</div><div class="mfield-val">${c.perGroup} personas</div></div>`:'';
   const wideClass = c.perGroup ? "" : "wide";
-  const simultLabel = sess.simultaneous ? " · Simultáneo" : "";
+  const simultLabel = sess.simultaneous ? " \u00B7 Simult\u00E1neo" : "";
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${simultLabel}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${renderSessionFacilitator(facilitatorVal)}</div></div>
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${facilitatorVal}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -753,18 +710,12 @@ function openModalMulti(sessArr,day,c){
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background='var(--blue-lt)'; db.style.color='var(--blue2)'; db.textContent='📅 '+dateStr+' · Dos turnos';
   const pr=c.perGroup?`<div class="mfield wide"><div class="mfield-lbl">🔢 Personas por grupo</div><div class="mfield-val">${c.perGroup} personas</div></div>`:'';
-  // For multi-session, show individual facilitators if available, otherwise course-level
-  const amFac = sessArr[0].facilitator ? renderSessionFacilitator(sessArr[0].facilitator) : '';
-  const pmFac = sessArr[1].facilitator ? renderSessionFacilitator(sessArr[1].facilitator) : '';
-  const facFieldAM = amFac ? `<div class="mfield"><div class="mfield-lbl">☀️ Facilitador AM</div><div class="mfield-val">${amFac}</div></div>` : '';
-  const facFieldPM = pmFac ? `<div class="mfield"><div class="mfield-lbl">🌙 Facilitador PM</div><div class="mfield-val">${pmFac}</div></div>` : '';
-  const generalFac = (!amFac && !pmFac) ? `<div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${renderFacilitatorsField(c).match(/mfield-val">(.*?)<\/div>/s)?.[1]||c.facilitators}</div></div>` : '';
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pr}<div class="mfield"><div class="mfield-lbl">☀️ Turno Mañana</div><div class="mfield-val">${sessArr[0].group}</div></div>
     <div class="mfield"><div class="mfield-lbl">🌙 Turno Tarde</div><div class="mfield-val">${sessArr[1].group}</div></div>
-    ${facFieldAM}${facFieldPM}${generalFac}
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -774,11 +725,11 @@ function openContinuousModal(c){
   document.getElementById('mEyebrow').textContent='📚 Detalle de la Formación';
   document.getElementById('mTitle').textContent=c.name;
   const db=document.getElementById('mDate'); db.style.background=c.colorLt; db.style.color=c.color;
-  db.textContent=c.continuous.from.split('-').reverse().join('/') + ' – ' + c.continuous.to.split('-').reverse().join('/');
+  db.textContent=c.continuous.from.split('-').reverse().join('/') + ' \u2013 ' + c.continuous.to.split('-').reverse().join('/');
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
-    ${renderFacilitatorsField(c)}
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
@@ -809,15 +760,7 @@ function openTrainerModal(sess,day,c){
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">📚 Formación asociada</div><div class="mfield-val">${c.name}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración estimada</div><div class="mfield-val">${c.duration}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div>
-      <div class="mfield-val">
-        <div class="area-modal-list">
-          <div class="area-modal-item"><span class="area-modal-badge">Área 1</span>Yajaira Urdaneta · Guillermo Dulce</div>
-          <div class="area-modal-item"><span class="area-modal-badge">Área 2</span>Carlos Carrión · Oswaldo Saldivia</div>
-          <div class="area-modal-item"><span class="area-modal-badge">Área 3</span>Cristian Díaz · Katherine Anturi</div>
-        </div>
-      </div>
-    </div>
+    <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div><div class="mfield-val">${c.facilitators}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">Por definir</div></div>
     <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
   document.getElementById('mLink').style.background='#9aa0b0';
