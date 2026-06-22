@@ -160,18 +160,18 @@ body { font-family:'Nunito',sans-serif; min-height:100vh; overflow-x:hidden; }
 .cal-table { width:100%; border-collapse:collapse; table-layout:fixed; }
 .cal-table thead th { border-right:1px solid var(--border); border-bottom:2px solid var(--border); padding:0; }
 .cal-table thead th:last-child { border-right:none; }
-.cal-table thead th.label-th { border-right:2px solid var(--border); width:150px; min-width:150px; }
+.cal-table thead th.label-th { border-right:2px solid var(--border); width:150px; min-width:150px; position:sticky; left:0; z-index:3; background:#f8f9fd; }
 .date-box { padding:9px 6px 7px; text-align:center; }
 .date-box-dayname { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--text-soft); margin-bottom:1px; }
 .date-box-num { font-size:20px; font-weight:900; color:var(--navy); line-height:1; }
 thead th.week-odd .date-box { background:#d5dff0; }
 thead th.week-even .date-box { background:#eef2fb; }
-.cal-table tbody td.row-label-col { width:150px; min-width:150px; background:#f8f9fd; border-right:2px solid var(--border); border-bottom:1px solid var(--border); padding:0 14px; vertical-align:middle; }
+.cal-table tbody td.row-label-col { width:150px; min-width:150px; background:#f8f9fd; border-right:2px solid var(--border); border-bottom:1px solid var(--border); padding:0 14px; vertical-align:middle; position:sticky; left:0; z-index:2; }
 .row-label-inner { display:flex; align-items:center; gap:8px; }
 .row-label-bar { width:4px; height:32px; border-radius:4px; flex-shrink:0; }
 .row-label-name { font-size:11px; font-weight:800; color:var(--navy); line-height:1.2; }
 .row-label-pop { font-size:9px; font-weight:600; color:var(--text-soft); margin-top:1px; }
-.cal-table tbody tr td.data-cell { border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:5px; vertical-align:middle; }
+.cal-table tbody tr td.data-cell { border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:4px; vertical-align:top; height:90px; }
 .cal-table tbody tr td.data-cell:last-child { border-right:none; }
 .cal-table tbody tr:last-child td { border-bottom:none; }
 .sess-pill { border-radius:8px; padding:7px 8px; cursor:pointer; transition:all .15s; border-left:4px solid transparent; height:62px; display:flex; flex-direction:column; justify-content:center; overflow:hidden; }
@@ -203,6 +203,60 @@ thead th.week-even .date-box { background:#eef2fb; }
 
 @media(max-width:860px){ .cap-grid{grid-template-columns:1fr 1fr;} .hero-ex{padding:36px 24px 32px;} .content-ex{padding:32px 20px 80px;} }
 @media(max-width:700px){ .main-det{padding:20px 12px 80px;} .hero-det{padding:30px 16px 24px;} .modal-grid{grid-template-columns:1fr;} .cap-grid{grid-template-columns:1fr;} .fab{bottom:16px;right:16px;} }
+
+/* ── EDIT MODE ── */
+.edit-fab {
+  position:fixed; bottom:88px; right:28px; z-index:998;
+  background:#e67e22; color:#fff;
+  border:none; border-radius:100px;
+  padding:11px 18px; font-family:'Nunito',sans-serif;
+  font-size:12px; font-weight:800; cursor:pointer;
+  display:flex; align-items:center; gap:7px;
+  box-shadow:0 4px 20px rgba(230,126,34,.4);
+  transition:all .2s;
+}
+.edit-fab:hover { background:#c87018; transform:translateY(-2px); }
+.edit-fab.active { background:#27ae60; box-shadow:0 4px 20px rgba(39,174,96,.4); }
+
+.edit-banner {
+  position:sticky; top:0; z-index:200;
+  background:#fff7ed; border-bottom:2px solid #e67e22;
+  padding:8px 32px; font-size:12px; font-weight:600;
+  color:#e67e22; display:none; align-items:center; gap:8px;
+}
+.edit-banner.show { display:flex; }
+
+body.edit-mode .sess-pill { cursor:grab !important; outline:1px dashed rgba(230,126,34,.4); }
+body.edit-mode .sess-pill:hover { outline:2px solid #e67e22; }
+body.edit-mode .data-cell { position:relative; }
+body.edit-mode .data-cell.drag-over { background:rgba(230,126,34,.12) !important; outline:2px dashed #e67e22; border-radius:4px; }
+body.edit-mode .add-sess-btn { display:flex !important; }
+.add-sess-btn { display:none; position:absolute; bottom:4px; right:4px; width:18px; height:18px; border-radius:50%; background:#e8edf7; border:1px dashed #8896b3; cursor:pointer; font-size:12px; color:#8896b3; align-items:center; justify-content:center; font-weight:800; z-index:10; padding:0; font-family:'Nunito',sans-serif; line-height:1; }
+.add-sess-btn:hover { background:#e67e22; border-color:#e67e22; color:#fff; }
+
+body.edit-mode .row-label-col { cursor:pointer; }
+body.edit-mode .row-label-col:hover { background:#fff3e8 !important; }
+
+/* Edit modal */
+.edit-overlay { position:fixed; inset:0; background:rgba(15,30,74,.55); backdrop-filter:blur(6px); z-index:800; display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; pointer-events:none; transition:opacity .2s; }
+.edit-overlay.open { opacity:1; pointer-events:all; }
+.edit-modal { background:#fff; border-radius:20px; width:100%; max-width:500px; max-height:85vh; overflow-y:auto; box-shadow:0 24px 60px rgba(15,30,74,.28); }
+.edit-modal-header { background:#e67e22; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1; border-radius:20px 20px 0 0; }
+.edit-modal-title { color:#fff; font-weight:800; font-size:15px; }
+.edit-modal-close { background:rgba(255,255,255,.2); border:none; color:#fff; width:28px; height:28px; border-radius:8px; cursor:pointer; font-size:16px; font-family:'Nunito',sans-serif; }
+.edit-modal-body { padding:24px; }
+.ef-label { display:block; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#8896b3; margin-bottom:5px; margin-top:14px; }
+.ef-label:first-child { margin-top:0; }
+.ef-input { width:100%; padding:9px 12px; border-radius:10px; border:1.5px solid #d0d9ee; font-family:'Nunito',sans-serif; font-size:13px; font-weight:600; color:#1a2e6b; outline:none; box-sizing:border-box; transition:border-color .15s; }
+.ef-input:focus { border-color:#e67e22; }
+.ef-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.ef-actions { display:flex; gap:8px; margin-top:20px; }
+.ef-save { flex:1; background:#3b5fe2; color:#fff; border:none; border-radius:12px; padding:11px; font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; }
+.ef-save:hover { background:#1a2e6b; }
+.ef-delete { background:#fdecea; color:#e74c3c; border:none; border-radius:12px; padding:11px 16px; font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; }
+.ef-cancel { background:#f4f6fb; color:#8896b3; border:none; border-radius:12px; padding:11px 16px; font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; }
+.saved-toast { position:fixed; top:16px; right:16px; background:#27ae60; color:#fff; border-radius:100px; padding:8px 18px; font-family:'Nunito',sans-serif; font-size:12px; font-weight:800; z-index:9999; opacity:0; transition:opacity .3s; pointer-events:none; }
+.saved-toast.show { opacity:1; }
 </style>
 </head>
 <body>
@@ -232,42 +286,58 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c0)">
         <div class="cap-population" style="color:var(--c0)">Farmacéuticos</div>
         <div class="cap-name">Asesoría Farmacéutica</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 32 personas</span></div>
+        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 32 participantes</span></div>
+        <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 1 día completo</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz <span style="color:var(--muted);font-weight:500">(2 facilitadores más por definir)</span></span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Cecilia Soria</span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c1)">
         <div class="cap-population" style="color:var(--c1)">Personal base de farmacia</div>
         <div class="cap-name">Atención en el mostrador de farmacia</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">10 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 150 personas*</span></div>
-        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">* Cantidad por validar</div>
+        <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">12 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 160 participantes</span></div>
+        <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos y Soledad Díaz <span style="color:var(--muted);font-weight:500">(2 facilitadores más por definir)</span></span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Deildre Barroso</span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c2)">
         <div class="cap-population" style="color:var(--c2)">Personal base</div>
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
-        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jul</span><span class="cap-tag">16 grupos</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 240 personas · 15 c/u</span></div>
+        <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Jul</span><span class="cap-tag">8 grupos · 10 c/u</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 80 participantes</span></div>
+        <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Katherine Antury</span></span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c3)">
         <div class="cap-population" style="color:var(--c3)">Supervisores y toda la tienda</div>
         <div class="cap-name">Orden y Limpieza · Piso de Ventas</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9–30 Jun</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 72 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9–30 Jun</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 290 colaboradores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Estándares de fachada y piso · Método FIFO/PEPS · Control de vencidos · Surtido y planograma</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
+        <!-- PROGRESS BAR -->
+        <div id="ol-progress-wrap" style="margin:10px 0 6px;background:#fdecea;border-radius:8px;padding:10px 12px;border:1px solid #f5b7b1">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.06em">Progreso de formación</span>
+            <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3)">Cargando...</span>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #f5b7b1">
+            <div id="ol-progress-bar" style="height:100%;background:var(--c3);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="ol-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="https://monicaurdanetaro.github.io/Evaluaci-n-orden-y-limpieza-y-piso-de-ventas/" target="_blank" style="font-size:9px;color:var(--c3);font-weight:700;text-decoration:none">Ver dashboard →</a>
+          </div>
+        </div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinckmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c4)">
         <div class="cap-population" style="color:var(--c4)">Supervisores y toda la tienda</div>
         <div class="cap-name">Pilares de la Operación</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">1–31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">1–31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 290 colaboradores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinckmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c5)">
@@ -275,7 +345,7 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-name">Conteo y Ajuste de Inventario</div>
         <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">3 grupos</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sistema SIM · Conteos cíclicos y Ad Hoc · Autorización de ajustes · Prevención de descuadre</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Gerentes de área</span></div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinckmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
 
     </div>
@@ -357,86 +427,82 @@ const COURSES = [
     population:'Farmacéuticos', duration:'2.5 horas', total:32, perGroup:16,
     responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
-    facilitators:'Yessika Santos y Soledad Díaz (2 facilitadores más por definir)' },
+    facilitators:'Yessika Santos, Soledad Díaz y Cecilia Soria' },
   { id:1, name:'Atención en el mostrador de farmacia', short:'Mostrador Farm.', color:'#27ae60', colorLt:'#e9f7ef',
-    population:'Personal base de farmacia', duration:'2.5 horas', total:150, displaySessions:10, perGroup:15,
+    population:'Personal base de farmacia', duration:'3 horas', total:160, displaySessions:12, perGroup:14,
     responsible:'Equipo de Capacitación',
     link:'https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1',
-    facilitators:'Yessika Santos y Soledad Díaz (2 facilitadores más por definir)',
-    note:'Cantidad por validar' },
+    facilitators:'Yessika Santos, Soledad Díaz y Deildre Barroso' },
   { id:2, name:'Servicio al Cliente y 5 Conductas', short:'Servicio Cliente', color:'#e67e22', colorLt:'#fef3e7',
-    population:'Base', duration:'2.5 horas', total:240, displaySessions:16, perGroup:15,
+    population:'Base', duration:'2.5 horas', total:80, displaySessions:8, perGroup:10,
     responsible:'Equipo de Capacitación',
     asyncProgram:{ name:'Programa 5 Conductas de Servicio', from:'2026-07-03', to:'2026-07-29', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1SdJg00FOlAJ58igMBFakVQJWFvpHOZyBtEDJOP5AI_8/edit?tab=t.0',
-    facilitators:'<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Katherine Antury</span>' },
+    facilitators:'<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span>' },
   { id:3, name:'Orden y Limpieza · Piso de Ventas', short:'Orden y Limpieza', color:'#e74c3c', colorLt:'#fdecea',
-    population:'Supervisores y toda la tienda', duration:'1 hora', total:72,
+    population:'Supervisores y toda la tienda', duration:'1 hora', total:290,
     responsible:'Karol Brinckmann',
     continuous:{ from:'2026-06-09', to:'2026-06-30', label:'Formación en tiendas' },
     asyncProgram:{ name:'Programa Manejo de Planogramas', from:'2026-06-09', to:'2026-06-30', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1dWsYU8fl6dYglVpahdahO3CdsDSMU3msC-42DOSeZ8g/edit?tab=t.0',
-    facilitators:'Gerentes de área' },
+    facilitators:'Área 1: Miguel González · Área 2: Karol Brinckmann · Área 3: Eduardo Páez' },
   { id:4, name:'Pilares de la Operación', short:'Pilares Op.', color:'#8e44ad', colorLt:'#f5eefa',
-    population:'Supervisores y toda la tienda', duration:'1 hora', total:72,
+    population:'Supervisores y toda la tienda', duration:'1 hora', total:290,
     responsible:'Karol Brinckmann',
     continuous:{ from:'2026-07-01', to:'2026-07-31', label:'Formación en tiendas' },
     asyncProgram:{ name:'Programa Pilares de la Operación', from:'2026-07-01', to:'2026-07-31', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1OQAMR61w9wkcc1pHOluiWblImdW8Ysdx_dE3bqv9kxQ/edit?tab=t.0',
-    facilitators:'Gerentes de área' },
+    facilitators:'Área 1: Miguel González · Área 2: Karol Brinckmann · Área 3: Eduardo Páez' },
   { id:5, name:'Conteo y Ajuste de Inventario', short:'Inventario', color:'#16a085', colorLt:'#e8f8f5',
     population:'Supervisores', duration:'3 horas', total:72, displaySessions:3,
     responsible:'Karol Brinckmann',
     asyncProgram:{ name:'Programa Manejo de Inventarios', from:'2026-06-25', to:'2026-07-14', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1bF0szNOUwmYi4V-oC51TZ_v08tZnVkufIbQuxpeBs3o/edit?tab=t.0',
-    facilitators:'Gerentes de área' },
+    facilitators:'Área 1: Miguel González · Área 2: Karol Brinckmann · Área 3: Eduardo Páez' },
 ];
 
 // Holidays - shown as grey overlay in calendar
 const HOLIDAYS = ['2026-07-09','2026-07-10'];
 
 const SESSIONS = [
-  // Asesoría Farmacéutica - Farmacéuticos
-  {date:'2026-06-23',cid:0,group:'G1',slot:'am'},
-  {date:'2026-06-25',cid:0,group:'G2',slot:'am'},
+  // Asesoría Farmacéutica - 2 grupos el 29/06 AM y PM
+  {id:'s0', date:'2026-06-29',cid:0,group:'G1',slot:'am',facilitator:'Yessika Santos y Cecilia Soria'},
+  {id:'s1', date:'2026-06-29',cid:0,group:'G2',slot:'pm',facilitator:'Soledad Díaz y Cecilia Soria'},
 
-  // Atención mostrador farmacia (10 grupos, sin AM/PM - un grupo por día)
-  {date:'2026-06-30',cid:1,group:'G1'},
-  {date:'2026-07-07',cid:1,group:'G2',slot:'am'},
-  {date:'2026-07-07',cid:1,group:'G3',slot:'pm'},
-  {date:'2026-07-14',cid:1,group:'G4',slot:'am'},
-  {date:'2026-07-14',cid:1,group:'G5',slot:'pm'},
-  {date:'2026-07-16',cid:1,group:'G6'},
-  {date:'2026-07-21',cid:1,group:'G7'},
-  {date:'2026-07-23',cid:1,group:'G8'},
-  {date:'2026-07-28',cid:1,group:'G9'},
-  {date:'2026-07-30',cid:1,group:'G10'},
+  // Atención mostrador farmacia - 12 grupos
+  {id:'s2', date:'2026-07-06',cid:1,group:'G1',slot:'am',facilitator:'Soledad Díaz'},
+  {id:'s3', date:'2026-07-06',cid:1,group:'G2',slot:'am',facilitator:'Yessika Santos'},
+  {id:'s4', date:'2026-07-06',cid:1,group:'G3',slot:'pm',facilitator:'Soledad Díaz'},
+  {id:'s5', date:'2026-07-06',cid:1,group:'G4',slot:'pm',facilitator:'Yessika Santos'},
+  {id:'s6', date:'2026-07-07',cid:1,group:'G5',slot:'am',facilitator:'Deildre Barroso'},
+  {id:'s7', date:'2026-07-07',cid:1,group:'G6',slot:'pm',facilitator:'Deildre Barroso'},
+  {id:'s8', date:'2026-07-13',cid:1,group:'G7',slot:'am',facilitator:'Soledad Díaz'},
+  {id:'s9', date:'2026-07-13',cid:1,group:'G8',slot:'am',facilitator:'Yessika Santos'},
+  {id:'s10',date:'2026-07-13',cid:1,group:'G9',slot:'pm',facilitator:'Soledad Díaz'},
+  {id:'s11',date:'2026-07-13',cid:1,group:'G10',slot:'pm',facilitator:'Yessika Santos'},
+  {id:'s12',date:'2026-07-14',cid:1,group:'G11',slot:'am',facilitator:'Deildre Barroso'},
+  {id:'s13',date:'2026-07-14',cid:1,group:'G12',slot:'pm',facilitator:'Deildre Barroso'},
 
-  // Servicio al Cliente (16 grupos + entrenamiento)
-  {date:'2026-07-02',cid:2,group:'Entrenamiento de facilitadores',trainer:true,facilitator:'Equipo de Capacitación'},
-  {date:'2026-07-03',cid:2,group:'G1 y G2',slot:'am',facilitator:'Facilita Capacitación'},
-  {date:'2026-07-06',cid:2,group:'G3 y G4',slot:'am',facilitator:'Carlos Carrión / Oswaldo Saldivia'},
-  {date:'2026-07-07',cid:2,group:'G5 y G6',slot:'am',facilitator:'Cristian Díaz / Ana Caterine Antury'},
-  {date:'2026-07-08',cid:2,group:'G7 y G8',slot:'am',facilitator:'Yajaira Urdaneta / Guillermo Dulce'},
-  {date:'2026-07-13',cid:2,group:'G9',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-15',cid:2,group:'G10',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-17',cid:2,group:'G11',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-20',cid:2,group:'G12',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-22',cid:2,group:'G13',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-24',cid:2,group:'G14',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-27',cid:2,group:'G15',slot:'am',facilitator:'Por definir'},
-  {date:'2026-07-29',cid:2,group:'G16',slot:'am',facilitator:'Por definir'},
+  // Servicio al Cliente - 8 grupos + entrenamiento
+  {id:'s14',date:'2026-07-02',cid:2,group:'Entrenamiento de facilitadores',trainer:true,facilitator:'Equipo de Capacitación'},
+  {id:'s15',date:'2026-07-03',cid:2,group:'G1',slot:'am',facilitator:'Sarah Ray'},
+  {id:'s16',date:'2026-07-03',cid:2,group:'G2',slot:'pm',facilitator:'Sarah Ray'},
+  {id:'s17',date:'2026-07-20',cid:2,group:'G3',slot:'am',facilitator:'Yajaira Urdaneta - Área 1'},
+  {id:'s18',date:'2026-07-20',cid:2,group:'G4',slot:'pm',facilitator:'Carlos Carrión - Área 2'},
+  {id:'s19',date:'2026-07-21',cid:2,group:'G5',slot:'am',facilitator:'Cristian Díaz - Área 3'},
+  {id:'s20',date:'2026-07-21',cid:2,group:'G6',slot:'pm',facilitator:'Guillermo Dulce - Área 1'},
+  {id:'s21',date:'2026-07-27',cid:2,group:'G7',slot:'am',facilitator:'Oswaldo Saldivia - Área 2'},
+  {id:'s22',date:'2026-07-27',cid:2,group:'G8',slot:'pm',facilitator:'Gustavo Henriquez - Área 3'},
 
   // Orden y Limpieza - continuo desde 9/06
-  {date:'2026-06-09',cid:3,group:'Formación en tiendas',continuous:true},
+  {id:'s23',date:'2026-06-09',cid:3,group:'Formación en tiendas',continuous:true},
 
   // Pilares - continuo
-  {date:'2026-07-01',cid:4,group:'Formación en tiendas',continuous:true},
+  {id:'s24',date:'2026-07-01',cid:4,group:'Formación en tiendas',continuous:true},
 
-  // Inventario - 3 fechas
-  {date:'2026-06-25',cid:5,group:'De acuerdo a cada GA'},
-  {date:'2026-07-02',cid:5,group:'De acuerdo a cada GA'},
-  {date:'2026-07-14',cid:5,group:'De acuerdo a cada GA'},
+  // Inventario - 30/06 AM y PM
+  {id:'s25',date:'2026-06-30',cid:5,group:'',slot:'am',facilitator:'Gtes de área'},
+  {id:'s26',date:'2026-06-30',cid:5,group:'',slot:'pm',facilitator:'Gtes de área'},
 ];
 
 const byDate = {};
@@ -492,8 +558,7 @@ function openCourseModal(c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     <div class="mfield"><div class="mfield-lbl">🔢 Personas</div><div class="mfield-val">${c.total} personas</div></div>
     <div class="mfield"><div class="mfield-lbl">📅 Grupos</div><div class="mfield-val">${totalSess} grupos</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -535,7 +600,7 @@ function renderCalendar(){
 
   // Row 1: month banners
   const monthRow=document.createElement('tr');
-  const mc=document.createElement('th'); mc.style.cssText='background:#f8f9fd;border-right:2px solid var(--border);border-bottom:1px solid var(--border);'; monthRow.appendChild(mc);
+  const mc=document.createElement('th'); mc.style.cssText='background:#f8f9fd;border-right:2px solid var(--border);border-bottom:1px solid var(--border);position:sticky;left:0;z-index:4;'; monthRow.appendChild(mc);
   const MCOLS={5:{bg:'#1a2e6b',text:'#fff'},6:{bg:'#3b5fe2',text:'#fff'}};
   monthSpans.forEach(({month,count})=>{ const col=MCOLS[month]||{bg:'var(--navy)',text:'#fff'}; const th=document.createElement('th'); th.colSpan=count; th.style.cssText=`background:${col.bg};color:${col.text};font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;text-align:center;padding:6px 0;letter-spacing:.06em;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);border-bottom:1px solid var(--border);`; th.textContent=MONTHS[month].toUpperCase(); monthRow.appendChild(th); });
   thead.appendChild(monthRow);
@@ -595,33 +660,38 @@ function renderCalendar(){
         if(HOLIDAYS.includes(key)) td.style.background='#f4f4f4';
         const sessArr=byDate[key]&&byDate[key][c.id];
         if(sessArr&&sessArr.length>0){
-          const pill=document.createElement('div'); pill.className='sess-pill'; pill.style.cssText=`background:${c.colorLt};border-left-color:${c.color};`;
-          const isSplit=sessArr.length===2&&sessArr.some(s=>s.slot);
-          const isSim=sessArr.length===1&&sessArr[0].simultaneous;
-          const isTrainer=sessArr.length===1&&sessArr[0].trainer;
-          if(isTrainer){
-            pill.style.cssText='background:#f0f0f4;border-left-color:#9aa0b0;border-left-width:4px;border-left-style:solid;border-radius:8px;padding:5px 7px;height:62px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;cursor:pointer;transition:all .15s;';
-            pill.innerHTML=`<div style="font-size:8px;font-weight:800;color:#9aa0b0;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;white-space:nowrap">Preparación</div><div style="font-size:8.5px;font-weight:700;color:#5a6070;line-height:1.25;word-break:break-word">Entrenamiento facilitadores</div>`;
-            pill.onclick=()=>openTrainerModal(sessArr[0],day,c);
-          } else if(isSplit){
-            pill.innerHTML=`<div class="sess-pill-name" style="margin-bottom:4px">${c.short}</div><div style="display:flex;flex-direction:column;gap:3px">
-              <span style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}44;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:800;line-height:1.4;display:inline-block">${sessArr[0].group} · AM</span>
-              <span style="background:${c.color}11;color:${c.color};border:1px solid ${c.color}33;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:800;line-height:1.4;display:inline-block">${sessArr[1].group} · PM</span></div>`;
-            pill.onclick=()=>openModalMulti(sessArr,day,c);
-          } else if(isSim){
-            pill.innerHTML=`<div class="sess-pill-name" style="margin-bottom:4px">${c.short}</div><div style="display:flex;flex-direction:column;gap:3px">
-              <span style="background:${c.color};color:#fff;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:800;display:inline-block;width:fit-content">SIMULT.</span>
-              <span style="font-size:9px;font-weight:700;color:${c.color};line-height:1.3">${sessArr[0].group}</span></div>`;
-            pill.onclick=()=>openModal(sessArr[0],day);
-          } else {
-            const s=sessArr[0];
-            const slotSuffix = s.slot ? (s.slot === 'am' ? ' · AM' : ' · PM') : '';
-            const groupLabel = s.slot ? s.group + slotSuffix : s.group;
-            pill.innerHTML=`<div class="sess-pill-name">${c.short}</div><div class="sess-pill-group" style="color:${c.color}">${groupLabel}</div>`;
-            pill.onclick=()=>openModal(s,day);
-          }
-          pill.addEventListener('mouseenter',()=>{ pill.style.filter='brightness(.93)'; pill.style.transform='translateY(-1px)'; pill.style.boxShadow='var(--shadow)'; });
-          pill.addEventListener('mouseleave',()=>{ pill.style.filter=''; pill.style.transform=''; pill.style.boxShadow=''; });
+          // CONTAINER — always same height as empty cell (62px), flex column
+          const container = document.createElement('div');
+          container.style.cssText='display:flex;flex-direction:column;gap:3px;min-height:62px;';
+
+          sessArr.forEach(s=>{
+            const mini = document.createElement('div');
+            const isTrainer = s.trainer;
+            const isSim = s.simultaneous;
+            const slotLabel = s.slot==='am'?'AM':s.slot==='pm'?'PM':'';
+            const facLine = s.facilitator||'';
+
+            if(isTrainer){
+              mini.style.cssText='background:#f0f0f4;border-left:3px solid #9aa0b0;border-radius:7px;padding:5px 7px;cursor:pointer;flex:1;display:flex;flex-direction:column;justify-content:center;min-height:56px;';
+              mini.innerHTML=`<div style="font-size:8px;font-weight:800;color:#9aa0b0;text-transform:uppercase;letter-spacing:.04em">Preparación</div><div style="font-size:8px;font-weight:700;color:#5a6070;margin-top:2px">Entrenamiento facilitadores</div>`;
+              mini.onclick=()=>openTrainerModal(s,day,c);
+            } else if(isSim){
+              mini.style.cssText=`background:${c.colorLt};border-left:3px solid ${c.color};border-radius:7px;padding:5px 7px;cursor:pointer;flex:1;display:flex;flex-direction:column;justify-content:center;min-height:56px;`;
+              mini.innerHTML=`<div style="font-size:9px;font-weight:800;color:var(--navy)">${c.short}</div><div style="display:flex;align-items:center;gap:4px;margin-top:3px"><span style="background:${c.color};color:#fff;border-radius:4px;padding:1px 5px;font-size:8px;font-weight:800">SIMULT.</span><span style="font-size:8px;font-weight:700;color:${c.color}">${s.group}</span></div>${facLine?`<div style="font-size:8px;color:${c.color};opacity:.8;margin-top:2px;font-weight:600">${facLine}</div>`:''}`;
+              mini.onclick=()=>openModal(s,day);
+            } else {
+              // Normal session — single or part of multi
+              const firstName = facLine ? (s.cid === 5 ? facLine : facLine.split(' ')[0]) : '';
+              mini.style.cssText=`background:${c.colorLt};border-left:3px solid ${c.color};border-radius:7px;padding:5px 7px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;min-height:${sessArr.length===1?'56px':'24px'};`;
+              mini.innerHTML=`<div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap">${slotLabel?`<span style="background:${c.color};color:#fff;border-radius:3px;padding:0 4px;font-size:7px;font-weight:800">${slotLabel}</span>`:''}<span style="font-size:8px;font-weight:800;color:var(--navy)">${s.group}</span></div>${firstName?`<div style="font-size:7.5px;color:${c.color};font-weight:600;margin-top:1px;line-height:1.2;opacity:.9">${firstName}</div>`:''}`;
+              mini.onclick=()=>openModal(s,day);
+            }
+            mini.addEventListener('mouseenter',()=>{mini.style.filter='brightness(.93)';});
+            mini.addEventListener('mouseleave',()=>{mini.style.filter='';});
+            container.appendChild(mini);
+          });
+
+          const pill = container; // keep variable name for existing code below
           td.appendChild(pill);
         } else { td.innerHTML='<div class="empty-cell"><div class="empty-dash"></div></div>'; }
         tr.appendChild(td);
@@ -698,8 +768,7 @@ function openModal(sess,day){
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${simultLabel}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${facilitatorVal}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${facilitatorVal}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -715,8 +784,7 @@ function openModalMulti(sessArr,day,c){
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
     ${pr}<div class="mfield"><div class="mfield-lbl">☀️ Turno Mañana</div><div class="mfield-val">${sessArr[0].group}</div></div>
     <div class="mfield"><div class="mfield-lbl">🌙 Turno Tarde</div><div class="mfield-val">${sessArr[1].group}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -729,8 +797,7 @@ function openContinuousModal(c){
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${c.facilitators}</div></div>`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
@@ -743,8 +810,7 @@ function openAsyncModal(c){
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield wide"><div class="mfield-lbl">📚 Formación presencial asociada</div><div class="mfield-val">${c.name}</div></div>
     <div class="mfield"><div class="mfield-lbl">👥 Población</div><div class="mfield-val">${c.population}</div></div>
-    <div class="mfield"><div class="mfield-lbl">🗓️ Disponible desde</div><div class="mfield-val">${c.asyncProgram.from.split('-').reverse().join('/')}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield"><div class="mfield-lbl">🗓️ Disponible desde</div><div class="mfield-val">${c.asyncProgram.from.split('-').reverse().join('/')}</div></div>`;
   const lnk=document.getElementById('mLink');
   lnk.style.background='#6b7a99'; lnk.href=c.asyncProgram.link;
   lnk.innerHTML='🎓 Ir a la Academia Farmatodo →';
@@ -761,15 +827,800 @@ function openTrainerModal(sess,day,c){
     <div class="mfield"><div class="mfield-lbl">📚 Formación asociada</div><div class="mfield-val">${c.name}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración estimada</div><div class="mfield-val">${c.duration}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">👥 Participantes</div><div class="mfield-val">${c.facilitators}</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">Por definir</div></div>
-    <div class="mfield wide"><div class="mfield-lbl">✅ Responsable de seguimiento</div><div class="mfield-val">${c.responsible}</div></div>`;
+    <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">Por definir</div></div>`;
   document.getElementById('mLink').style.background='#9aa0b0';
   document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
 }
 function overlayClick(e){ if(e.target===document.getElementById('overlay'))closeModal(); }
 function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.getElementById('mLink').innerHTML='📁 Ver archivo de contenido →'; }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeEditModal && closeEditModal(); } });
+
+// ── LIVE PROGRESS BAR — Orden y Limpieza ─────────────────────────
+async function fetchOLProgress(){
+  const TOTAL = 290;
+  const bar   = document.getElementById('ol-progress-bar');
+  const lbl   = document.getElementById('ol-count-label');
+  const pctEl = document.getElementById('ol-pct-label');
+  if(!bar) return;
+
+  try {
+    const resp = await fetch('https://monicaurdanetaro.github.io/Evaluaci-n-orden-y-limpieza-y-piso-de-ventas/', {cache:'no-store'});
+    const html  = await resp.text();
+    const doc   = new DOMParser().parseFromString(html, 'text/html');
+
+    // Extract RESP_DATA array from the page script
+    const scripts = doc.querySelectorAll('script');
+    let respData = null;
+    for(const s of scripts){
+      const m = s.textContent.match(/const RESP_DATA\s*=\s*(\[[\s\S]*?\]);/);
+      if(m){
+        try { respData = JSON.parse(m[1]); } catch(e){}
+        break;
+      }
+    }
+
+    if(!respData || !respData.length){
+      lbl.textContent = 'Ver dashboard →';
+      pctEl.textContent = 'Datos en tiempo real';
+      return;
+    }
+
+    // Deduplicate by DNI (col 15) + store (col 16), keep highest score
+    // Same logic as the evaluation dashboard
+    const map = new Map();
+    respData.forEach(r => {
+      const dni   = (r[15]||'').toString().trim();
+      const store = (r[16]||'').toString().trim().toUpperCase();
+      const score = parseInt((r[1]||'').toString().match(/^(\d+)/)?.[1])||0;
+      const key   = (dni && dni.length > 4) ? (dni+'||'+store) : ((r[2]||'').trim().toUpperCase()+'||'+store);
+      if(!map.has(key) || score > (parseInt((map.get(key)[1]||'').toString().match(/^(\d+)/)?.[1])||0)){
+        map.set(key, r);
+      }
+    });
+
+    const count = map.size;
+    const pctVal = Math.min(100, Math.round(count / TOTAL * 100));
+    bar.style.width = pctVal + '%';
+    lbl.textContent = count + ' / ' + TOTAL + ' formados';
+    pctEl.textContent = pctVal + '% completado';
+
+  } catch(e) {
+    const l = document.getElementById('ol-count-label');
+    const p = document.getElementById('ol-pct-label');
+    if(l) l.textContent = 'Ver dashboard →';
+    if(p) p.textContent = 'No disponible';
+  }
+}
+fetchOLProgress();
+setInterval(fetchOLProgress, 300000);
 </script>
+<button class="edit-fab" id="editFab" onclick="toggleEditMode()">✏️ Editar cronograma</button>
+<div class="saved-toast" id="savedToast">✓ Guardado</div>
+<div class="edit-banner" id="editBanner">
+  ✏️ <strong>Modo edición activo</strong> — Haz clic en cualquier sesión para editarla · Arrastra para cambiar fecha · Haz clic en el nombre del curso (columna izquierda) para editar sus datos
+</div>
+
+<!-- ── EDIT MODAL ── -->
+<div class="edit-overlay" id="editOverlay" onclick="if(event.target===this)closeEditModal()">
+  <div class="edit-modal">
+    <div class="edit-modal-header">
+      <span class="edit-modal-title" id="editModalTitle">Editar sesión</span>
+      <button class="edit-modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="edit-modal-body" id="editModalBody"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// EDIT MODE — event delegation, no {once:true}
+// ══════════════════════════════════════════════
+let editMode = false;
+let _dragId = null;  // sessId being dragged
+
+// ── Toggle ────────────────────────────────────
+function toggleEditMode(){
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  const fab = document.getElementById('editFab');
+  fab.innerHTML = editMode ? '🔒 Salir de edición' : '✏️ Editar cronograma';
+  fab.classList.toggle('active', editMode);
+  document.getElementById('editBanner').classList.toggle('show', editMode);
+  // Re-render calendar to stamp data-* attributes on cells
+  if(document.getElementById('detail').classList.contains('active')) renderCalendar();
+}
+
+// ── Storage ───────────────────────────────────
+async function saveToStorage(){
+  try {
+    await window.storage.set('arg-plan-v2', JSON.stringify({courses:COURSES,sessions:SESSIONS,holidays:HOLIDAYS}));
+    const t=document.getElementById('savedToast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000);
+  } catch(e){}
+}
+async function loadFromStorage(){
+  try {
+    const r=await window.storage.get('arg-plan-v2');
+    if(r&&r.value){
+      const d=JSON.parse(r.value);
+      if(d.courses){COURSES.length=0;d.courses.forEach(c=>COURSES.push(c));}
+      if(d.sessions){SESSIONS.length=0;d.sessions.forEach(s=>SESSIONS.push(s));}
+      if(d.holidays){HOLIDAYS.length=0;d.holidays.forEach(h=>HOLIDAYS.push(h));}
+    }
+  } catch(e){}
+}
+
+// ── Stamp data-* on cells after each render ──
+function stampCells(){
+  const cont = document.getElementById('calContent');
+  if(!cont) return;
+  const table = cont.querySelector('.cal-table');
+  if(!table) return;
+  const tbody = table.querySelector('tbody');
+  if(!tbody) return;
+  const adDates = allDays.map(d=>ds(d));
+  const visibleCourses = COURSES.filter(c=>active.has(c.id));
+
+  tbody.querySelectorAll('tr').forEach(row=>{
+    // Identify course by color bar
+    const bar = row.cells[0] && row.cells[0].querySelector('.row-label-bar');
+    if(!bar) return;
+    const c = visibleCourses.find(x=>x.color===bar.style.background);
+    if(!c) return;
+
+    // Tag label cell
+    row.cells[0].dataset.editcid = c.id;
+
+    // Tag data cells — skip label col (colspan handled: cells after first)
+    const dataCells = Array.from(row.cells).slice(1);
+    dataCells.forEach((cell, ci)=>{
+      const dateStr = adDates[ci];
+      if(!dateStr) return;
+      cell.dataset.editdate = dateStr;
+      cell.dataset.editcid  = c.id;
+
+      // Stamp session pills
+      const sessArr = (byDate[dateStr]&&byDate[dateStr][c.id])||[];
+      cell.querySelectorAll('.sess-pill').forEach((pill, pi)=>{
+        if(sessArr[pi]) pill.dataset.sessid = sessArr[pi].id;
+      });
+    });
+  });
+}
+
+// Wrap renderCalendar to stamp after every render
+const _rc0 = renderCalendar;
+renderCalendar = function(){ _rc0(); stampCells(); };
+
+// ── Global event delegation ───────────────────
+document.addEventListener('dragstart', e=>{
+  if(!editMode) return;
+  const pill = e.target.closest('.sess-pill[data-sessid]');
+  if(!pill) return;
+  _dragId = pill.dataset.sessid;
+  e.dataTransfer.effectAllowed = 'move';
+  pill.style.opacity = '0.5';
+});
+
+document.addEventListener('dragend', e=>{
+  const pill = e.target.closest('.sess-pill');
+  if(pill) pill.style.opacity = '';
+  _dragId = null;
+});
+
+document.addEventListener('dragover', e=>{
+  if(!editMode || !_dragId) return;
+  const cell = e.target.closest('td[data-editdate]');
+  if(!cell) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  // Highlight only this cell
+  document.querySelectorAll('td.drag-over').forEach(c=>c.classList.remove('drag-over'));
+  cell.classList.add('drag-over');
+});
+
+document.addEventListener('dragleave', e=>{
+  const cell = e.target.closest('td[data-editdate]');
+  if(cell && !cell.contains(e.relatedTarget)) cell.classList.remove('drag-over');
+});
+
+document.addEventListener('drop', e=>{
+  if(!editMode || !_dragId) return;
+  const cell = e.target.closest('td[data-editdate]');
+  if(!cell) return;
+  e.preventDefault();
+  cell.classList.remove('drag-over');
+  const newDate = cell.dataset.editdate;
+  const newCid  = parseInt(cell.dataset.editcid);
+  const sess = SESSIONS.find(s=>s.id===_dragId);
+  if(sess && newDate){
+    sess.date = newDate;
+    sess.cid  = newCid;
+    // Rebuild byDate
+    Object.keys(byDate).forEach(k=>delete byDate[k]);
+    SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+    saveToStorage();
+    renderCalendar();
+  }
+  _dragId = null;
+});
+
+// Click: pill → edit session, label → edit course
+document.addEventListener('click', e=>{
+  if(!editMode) return;
+  // Pill click
+  const pill = e.target.closest('.sess-pill[data-sessid]');
+  if(pill){ e.stopPropagation(); editSession(pill.dataset.sessid); return; }
+  // "+" button
+  const addBtn = e.target.closest('.add-sess-btn');
+  if(addBtn){ e.stopPropagation(); addSession(parseInt(addBtn.dataset.cid), addBtn.dataset.date); return; }
+  // Label cell click
+  const lbl = e.target.closest('td[data-editcid].row-label-col, td.row-label-col[data-editcid]');
+  if(lbl){ editCourse(parseInt(lbl.dataset.editcid)); return; }
+});
+
+// Make pills draggable — set attribute via delegation won't work, need to stamp
+// We stamp draggable=true in stampCells
+function stampDraggable(){
+  document.querySelectorAll('.sess-pill[data-sessid]').forEach(p=>{ if(editMode) p.setAttribute('draggable','true'); else p.removeAttribute('draggable'); });
+}
+const _rc1 = renderCalendar;
+renderCalendar = function(){ _rc1(); if(editMode) stampDraggable(); };
+
+// ── "+" buttons injected after render ─────────
+function injectAddButtons(){
+  if(!editMode) return;
+  document.querySelectorAll('td[data-editdate]').forEach(cell=>{
+    if(cell.querySelector('.add-sess-btn')) return;
+    const btn = document.createElement('button');
+    btn.className='add-sess-btn';
+    btn.innerHTML='+';
+    btn.dataset.date=cell.dataset.editdate;
+    btn.dataset.cid=cell.dataset.editcid;
+    cell.style.position='relative';
+    cell.appendChild(btn);
+  });
+}
+const _rc2 = renderCalendar;
+renderCalendar = function(){ _rc2(); injectAddButtons(); };
+
+// ── Edit Modal ────────────────────────────────
+function openEditModal(title, html){
+  document.getElementById('editModalTitle').textContent=title;
+  document.getElementById('editModalBody').innerHTML=html;
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEditModal(){ document.getElementById('editOverlay').classList.remove('open'); }
+document.getElementById('editOverlay').addEventListener('click', e=>{ if(e.target===document.getElementById('editOverlay')) closeEditModal(); });
+
+function editSession(sessId){
+  const sess=SESSIONS.find(s=>s.id===sessId); if(!sess) return;
+  openEditModal('✏️ Editar Sesión', `
+    <label class="ef-label">Formación</label>
+    <select class="ef-input" id="ef-cid">${COURSES.map(c=>`<option value="${c.id}"${c.id===sess.cid?' selected':''}>${c.name}</option>`).join('')}</select>
+    <label class="ef-label">Fecha</label>
+    <input class="ef-input" type="date" id="ef-date" value="${sess.date}">
+    <label class="ef-label">Grupo / Descripción</label>
+    <input class="ef-input" id="ef-group" value="${(sess.group||'').replace(/"/g,'&quot;')}">
+    <div class="ef-row">
+      <div><label class="ef-label">Turno</label>
+        <select class="ef-input" id="ef-slot">
+          <option value=""${!sess.slot?' selected':''}>Sin turno</option>
+          <option value="am"${sess.slot==='am'?' selected':''}>AM</option>
+          <option value="pm"${sess.slot==='pm'?' selected':''}>PM</option>
+        </select></div>
+      <div><label class="ef-label">Tipo</label>
+        <select class="ef-input" id="ef-type">
+          <option value=""${!sess.trainer&&!sess.simultaneous&&!sess.continuous?' selected':''}>Normal</option>
+          <option value="trainer"${sess.trainer?' selected':''}>Entrenamiento</option>
+          <option value="simul"${sess.simultaneous?' selected':''}>Simultáneo</option>
+          <option value="cont"${sess.continuous?' selected':''}>Continuo</option>
+        </select></div>
+    </div>
+    <label class="ef-label">Facilitador (esta sesión)</label>
+    <input class="ef-input" id="ef-fac" value="${(sess.facilitator||'').replace(/"/g,'&quot;')}" placeholder="Vacío = usa el del curso">
+    <div class="ef-actions">
+      <button class="ef-save" onclick="saveSession('${sessId}')">💾 Guardar</button>
+      <button class="ef-delete" onclick="deleteSession('${sessId}')">🗑</button>
+      <button class="ef-cancel" onclick="closeEditModal()">Cancelar</button>
+    </div>`);
+}
+
+function saveSession(id){
+  const s=SESSIONS.find(x=>x.id===id); if(!s) return;
+  s.cid=parseInt(document.getElementById('ef-cid').value);
+  s.date=document.getElementById('ef-date').value;
+  s.group=document.getElementById('ef-group').value;
+  const slot=document.getElementById('ef-slot').value;
+  s.slot=slot||undefined;
+  const type=document.getElementById('ef-type').value;
+  s.trainer=type==='trainer'?true:undefined;
+  s.simultaneous=type==='simul'?true:undefined;
+  s.continuous=type==='cont'?true:undefined;
+  const fac=document.getElementById('ef-fac').value;
+  s.facilitator=fac||undefined;
+  closeEditModal();
+  Object.keys(byDate).forEach(k=>delete byDate[k]);
+  SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+  saveToStorage(); renderCalendar();
+}
+
+function deleteSession(id){
+  const idx=SESSIONS.findIndex(s=>s.id===id); if(idx>=0) SESSIONS.splice(idx,1);
+  closeEditModal();
+  Object.keys(byDate).forEach(k=>delete byDate[k]);
+  SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+  saveToStorage(); renderCalendar();
+}
+
+function addSession(cid, dateStr){
+  const id='sx'+Date.now();
+  SESSIONS.push({id, date:dateStr, cid, group:'Nuevo grupo'});
+  Object.keys(byDate).forEach(k=>delete byDate[k]);
+  SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+  saveToStorage(); renderCalendar();
+  setTimeout(()=>editSession(id), 80);
+}
+
+function editCourse(cid){
+  const c=COURSES.find(x=>x.id===cid); if(!c) return;
+  openEditModal('✏️ Editar Curso', `
+    <label class="ef-label">Nombre completo</label><input class="ef-input" id="ec-name" value="${c.name.replace(/"/g,'&quot;')}">
+    <label class="ef-label">Nombre corto</label><input class="ef-input" id="ec-short" value="${c.short.replace(/"/g,'&quot;')}">
+    <label class="ef-label">Población</label><input class="ef-input" id="ec-pop" value="${c.population.replace(/"/g,'&quot;')}">
+    <div class="ef-row">
+      <div><label class="ef-label">Duración</label><input class="ef-input" id="ec-dur" value="${c.duration}"></div>
+      <div><label class="ef-label">Total personas</label><input class="ef-input" type="number" id="ec-total" value="${c.total}"></div>
+    </div>
+    <div class="ef-row">
+      <div><label class="ef-label">Por grupo</label><input class="ef-input" type="number" id="ec-pg" value="${c.perGroup||''}"></div>
+      <div><label class="ef-label">Responsable</label><input class="ef-input" id="ec-resp" value="${c.responsible.replace(/"/g,'&quot;')}"></div>
+    </div>
+    <label class="ef-label">Facilitadores</label>
+    <textarea class="ef-input" id="ec-fac" style="height:68px;resize:vertical">${c.facilitators}</textarea>
+    <label class="ef-label">Enlace</label><input class="ef-input" id="ec-link" value="${c.link}">
+    ${c.continuous?`<div class="ef-row">
+      <div><label class="ef-label">Inicio continuo</label><input class="ef-input" type="date" id="ec-cf" value="${c.continuous.from}"></div>
+      <div><label class="ef-label">Fin continuo</label><input class="ef-input" type="date" id="ec-ct" value="${c.continuous.to}"></div>
+    </div>`:''}
+    <div class="ef-actions">
+      <button class="ef-save" onclick="saveCourse(${cid})">💾 Guardar</button>
+      <button class="ef-cancel" onclick="closeEditModal()">Cancelar</button>
+    </div>`);
+}
+
+function saveCourse(cid){
+  const c=COURSES.find(x=>x.id===cid); if(!c) return;
+  c.name=document.getElementById('ec-name').value;
+  c.short=document.getElementById('ec-short').value;
+  c.population=document.getElementById('ec-pop').value;
+  c.duration=document.getElementById('ec-dur').value;
+  c.total=parseInt(document.getElementById('ec-total').value)||c.total;
+  const pg=document.getElementById('ec-pg'); if(pg) c.perGroup=parseInt(pg.value)||undefined;
+  c.responsible=document.getElementById('ec-resp').value;
+  c.facilitators=document.getElementById('ec-fac').value;
+  c.link=document.getElementById('ec-link').value;
+  if(c.continuous){
+    c.continuous.from=document.getElementById('ec-cf').value;
+    c.continuous.to=document.getElementById('ec-ct').value;
+  }
+  closeEditModal(); saveToStorage(); renderCalendar();
+}
+
+// ── Init ──────────────────────────────────────
+(async function(){
+  await loadFromStorage();
+  Object.keys(byDate).forEach(k=>delete byDate[k]);
+  SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+  if(document.getElementById('detail').classList.contains('active')) renderCalendar();
+})();
+
+function toggleEditMode(){
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  const fab = document.getElementById('editFab');
+  const banner = document.getElementById('editBanner');
+  fab.textContent = editMode ? '🔒 Salir de edición' : '✏️ Editar cronograma';
+  fab.classList.toggle('active', editMode);
+  banner.classList.toggle('show', editMode);
+  if(editMode) renderCalendar(); // re-render to attach edit handlers
+}
+
+// ── STORAGE ──────────────────────────────────────
+async function saveToStorage(){
+  try {
+    const payload = JSON.stringify({ courses: COURSES, sessions: SESSIONS, holidays: HOLIDAYS });
+    await window.storage.set('arg-plan-v2', payload);
+    showToast();
+  } catch(e){ console.log('Storage error:', e); }
+}
+
+async function loadFromStorage(){
+  try {
+    const r = await window.storage.get('arg-plan-v2');
+    if(r && r.value){
+      const d = JSON.parse(r.value);
+      if(d.courses) { COURSES.length=0; d.courses.forEach(c=>COURSES.push(c)); }
+      if(d.sessions) { SESSIONS.length=0; d.sessions.forEach(s=>SESSIONS.push(s)); }
+      if(d.holidays) { HOLIDAYS.length=0; d.holidays.forEach(h=>HOLIDAYS.push(h)); }
+    }
+  } catch(e){}
+}
+
+function showToast(){
+  const t = document.getElementById('savedToast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+// ── DRAG & DROP ───────────────────────────────────
+function onSessDragStart(e, sessId){
+  if(!editMode) return;
+  dragSessId = sessId;
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onCellDragOver(e, dateStr, cid){
+  if(!editMode || !dragSessId) return;
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function onCellDragLeave(e){
+  e.currentTarget.classList.remove('drag-over');
+}
+function onCellDrop(e, dateStr, cid){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!dragSessId) return;
+  const sess = SESSIONS.find(s=>s.id===dragSessId);
+  if(sess){
+    sess.date = dateStr;
+    sess.cid = cid;
+    saveToStorage();
+    renderCalendar();
+  }
+  dragSessId = null;
+}
+
+// ── EDIT MODAL ────────────────────────────────────
+function openEditModal(title, bodyHTML){
+  document.getElementById('editModalTitle').textContent = title;
+  document.getElementById('editModalBody').innerHTML = bodyHTML;
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEditModal(){
+  document.getElementById('editOverlay').classList.remove('open');
+}
+
+// Edit a session
+function editSession(sessId){
+  if(!editMode) return;
+  const sess = SESSIONS.find(s=>s.id===sessId);
+  if(!sess) return;
+  const c = COURSES.find(c=>c.id===sess.cid);
+  openEditModal('✏️ Editar Sesión', `
+    <label class="ef-label">Formación</label>
+    <select class="ef-input" id="ef-cid">
+      ${COURSES.map(c=>`<option value="${c.id}" ${c.id===sess.cid?'selected':''}>${c.name}</option>`).join('')}
+    </select>
+    <label class="ef-label">Fecha</label>
+    <input class="ef-input" type="date" id="ef-date" value="${sess.date}">
+    <label class="ef-label">Grupo / Descripción</label>
+    <input class="ef-input" id="ef-group" value="${sess.group||''}">
+    <div class="ef-row">
+      <div>
+        <label class="ef-label">Turno</label>
+        <select class="ef-input" id="ef-slot">
+          <option value="" ${!sess.slot?'selected':''}>Sin turno</option>
+          <option value="am" ${sess.slot==='am'?'selected':''}>AM (Mañana)</option>
+          <option value="pm" ${sess.slot==='pm'?'selected':''}>PM (Tarde)</option>
+        </select>
+      </div>
+      <div>
+        <label class="ef-label">Tipo</label>
+        <select class="ef-input" id="ef-type">
+          <option value="" ${!sess.trainer&&!sess.simultaneous&&!sess.continuous?'selected':''}>Normal</option>
+          <option value="trainer" ${sess.trainer?'selected':''}>Entrenamiento</option>
+          <option value="simul" ${sess.simultaneous?'selected':''}>Simultáneo</option>
+          <option value="cont" ${sess.continuous?'selected':''}>Continuo</option>
+        </select>
+      </div>
+    </div>
+    <label class="ef-label">Facilitador (esta sesión)</label>
+    <input class="ef-input" id="ef-facilitator" value="${sess.facilitator||''}" placeholder="Vacío = usa el del curso">
+    <div class="ef-actions">
+      <button class="ef-save" onclick="saveSession('${sessId}')">💾 Guardar</button>
+      <button class="ef-delete" onclick="deleteSession('${sessId}')">🗑 Eliminar</button>
+      <button class="ef-cancel" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  `);
+}
+
+function saveSession(sessId){
+  const sess = SESSIONS.find(s=>s.id===sessId);
+  if(!sess) return;
+  sess.cid = parseInt(document.getElementById('ef-cid').value);
+  sess.date = document.getElementById('ef-date').value;
+  sess.group = document.getElementById('ef-group').value;
+  const slot = document.getElementById('ef-slot').value;
+  sess.slot = slot || undefined;
+  const type = document.getElementById('ef-type').value;
+  sess.trainer = type==='trainer' ? true : undefined;
+  sess.simultaneous = type==='simul' ? true : undefined;
+  sess.continuous = type==='cont' ? true : undefined;
+  const fac = document.getElementById('ef-facilitator').value;
+  sess.facilitator = fac || undefined;
+  closeEditModal();
+  saveToStorage();
+  renderCalendar();
+}
+
+function deleteSession(sessId){
+  const idx = SESSIONS.findIndex(s=>s.id===sessId);
+  if(idx>=0) SESSIONS.splice(idx,1);
+  closeEditModal();
+  saveToStorage();
+  renderCalendar();
+}
+
+function addSession(cid, dateStr){
+  if(!editMode) return;
+  const newId = 'sx' + Date.now();
+  SESSIONS.push({id:newId, date:dateStr, cid, group:'Nuevo grupo'});
+  saveToStorage();
+  renderCalendar();
+  setTimeout(()=>editSession(newId), 50);
+}
+
+// Edit a course
+function editCourse(cid){
+  if(!editMode) return;
+  const c = COURSES.find(c=>c.id===cid);
+  if(!c) return;
+  const contFrom = c.continuous ? c.continuous.from : '';
+  const contTo = c.continuous ? c.continuous.to : '';
+  openEditModal('✏️ Editar Curso', `
+    <label class="ef-label">Nombre completo</label>
+    <input class="ef-input" id="ec-name" value="${c.name}">
+    <label class="ef-label">Nombre corto (calendario)</label>
+    <input class="ef-input" id="ec-short" value="${c.short}">
+    <label class="ef-label">Población a invitar</label>
+    <input class="ef-input" id="ec-pop" value="${c.population}">
+    <div class="ef-row">
+      <div><label class="ef-label">Duración</label><input class="ef-input" id="ec-dur" value="${c.duration}"></div>
+      <div><label class="ef-label">Total personas</label><input class="ef-input" type="number" id="ec-total" value="${c.total}"></div>
+    </div>
+    <div class="ef-row">
+      <div><label class="ef-label">Personas por grupo</label><input class="ef-input" type="number" id="ec-pg" value="${c.perGroup||''}"></div>
+      <div><label class="ef-label">Responsable</label><input class="ef-input" id="ec-resp" value="${c.responsible}"></div>
+    </div>
+    <label class="ef-label">Facilitadores</label>
+    <textarea class="ef-input" id="ec-fac" style="height:70px;resize:vertical">${c.facilitators}</textarea>
+    <label class="ef-label">Enlace contenido</label>
+    <input class="ef-input" id="ec-link" value="${c.link}">
+    ${c.continuous ? `
+    <div class="ef-row">
+      <div><label class="ef-label">Inicio continuo</label><input class="ef-input" type="date" id="ec-cf" value="${contFrom}"></div>
+      <div><label class="ef-label">Fin continuo</label><input class="ef-input" type="date" id="ec-ct" value="${contTo}"></div>
+    </div>` : ''}
+    <div class="ef-actions">
+      <button class="ef-save" onclick="saveCourse(${cid})">💾 Guardar</button>
+      <button class="ef-cancel" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  `);
+}
+
+function saveCourse(cid){
+  const c = COURSES.find(c=>c.id===cid);
+  if(!c) return;
+  c.name = document.getElementById('ec-name').value;
+  c.short = document.getElementById('ec-short').value;
+  c.population = document.getElementById('ec-pop').value;
+  c.duration = document.getElementById('ec-dur').value;
+  c.total = parseInt(document.getElementById('ec-total').value)||c.total;
+  const pg = document.getElementById('ec-pg');
+  if(pg) c.perGroup = parseInt(pg.value)||undefined;
+  c.responsible = document.getElementById('ec-resp').value;
+  c.facilitators = document.getElementById('ec-fac').value;
+  c.link = document.getElementById('ec-link').value;
+  if(c.continuous){
+    c.continuous.from = document.getElementById('ec-cf').value;
+    c.continuous.to = document.getElementById('ec-ct').value;
+  }
+  closeEditModal();
+  saveToStorage();
+  renderCalendar();
+}
+
+// ── PATCH renderCalendar TO ADD EDIT HOOKS ────────
+// Store original renderCalendar
+const _origRenderCalendar = renderCalendar;
+renderCalendar = function(){
+  _origRenderCalendar();
+  if(!editMode) return;
+
+  // Add click handlers to sess-pills for editing
+  document.querySelectorAll('.sess-pill').forEach(pill=>{
+    const sessId = pill.dataset.sessid;
+    if(!sessId) return;
+    pill.setAttribute('draggable','true');
+    pill.addEventListener('dragstart', e=>onSessDragStart(e, sessId), {once:true});
+    pill.addEventListener('click', e=>{ e.stopPropagation(); editSession(sessId); }, {once:true});
+  });
+
+  // Add drag handlers to data cells
+  document.querySelectorAll('.data-cell').forEach(cell=>{
+    const dateStr = cell.dataset.date;
+    const cid = parseInt(cell.dataset.cid);
+    if(!dateStr) return;
+    cell.addEventListener('dragover', e=>onCellDragOver(e,dateStr,cid), {once:true});
+    cell.addEventListener('dragleave', onCellDragLeave, {once:true});
+    cell.addEventListener('drop', e=>onCellDrop(e,dateStr,cid), {once:true});
+    // Add "+" button
+    const btn = document.createElement('button');
+    btn.className = 'add-sess-btn';
+    btn.textContent = '+';
+    btn.onclick = e=>{ e.stopPropagation(); addSession(cid, dateStr); };
+    cell.appendChild(btn);
+  });
+
+  // Add click handlers to row label cells for course editing
+  document.querySelectorAll('.row-label-col').forEach(lbl=>{
+    const cid = parseInt(lbl.dataset.cid);
+    if(isNaN(cid)) return;
+    lbl.addEventListener('click', ()=>editCourse(cid), {once:true});
+  });
+};
+
+// ── PATCH pill and cell rendering to add data attributes ──
+// We need data-sessid on pills and data-date/cid on cells.
+// Patch happens inside renderCalendar after DOM creation.
+// Override the pill creation part by monkey-patching tbody build.
+
+// Patch: after renderCalendar runs, add data attributes to elements
+const _patchDOM = () => {
+  // Match pills to sessions by scanning text content — too fragile.
+  // Instead we patch at source: override the inner render to tag elements.
+  // Since we can't easily patch innerHTML, we use a MutationObserver approach.
+};
+
+// Better approach: patch the existing render to add data- attrs via a post-render hook
+const origRC = renderCalendar;
+renderCalendar = function(){
+  origRC();
+  // Tag cells with date+cid after render
+  // This requires matching rendered cells to allDays — do it by re-scanning
+  // The table is already rendered; cells are in order matching allDays
+  const tables = document.querySelectorAll('#detail .cal-table');
+  tables.forEach(table=>{
+    const rows = table.querySelectorAll('tbody tr');
+    const ths = table.querySelectorAll('thead tr:last-child th');
+    // Build dateStr array from thead
+    const dates = [];
+    ths.forEach((th,i)=>{
+      if(i===0) return; // skip label col
+      const box = th.querySelector('.date-box-num');
+      const parent = th;
+      if(box) dates.push(th.dataset.date||'');
+    });
+  });
+};
+
+// SIMPLEST RELIABLE APPROACH: patch renderCalendar at the pill innerHTML level
+// by adding a post-process that reads existing pills and tags them with session IDs
+// based on position matching.
+// We do this with a smarter approach: add IDs during render by patching byDate lookup.
+
+// Actually simplest: after render, scan all .sess-pill elements.
+// We can match by course row position and date column position.
+// Row index = course index in visibleCourses, col index = allDay index.
+
+function patchEditHandlers(){
+  if(!editMode) return;
+
+  const cont = document.getElementById('calContent');
+  if(!cont) return;
+
+  const table = cont.querySelector('.cal-table');
+  if(!table) return;
+
+  const thead = table.querySelector('thead');
+  const tbody = table.querySelector('tbody');
+  if(!thead||!tbody) return;
+
+  // Get date strings from column headers (skip first col = label)
+  const dateCols = [];
+  const headCells = thead.querySelectorAll('tr:last-child th');
+  headCells.forEach((th,i)=>{
+    if(i===0) return;
+    const num = th.querySelector('.date-box-num');
+    const mon = th.querySelector('.date-box-dayname');
+    if(num) dateCols.push(th.getAttribute('data-datestr')||'');
+  });
+
+  // Better: rebuild dateCols from allDays (accessible in closure)
+  const adDates = allDays.map(d=>ds(d));
+
+  const trows = tbody.querySelectorAll('tr');
+  let rowIdx = 0;
+  trows.forEach(row=>{
+    // Check if this is an async row (no label cell with cid)
+    const labelCell = row.cells[0];
+    if(!labelCell) return;
+
+    // Determine cid from row position (skip async/spacer rows)
+    const visibleCourses = COURSES.filter(c=>active.has(c.id));
+    // Find which course this row belongs to by checking background color
+    const bar = labelCell.querySelector('.row-label-bar');
+    if(!bar) return; // skip rows without label bar (async rows)
+
+    const barColor = bar.style.background;
+    const c = visibleCourses.find(c=>c.color===barColor);
+    if(!c) return;
+
+    // Now process each data cell
+    const cells = Array.from(row.cells).slice(1); // skip label col (or colspan)
+    cells.forEach((cell, ci)=>{
+      const dateStr = adDates[ci];
+      if(!dateStr) return;
+
+      // Tag cell
+      cell.setAttribute('data-date', dateStr);
+      cell.setAttribute('data-cid', c.id);
+      cell.addEventListener('dragover', e=>{ if(editMode&&dragSessId){e.preventDefault();cell.classList.add('drag-over');} });
+      cell.addEventListener('dragleave', ()=>cell.classList.remove('drag-over'));
+      cell.addEventListener('drop', e=>{ e.preventDefault(); cell.classList.remove('drag-over'); if(dragSessId){ onCellDrop(e,dateStr,c.id); } });
+
+      // Add "+" button
+      if(cell.style.position!=='relative') cell.style.position='relative';
+      const existing = cell.querySelector('.add-sess-btn');
+      if(!existing){
+        const btn = document.createElement('button');
+        btn.className='add-sess-btn';
+        btn.innerHTML='+';
+        btn.title='Agregar sesión';
+        btn.onclick=e=>{e.stopPropagation();addSession(c.id,dateStr);};
+        cell.appendChild(btn);
+      }
+
+      // Tag pills
+      const pills = cell.querySelectorAll('.sess-pill');
+      const sessArr = (byDate[dateStr]&&byDate[dateStr][c.id])||[];
+      pills.forEach((pill,pi)=>{
+        const sess = sessArr[pi];
+        if(!sess) return;
+        pill.setAttribute('draggable','true');
+        pill.setAttribute('data-sessid', sess.id);
+        pill.style.cursor='grab';
+        pill.addEventListener('dragstart', e=>{ dragSessId=sess.id; e.dataTransfer.effectAllowed='move'; });
+        pill.addEventListener('click', e=>{ if(editMode){e.stopPropagation();editSession(sess.id);} });
+      });
+    });
+
+    // Label cell click for course editing
+    labelCell.setAttribute('data-cid', c.id);
+    labelCell.addEventListener('click', ()=>{ if(editMode) editCourse(c.id); });
+  });
+}
+
+// Override renderCalendar cleanly
+window._baseRC = window.renderCalendar || renderCalendar;
+renderCalendar = function(){
+  window._baseRC();
+  patchEditHandlers();
+};
+
+// ── INIT: load storage then render ──────────────
+(async function(){
+  await loadFromStorage();
+  // Rebuild byDate after potential storage load
+  Object.keys(byDate).forEach(k=>delete byDate[k]);
+  SESSIONS.forEach(s=>{ if(!byDate[s.date])byDate[s.date]={}; if(!byDate[s.date][s.cid])byDate[s.date][s.cid]=[]; byDate[s.date][s.cid].push(s); });
+  // Re-render detail if it's active
+  if(document.getElementById('detail').classList.contains('active')){
+    renderCalendar();
+  }
+})();
+</script>
+
 </body>
 </html>
