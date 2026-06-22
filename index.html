@@ -469,30 +469,30 @@ const SESSIONS = [
   {id:'s0', date:'2026-06-29',cid:0,group:'G1',slot:'am',facilitator:'Yessika Santos y Cecilia Soria'},
   {id:'s1', date:'2026-06-29',cid:0,group:'G2',slot:'pm',facilitator:'Soledad Díaz y Cecilia Soria'},
 
-  // Atención mostrador farmacia - 12 grupos
-  {id:'s2', date:'2026-07-06',cid:1,group:'G1',slot:'am',facilitator:'Soledad Díaz'},
-  {id:'s3', date:'2026-07-06',cid:1,group:'G2',slot:'am',facilitator:'Yessika Santos'},
-  {id:'s4', date:'2026-07-06',cid:1,group:'G3',slot:'pm',facilitator:'Soledad Díaz'},
-  {id:'s5', date:'2026-07-06',cid:1,group:'G4',slot:'pm',facilitator:'Yessika Santos'},
-  {id:'s6', date:'2026-07-07',cid:1,group:'G5',slot:'am',facilitator:'Deildre Barroso'},
-  {id:'s7', date:'2026-07-07',cid:1,group:'G6',slot:'pm',facilitator:'Deildre Barroso'},
-  {id:'s8', date:'2026-07-13',cid:1,group:'G7',slot:'am',facilitator:'Soledad Díaz'},
-  {id:'s9', date:'2026-07-13',cid:1,group:'G8',slot:'am',facilitator:'Yessika Santos'},
-  {id:'s10',date:'2026-07-13',cid:1,group:'G9',slot:'pm',facilitator:'Soledad Díaz'},
-  {id:'s11',date:'2026-07-13',cid:1,group:'G10',slot:'pm',facilitator:'Yessika Santos'},
-  {id:'s12',date:'2026-07-14',cid:1,group:'G11',slot:'am',facilitator:'Deildre Barroso'},
-  {id:'s13',date:'2026-07-14',cid:1,group:'G12',slot:'pm',facilitator:'Deildre Barroso'},
+  // Atención mostrador farmacia - 12 grupos con área
+  {id:'s2', date:'2026-07-06',cid:1,group:'G1',slot:'am',facilitator:'Soledad Díaz',area:'Á2'},
+  {id:'s3', date:'2026-07-06',cid:1,group:'G2',slot:'am',facilitator:'Yessika Santos',area:'Á3'},
+  {id:'s4', date:'2026-07-06',cid:1,group:'G3',slot:'pm',facilitator:'Soledad Díaz',area:'Á2'},
+  {id:'s5', date:'2026-07-06',cid:1,group:'G4',slot:'pm',facilitator:'Yessika Santos',area:'Á3'},
+  {id:'s6', date:'2026-07-07',cid:1,group:'G5',slot:'am',facilitator:'Deildre Barroso',area:'Á1'},
+  {id:'s7', date:'2026-07-07',cid:1,group:'G6',slot:'pm',facilitator:'Deildre Barroso',area:'Á1'},
+  {id:'s8', date:'2026-07-13',cid:1,group:'G7',slot:'am',facilitator:'Soledad Díaz',area:'Á2'},
+  {id:'s9', date:'2026-07-13',cid:1,group:'G8',slot:'am',facilitator:'Yessika Santos',area:'Á3'},
+  {id:'s10',date:'2026-07-13',cid:1,group:'G9',slot:'pm',facilitator:'Soledad Díaz',area:'Á2'},
+  {id:'s11',date:'2026-07-13',cid:1,group:'G10',slot:'pm',facilitator:'Yessika Santos',area:'Á3'},
+  {id:'s12',date:'2026-07-14',cid:1,group:'G11',slot:'am',facilitator:'Deildre Barroso',area:'Á1'},
+  {id:'s13',date:'2026-07-14',cid:1,group:'G12',slot:'pm',facilitator:'Deildre Barroso',area:'Á1'},
 
-  // Servicio al Cliente - 8 grupos + entrenamiento
+  // Servicio al Cliente - 8 grupos + entrenamiento con área
   {id:'s14',date:'2026-07-02',cid:2,group:'Entrenamiento de facilitadores',trainer:true,facilitator:'Equipo de Capacitación'},
   {id:'s15',date:'2026-07-03',cid:2,group:'G1',slot:'am',facilitator:'Sarah Ray'},
   {id:'s16',date:'2026-07-03',cid:2,group:'G2',slot:'pm',facilitator:'Sarah Ray'},
-  {id:'s17',date:'2026-07-20',cid:2,group:'G3',slot:'am',facilitator:'Yajaira Urdaneta - Área 1'},
-  {id:'s18',date:'2026-07-20',cid:2,group:'G4',slot:'pm',facilitator:'Carlos Carrión - Área 2'},
-  {id:'s19',date:'2026-07-21',cid:2,group:'G5',slot:'am',facilitator:'Cristian Díaz - Área 3'},
-  {id:'s20',date:'2026-07-21',cid:2,group:'G6',slot:'pm',facilitator:'Guillermo Dulce - Área 1'},
-  {id:'s21',date:'2026-07-27',cid:2,group:'G7',slot:'am',facilitator:'Oswaldo Saldivia - Área 2'},
-  {id:'s22',date:'2026-07-27',cid:2,group:'G8',slot:'pm',facilitator:'Gustavo Henriquez - Área 3'},
+  {id:'s17',date:'2026-07-20',cid:2,group:'G3',slot:'am',facilitator:'Yajaira Urdaneta',area:'Á1'},
+  {id:'s18',date:'2026-07-20',cid:2,group:'G4',slot:'pm',facilitator:'Carlos Carrión',area:'Á2'},
+  {id:'s19',date:'2026-07-21',cid:2,group:'G5',slot:'am',facilitator:'Cristian Díaz',area:'Á3'},
+  {id:'s20',date:'2026-07-21',cid:2,group:'G6',slot:'pm',facilitator:'Guillermo Dulce',area:'Á1'},
+  {id:'s21',date:'2026-07-27',cid:2,group:'G7',slot:'am',facilitator:'Oswaldo Saldivia',area:'Á2'},
+  {id:'s22',date:'2026-07-27',cid:2,group:'G8',slot:'pm',facilitator:'Gustavo Henriquez',area:'Á3'},
 
   // Orden y Limpieza - continuo desde 9/06
   {id:'s23',date:'2026-06-09',cid:3,group:'Formación en tiendas',continuous:true},
@@ -641,13 +641,45 @@ function renderCalendar(){
         // Spanning bar cell
         const bartd=document.createElement('td'); bartd.colSpan=endIdx-startIdx+1; bartd.className='data-cell';
         bartd.style.cssText='padding:5px;vertical-align:middle;';
-        const bar=document.createElement('div');
-        bar.style.cssText=`height:52px;background:${c.colorLt};border-left:4px solid ${c.color};border-radius:8px;display:flex;flex-direction:column;justify-content:center;padding:0 12px;cursor:pointer;transition:background .15s;`;
-        bar.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div><div style="font-size:9px;font-weight:700;color:${c.color};margin-top:2px">${c.continuous.label}</div>`;
-        bar.addEventListener('mouseenter',()=>bar.style.filter='brightness(.94)');
-        bar.addEventListener('mouseleave',()=>bar.style.filter='');
-        bar.onclick=()=>openContinuousModal(c);
-        bartd.appendChild(bar); tr.appendChild(bartd);
+        const bar2=document.createElement('div');
+        bar2.style.cssText=`height:52px;background:${c.colorLt};border-left:4px solid ${c.color};border-radius:8px;display:flex;flex-direction:column;justify-content:center;padding:0 12px;cursor:pointer;transition:background .15s;`;
+        if(c.id===3){
+          // Orden y Limpieza: show live progress bar inside
+          bar2.style.height='auto';
+          bar2.style.padding='7px 12px';
+          bar2.innerHTML=`
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div>
+              <div id="cal-ol-count" style="font-size:9px;font-weight:700;color:${c.color}">Cargando...</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-size:8px;font-weight:600;color:${c.color}">${c.continuous.label}</div>
+              <div id="cal-ol-pct" style="font-size:9px;font-weight:800;color:${c.color}"></div>
+            </div>
+            <div style="background:rgba(255,255,255,.6);border-radius:4px;height:7px;overflow:hidden">
+              <div id="cal-ol-bar" style="height:100%;background:${c.color};border-radius:4px;width:0%;transition:width .8s ease"></div>
+            </div>`;
+          // Sync with main progress bar values once loaded
+          setTimeout(()=>{
+            const src=document.getElementById('ol-count-label');
+            const srcPct=document.getElementById('ol-pct-label');
+            const srcBar=document.getElementById('ol-progress-bar');
+            if(src&&src.textContent&&src.textContent!=='Cargando...'){
+              const calCount=document.getElementById('cal-ol-count');
+              const calPct=document.getElementById('cal-ol-pct');
+              const calBar=document.getElementById('cal-ol-bar');
+              if(calCount) calCount.textContent=src.textContent;
+              if(calPct) calPct.textContent=srcPct?srcPct.textContent:'';
+              if(calBar&&srcBar) calBar.style.width=srcBar.style.width;
+            }
+          }, 3500);
+        } else {
+          bar2.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div><div style="font-size:8px;font-weight:700;color:${c.color};margin-top:2px">${c.continuous.label}</div>`;
+        }
+        bar2.addEventListener('mouseenter',()=>{ bar2.style.filter='brightness(.94)'; });
+        bar2.addEventListener('mouseleave',()=>{ bar2.style.filter=''; });
+        bar2.onclick=()=>openContinuousModal(c);
+        bartd.appendChild(bar2); tr.appendChild(bartd);
         // Empty cells after bar
         for(let i=endIdx+1;i<allDays.length;i++){
           const td=document.createElement('td'); td.className='data-cell';
@@ -682,8 +714,9 @@ function renderCalendar(){
             } else {
               // Normal session — single or part of multi
               const firstName = facLine ? (s.cid === 5 ? facLine : facLine.split(' ')[0]) : '';
+              const areaTag = s.area ? `<span style="background:${c.color};color:#fff;border-radius:3px;padding:0 4px;font-size:7px;font-weight:800;margin-left:2px">${s.area}</span>` : '';
               mini.style.cssText=`background:${c.colorLt};border-left:3px solid ${c.color};border-radius:7px;padding:5px 7px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;min-height:${sessArr.length===1?'56px':'24px'};`;
-              mini.innerHTML=`<div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap">${slotLabel?`<span style="background:${c.color};color:#fff;border-radius:3px;padding:0 4px;font-size:7px;font-weight:800">${slotLabel}</span>`:''}<span style="font-size:8px;font-weight:800;color:var(--navy)">${s.group}</span></div>${firstName?`<div style="font-size:7.5px;color:${c.color};font-weight:600;margin-top:1px;line-height:1.2;opacity:.9">${firstName}</div>`:''}`;
+              mini.innerHTML=`<div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap">${slotLabel?`<span style="color:${c.color};font-size:7px;font-weight:700;opacity:.7">${slotLabel}</span>`:''}<span style="font-size:8px;font-weight:800;color:var(--navy)">${s.group}</span>${areaTag}</div>${firstName?`<div style="font-size:7.5px;color:${c.color};font-weight:600;margin-top:1px;line-height:1.2;opacity:.9">${firstName}</div>`:''}`;
               mini.onclick=()=>openModal(s,day);
             }
             mini.addEventListener('mouseenter',()=>{mini.style.filter='brightness(.93)';});
@@ -887,6 +920,13 @@ async function fetchOLProgress(){
     bar.style.width  = pctVal + '%';
     lbl.textContent  = count + ' / ' + TOTAL + ' formados';
     pctEl.textContent = pctVal + '% completado';
+    // Also update calendar bar if present
+    const calBar=document.getElementById('cal-ol-bar');
+    const calCount=document.getElementById('cal-ol-count');
+    const calPct=document.getElementById('cal-ol-pct');
+    if(calBar) calBar.style.width=pctVal+'%';
+    if(calCount) calCount.textContent=count+' / '+TOTAL+' formados';
+    if(calPct) calPct.textContent=pctVal+'%';
 
   } catch(e) {
     // Fallback: count RESP_DATA from embedded evaluation dashboard via no-cors iframe trick won't work
