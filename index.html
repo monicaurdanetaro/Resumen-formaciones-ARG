@@ -288,12 +288,10 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
         <!-- PROGRESS BAR PILARES -->
         <div id="pi-progress-wrap" style="margin:10px 0 6px;background:#f5eefa;border-radius:8px;padding:10px 12px;border:1px solid #d7b8f0">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:10px;font-weight:800;color:var(--c4);text-transform:uppercase;letter-spacing:.06em">Progreso de formación</span>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span id="pi-count-label" style="font-size:11px;font-weight:800;color:var(--c4)">Cargando...</span>
-              <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c4);padding:0;line-height:1" title="Actualizar">↻</button>
-            </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c4);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="pi-count-label" style="font-size:11px;font-weight:800;color:var(--c4);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c4);padding:0;line-height:1" title="Actualizar">↻</button>
           </div>
           <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #d7b8f0">
             <div id="pi-progress-bar" style="height:100%;background:var(--c4);border-radius:6px;width:0%;transition:width .8s ease"></div>
