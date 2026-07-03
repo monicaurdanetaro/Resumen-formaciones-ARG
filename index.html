@@ -313,16 +313,14 @@ body.edit-mode .row-label-col:hover { background:#fff3e8 !important; }
       <div class="cap-card" style="border-top-color:var(--c3)">
         <div class="cap-population" style="color:var(--c3)">Supervisores y toda la tienda</div>
         <div class="cap-name">Orden y Limpieza · Piso de Ventas</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9 Jun – 31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 361 colaboradores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9 Jun – 31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" data-ol-total style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 369 colaboradores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Estándares de fachada y piso · Método FIFO/PEPS · Control de vencidos · Surtido y planograma</div>
         <!-- PROGRESS BAR -->
         <div id="ol-progress-wrap" style="margin:10px 0 6px;background:#fdecea;border-radius:8px;padding:10px 12px;border:1px solid #f5b7b1">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.06em">Progreso de formación</span>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3)">Cargando...</span>
-              <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c3);padding:0;line-height:1" title="Actualizar">↻</button>
-            </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c3);padding:0;line-height:1" title="Actualizar">↻</button>
           </div>
           <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #f5b7b1">
             <div id="ol-progress-bar" style="height:100%;background:var(--c3);border-radius:6px;width:0%;transition:width .8s ease"></div>
@@ -460,7 +458,7 @@ const COURSES = [
     link:'https://docs.google.com/document/d/1SdJg00FOlAJ58igMBFakVQJWFvpHOZyBtEDJOP5AI_8/edit?tab=t.0',
     facilitators:'<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span>' },
   { id:3, name:'Orden y Limpieza · Piso de Ventas', short:'Orden y Limpieza', color:'#e74c3c', colorLt:'#fdecea',
-    population:'Supervisores y toda la tienda', duration:'1 hora', total:361,
+    population:'Supervisores y toda la tienda', duration:'1 hora', total:369,
     responsible:'Karol Brinkmann',
     continuous:{ from:'2026-06-09', to:'2026-07-31', label:'Formación en tiendas' },
     asyncProgram:{ name:'Programa Manejo de Planogramas', from:'2026-06-09', to:'2026-07-31', link:'https://academia.farmatodo.com' },
@@ -930,7 +928,8 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); clo
 const _API_PROG = 'https://script.google.com/macros/s/AKfycbwMoGhL_56BE90DbpGrV5qa1fZQgKgYF0TMZbORFAe40Vi3Jgh0f4bBBkHoGcUQR2_6/exec';
 const _GID_OL   = '1142498963';
 const _GID_PI   = '1095051768';
-const _TOTAL_OL = 361;
+const _GID_NOM  = '1331171004';
+let _TOTAL_OL = 369;  // default, overridden live from nómina sheet
 const _TOTAL_PI = 72;
 
 function _parseRows(txt) {
@@ -990,19 +989,45 @@ function _setErr(lblId, pctId) {
 
 async function fetchProgress() {
   try {
-    const [r1,r2] = await Promise.all([
-      fetch(`${_API_PROG}?gid=${_GID_OL}`,{cache:'no-store'}),
-      fetch(`${_API_PROG}?gid=${_GID_PI}`,{cache:'no-store'})
+    const [r1, r2, rN] = await Promise.all([
+      fetch(`${_API_PROG}?gid=${_GID_OL}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_PI}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_NOM}`, {cache:'no-store'})
     ]);
-    if(r1.ok){
-      const t1=await r1.text();
-      if(t1&&t1.trim().length>10) _updateBar('ol-progress-bar','ol-count-label','ol-pct-label',_dedup(_parseRows(t1),15,16),_TOTAL_OL);
+
+    // Get live total from nómina (count non-empty rows skipping headers)
+    if(rN.ok) {
+      const tN = await rN.text();
+      if(tN && tN.trim().length > 10) {
+        const nomRows = _parseRows(tN);  // already skips 1 header row
+        // Count unique DNIs (col 2 in nómina sheet)
+        const dniSet = new Set();
+        nomRows.forEach(r => {
+          const dni = (r[2]||'').toString().replace(/\.0$/,'').trim();
+          if(dni && dni.length > 3) dniSet.add(dni);
+        });
+        if(dniSet.size > 0) {
+          _TOTAL_OL = dniSet.size;
+          // Update card tag
+          const tag = document.querySelector('.cap-tag[data-ol-total]');
+          if(tag) tag.textContent = '👥 ' + _TOTAL_OL + ' colaboradores';
+        }
+      }
+    }
+
+    if(r1.ok) {
+      const t1 = await r1.text();
+      if(t1 && t1.trim().length > 10)
+        _updateBar('ol-progress-bar','ol-count-label','ol-pct-label', _dedup(_parseRows(t1),15,16), _TOTAL_OL);
     } else _setErr('ol-count-label','ol-pct-label');
-    if(r2.ok){
-      const t2=await r2.text();
-      if(t2&&t2.trim().length>10) _updateBar('pi-progress-bar','pi-count-label','pi-pct-label',_dedup(_parseRows(t2),3,4),_TOTAL_PI);
+
+    if(r2.ok) {
+      const t2 = await r2.text();
+      if(t2 && t2.trim().length > 10)
+        _updateBar('pi-progress-bar','pi-count-label','pi-pct-label', _dedup(_parseRows(t2),3,4), _TOTAL_PI);
     } else _setErr('pi-count-label','pi-pct-label');
-  } catch(e){
+
+  } catch(e) {
     _setErr('ol-count-label','ol-pct-label');
     _setErr('pi-count-label','pi-pct-label');
   }
