@@ -319,7 +319,10 @@ body.edit-mode .row-label-col:hover { background:#fff3e8 !important; }
         <div id="ol-progress-wrap" style="margin:10px 0 6px;background:#fdecea;border-radius:8px;padding:10px 12px;border:1px solid #f5b7b1">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.06em">Progreso de formación</span>
-            <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3)">Cargando...</span>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3)">Cargando...</span>
+              <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c3);padding:0;line-height:1" title="Actualizar">↻</button>
+            </div>
           </div>
           <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #f5b7b1">
             <div id="ol-progress-bar" style="height:100%;background:var(--c3);border-radius:6px;width:0%;transition:width .8s ease"></div>
@@ -337,6 +340,23 @@ body.edit-mode .row-label-col:hover { background:#fff3e8 !important; }
         <div class="cap-name">Pilares de la Operación</div>
         <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">1–31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
+        <!-- PROGRESS BAR PILARES -->
+        <div id="pi-progress-wrap" style="margin:10px 0 6px;background:#f5eefa;border-radius:8px;padding:10px 12px;border:1px solid #d7b8f0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c4);text-transform:uppercase;letter-spacing:.06em">Progreso de formación</span>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span id="pi-count-label" style="font-size:11px;font-weight:800;color:var(--c4)">Cargando...</span>
+              <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c4);padding:0;line-height:1" title="Actualizar">↻</button>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #d7b8f0">
+            <div id="pi-progress-bar" style="height:100%;background:var(--c4);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="pi-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="https://monicaurdanetaro.github.io/Evaluaci-n-orden-y-limpieza-y-piso-de-ventas/" target="_blank" rel="noopener" style="font-size:9px;color:var(--c4);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+          </div>
+        </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
 
@@ -665,7 +685,6 @@ function renderCalendar(){
             <div style="background:rgba(255,255,255,.6);border-radius:4px;height:7px;overflow:hidden">
               <div id="cal-ol-bar" style="height:100%;background:${c.color};border-radius:4px;width:0%;transition:width .8s ease"></div>
             </div>`;
-          // Sync with main progress bar values once loaded
           setTimeout(()=>{
             const src=document.getElementById('ol-count-label');
             const srcPct=document.getElementById('ol-pct-label');
@@ -674,6 +693,35 @@ function renderCalendar(){
               const calCount=document.getElementById('cal-ol-count');
               const calPct=document.getElementById('cal-ol-pct');
               const calBar=document.getElementById('cal-ol-bar');
+              if(calCount) calCount.textContent=src.textContent;
+              if(calPct) calPct.textContent=srcPct?srcPct.textContent:'';
+              if(calBar&&srcBar) calBar.style.width=srcBar.style.width;
+            }
+          }, 3500);
+        } else if(c.id===4){
+          // Pilares de la Operación: show live progress bar inside
+          bar2.style.height='auto';
+          bar2.style.padding='7px 12px';
+          bar2.innerHTML=`
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div>
+              <div id="cal-pi-count" style="font-size:9px;font-weight:700;color:${c.color}">Cargando...</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-size:8px;font-weight:600;color:${c.color}">${c.continuous.label}</div>
+              <div id="cal-pi-pct" style="font-size:9px;font-weight:800;color:${c.color}"></div>
+            </div>
+            <div style="background:rgba(255,255,255,.6);border-radius:4px;height:7px;overflow:hidden">
+              <div id="cal-pi-bar" style="height:100%;background:${c.color};border-radius:4px;width:0%;transition:width .8s ease"></div>
+            </div>`;
+          setTimeout(()=>{
+            const src=document.getElementById('pi-count-label');
+            const srcPct=document.getElementById('pi-pct-label');
+            const srcBar=document.getElementById('pi-progress-bar');
+            if(src&&src.textContent&&src.textContent!=='Cargando...'){
+              const calCount=document.getElementById('cal-pi-count');
+              const calPct=document.getElementById('cal-pi-pct');
+              const calBar=document.getElementById('cal-pi-bar');
               if(calCount) calCount.textContent=src.textContent;
               if(calPct) calPct.textContent=srcPct?srcPct.textContent:'';
               if(calBar&&srcBar) calBar.style.width=srcBar.style.width;
@@ -878,76 +926,89 @@ function overlayClick(e){ if(e.target===document.getElementById('overlay'))close
 function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.getElementById('mLink').innerHTML='📁 Ver archivo de contenido →'; }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeEditModal && closeEditModal(); } });
 
-// ── LIVE PROGRESS BAR — Orden y Limpieza ─────────────────────────
-async function fetchOLProgress(){
-  const TOTAL  = 361;
-  const bar    = document.getElementById('ol-progress-bar');
-  const lbl    = document.getElementById('ol-count-label');
-  const pctEl  = document.getElementById('ol-pct-label');
-  if(!bar) return;
+// ── LIVE PROGRESS BARS — Orden y Limpieza + Pilares ─────────────
+const _API_PROG = 'https://script.google.com/macros/s/AKfycbwMoGhL_56BE90DbpGrV5qa1fZQgKgYF0TMZbORFAe40Vi3Jgh0f4bBBkHoGcUQR2_6/exec';
+const _GID_OL   = '1142498963';
+const _GID_PI   = '1095051768';
+const _TOTAL_OL = 361;
+const _TOTAL_PI = 72;
 
-  // Same Google Apps Script API used by the evaluation dashboard
-  const API     = 'https://script.google.com/macros/s/AKfycbwMoGhL_56BE90DbpGrV5qa1fZQgKgYF0TMZbORFAe40Vi3Jgh0f4bBBkHoGcUQR2_6/exec';
-  const GID     = '1142498963';
+function _parseRows(txt) {
+  return txt.split('\n').map(line=>{
+    const cols=[]; let cur='',q=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){q=!q;}else if(c===','&&!q){cols.push(cur.trim());cur='';}else cur+=c;
+    }
+    cols.push(cur.trim()); return cols;
+  }).filter(r=>r[0]&&r[2]).slice(1);
+}
 
-  try {
-    const resp = await fetch(`${API}?gid=${GID}`, {cache:'no-store'});
-    if(!resp.ok) throw new Error('HTTP '+resp.status);
-    const txt = await resp.text();
-    if(!txt || txt.trim().length < 10) throw new Error('empty');
+function _dedup(rows, dniIdx, storeIdx) {
+  const map = new Map();
+  rows.forEach(r=>{
+    const dni=(r[dniIdx]||'').toString().trim();
+    const store=(r[storeIdx]||'').toString().trim().toUpperCase();
+    const scoreStr=(r[1]||'').toString().match(/^(\d+)/);
+    const score=scoreStr?parseInt(scoreStr[1]):0;
+    const key=(dni&&dni.length>4)?(dni+'||'+store):((r[2]||'').trim().toUpperCase()+'||'+store);
+    if(!map.has(key)||score>(parseInt((map.get(key)[1]||'').match(/^(\d+)/)?.[1])||0))map.set(key,r);
+  });
+  return map.size;
+}
 
-    // Parse CSV
-    const rows = txt.split('\n').map(line=>{
-      const cols=[]; let cur='',q=false;
-      for(let i=0;i<line.length;i++){
-        const c=line[i];
-        if(c==='"'){q=!q;}
-        else if(c===','&&!q){cols.push(cur.trim());cur='';}
-        else cur+=c;
-      }
-      cols.push(cur.trim());
-      return cols;
-    }).filter(r=>r[0]&&r[2]); // skip empty rows
-
-    const data = rows.slice(1); // skip header
-
-    // Deduplicate: by DNI (col 15) + store (col 16), keep highest score
-    const map = new Map();
-    data.forEach(r=>{
-      const dni   = (r[15]||'').toString().trim();
-      const store = (r[16]||'').toString().trim().toUpperCase();
-      const scoreStr = (r[1]||'').toString().match(/^(\d+)/);
-      const score = scoreStr ? parseInt(scoreStr[1]) : 0;
-      const key   = (dni && dni.length > 4) ? (dni+'||'+store) : ((r[2]||'').trim().toUpperCase()+'||'+store);
-      if(!map.has(key) || score > (parseInt((map.get(key)[1]||'').match(/^(\d+)/)?.[1])||0)){
-        map.set(key, r);
-      }
-    });
-
-    const count  = map.size;
-    const pctVal = Math.min(100, Math.round(count / TOTAL * 100));
-    bar.style.width  = pctVal + '%';
-    lbl.textContent  = count + ' / ' + TOTAL + ' formados';
-    pctEl.textContent = pctVal + '% completado';
-    // Also update calendar bar if present
-    const calBar=document.getElementById('cal-ol-bar');
-    const calCount=document.getElementById('cal-ol-count');
-    const calPct=document.getElementById('cal-ol-pct');
-    if(calBar) calBar.style.width=pctVal+'%';
-    if(calCount) calCount.textContent=count+' / '+TOTAL+' formados';
-    if(calPct) calPct.textContent=pctVal+'%';
-
-  } catch(e) {
-    // Fallback: count RESP_DATA from embedded evaluation dashboard via no-cors iframe trick won't work
-    // Show static message with link
-    const l = document.getElementById('ol-count-label');
-    const p = document.getElementById('ol-pct-label');
-    if(l) l.textContent = 'Ver dashboard →';
-    if(p) p.textContent = 'Haz clic para ver progreso';
+function _updateBar(barId, lblId, pctId, count, total) {
+  const pct=Math.min(100,Math.round(count/total*100));
+  const bar=document.getElementById(barId);
+  const lbl=document.getElementById(lblId);
+  const pctEl=document.getElementById(pctId);
+  if(bar) bar.style.width=pct+'%';
+  if(lbl) lbl.textContent=count+' / '+total+' formados';
+  if(pctEl) pctEl.textContent=pct+'% completado';
+  if(barId==='ol-progress-bar'){
+    const cb=document.getElementById('cal-ol-bar');
+    const cc=document.getElementById('cal-ol-count');
+    const cp=document.getElementById('cal-ol-pct');
+    if(cb) cb.style.width=pct+'%';
+    if(cc) cc.textContent=count+' / '+total+' formados';
+    if(cp) cp.textContent=pct+'%';
+  }
+  if(barId==='pi-progress-bar'){
+    const cb=document.getElementById('cal-pi-bar');
+    const cc=document.getElementById('cal-pi-count');
+    const cp=document.getElementById('cal-pi-pct');
+    if(cb) cb.style.width=pct+'%';
+    if(cc) cc.textContent=count+' / '+total+' formados';
+    if(cp) cp.textContent=pct+'%';
   }
 }
-fetchOLProgress();
-setInterval(fetchOLProgress, 300000);
+
+function _setErr(lblId, pctId) {
+  const l=document.getElementById(lblId); const p=document.getElementById(pctId);
+  if(l) l.textContent='Ver dashboard →'; if(p) p.textContent='No disponible';
+}
+
+async function fetchProgress() {
+  try {
+    const [r1,r2] = await Promise.all([
+      fetch(`${_API_PROG}?gid=${_GID_OL}`,{cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_PI}`,{cache:'no-store'})
+    ]);
+    if(r1.ok){
+      const t1=await r1.text();
+      if(t1&&t1.trim().length>10) _updateBar('ol-progress-bar','ol-count-label','ol-pct-label',_dedup(_parseRows(t1),15,16),_TOTAL_OL);
+    } else _setErr('ol-count-label','ol-pct-label');
+    if(r2.ok){
+      const t2=await r2.text();
+      if(t2&&t2.trim().length>10) _updateBar('pi-progress-bar','pi-count-label','pi-pct-label',_dedup(_parseRows(t2),3,4),_TOTAL_PI);
+    } else _setErr('pi-count-label','pi-pct-label');
+  } catch(e){
+    _setErr('ol-count-label','ol-pct-label');
+    _setErr('pi-count-label','pi-pct-label');
+  }
+}
+fetchProgress();
+setInterval(fetchProgress, 300000);
 </script>
 <button class="edit-fab" id="editFab" onclick="toggleEditMode()">✏️ Editar cronograma</button>
 <div class="saved-toast" id="savedToast">✓ Guardado</div>
