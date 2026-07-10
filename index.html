@@ -209,8 +209,36 @@ thead th.week-even .date-box { background:#eef2fb; }
 </head>
 <body>
 
+<!-- ══ VISTA 0: PORTADA ══ -->
+<div id="home" class="view active" style="background:var(--navy);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden">
+  <div style="content:'';position:absolute;top:0;right:-140px;bottom:0;width:480px;background:linear-gradient(135deg,transparent 40%,rgba(59,95,226,0.18) 40%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue2),var(--sky),var(--gold))"></div>
+  <div style="max-width:920px;width:100%;text-align:center;position:relative;z-index:1">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:24px">
+      <svg width="46" height="30" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" style="border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><rect width="900" height="200" y="0" fill="#74acdf"/><rect width="900" height="200" y="200" fill="#fff"/><rect width="900" height="200" y="400" fill="#74acdf"/><g transform="translate(450,300)"><circle r="55" fill="#F6B40E" stroke="#85340A" stroke-width="5"/><circle r="36" fill="#F6B40E"/><g stroke="#85340A" stroke-width="5"><line x1="0" y1="-67" x2="0" y2="-82"/><line x1="0" y1="67" x2="0" y2="82"/><line x1="-67" y1="0" x2="-82" y2="0"/><line x1="67" y1="0" x2="82" y2="0"/><line x1="-47" y1="-47" x2="-58" y2="-58"/><line x1="47" y1="-47" x2="58" y2="-58"/><line x1="-47" y1="47" x2="-58" y2="58"/><line x1="47" y1="47" x2="58" y2="58"/><line x1="-25" y1="-64" x2="-31" y2="-77"/><line x1="25" y1="-64" x2="31" y2="-77"/><line x1="-64" y1="-25" x2="-77" y2="-31"/><line x1="64" y1="-25" x2="77" y2="-31"/><line x1="-25" y1="64" x2="-31" y2="77"/><line x1="25" y1="64" x2="31" y2="77"/><line x1="-64" y1="25" x2="-77" y2="31"/><line x1="64" y1="25" x2="77" y2="31"/></g><ellipse cx="0" cy="-8" rx="12" ry="16" fill="#85340A"/><circle cx="-8" cy="-3" r="4" fill="#85340A"/><circle cx="8" cy="-3" r="4" fill="#85340A"/><path d="M -12 5 Q 0 18 12 5" stroke="#85340A" stroke-width="3" fill="none"/></g></svg>
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--sky);background:rgba(116,172,223,0.15);border:1px solid rgba(116,172,223,0.3);padding:4px 12px;border-radius:100px">Farmatodo Argentina · 2026</span>
+    </div>
+    <h1 style="font-size:clamp(26px,4vw,42px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:12px">Formaciones <span style="color:var(--sky)">Argentina</span></h1>
+    <p style="font-size:15px;font-weight:500;color:rgba(255,255,255,0.55);margin-bottom:48px">Elegí qué dashboard querés ver</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" id="homeCards">
+      <a href="#" onclick="goToPlanning();return false;" style="background:#fff;border-radius:18px;padding:32px 28px;text-align:left;text-decoration:none;display:flex;flex-direction:column;border-top:4px solid var(--blue2);transition:transform .2s,box-shadow .2s">
+        <div style="font-size:32px;margin-bottom:16px;line-height:1">📅</div>
+        <div style="font-size:19px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.25">Planificación de Formaciones</div>
+        <div style="font-size:13px;font-weight:500;color:var(--muted);line-height:1.55;flex:1;margin-bottom:20px">Resumen ejecutivo y cronograma detallado de las 6 formaciones planificadas para Junio–Julio 2026: población, duración, facilitadores y calendario por grupo.</div>
+        <span style="font-size:13px;font-weight:800;color:var(--blue2)">Ver planificación →</span>
+      </a>
+      <a href="evaluaciones.html" style="background:#fff;border-radius:18px;padding:32px 28px;text-align:left;text-decoration:none;display:flex;flex-direction:column;border-top:4px solid #e74c3c;transition:transform .2s,box-shadow .2s">
+        <div style="font-size:32px;margin-bottom:16px;line-height:1">📊</div>
+        <div style="font-size:19px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.25">Dashboard de Capacitaciones</div>
+        <div style="font-size:13px;font-weight:500;color:var(--muted);line-height:1.55;flex:1;margin-bottom:20px">Estatus de participación en vivo por formación: nómina, respuestas, notas y % de aprobación, con detalle por tienda y por área.</div>
+        <span style="font-size:13px;font-weight:800;color:#e74c3c">Ver dashboard →</span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- ══ VISTA 1: RESUMEN EJECUTIVO ══ -->
-<div id="exec" class="view active">
+<div id="exec" class="view">
 
   <div class="hero-ex">
     <div class="hero-flag">
@@ -275,7 +303,7 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
           <div style="margin-top:5px;display:flex;justify-content:space-between">
             <span id="ol-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
-            <a href="https://monicaurdanetaro.github.io/Evaluaci-n-orden-y-limpieza-y-piso-de-ventas/" target="_blank" rel="noopener" style="font-size:9px;color:var(--c3);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c3);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
@@ -298,7 +326,7 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
           <div style="margin-top:5px;display:flex;justify-content:space-between">
             <span id="pi-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
-            <a href="https://monicaurdanetaro.github.io/Evaluaci-n-orden-y-limpieza-y-piso-de-ventas/" target="_blank" rel="noopener" style="font-size:9px;color:var(--c4);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c4);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
@@ -355,7 +383,10 @@ thead th.week-even .date-box { background:#eef2fb; }
 </div>
 
 <!-- ══ FAB ══ -->
-<button class="fab" id="fab" onclick="switchView()">
+<a href="#" id="homeBtn" onclick="goHome();return false;" style="position:fixed;bottom:28px;left:28px;z-index:999;background:#fff;color:#0f1e4a;border:1.5px solid #d0d9ee;border-radius:100px;padding:13px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(15,30,74,0.12);text-decoration:none;transition:all .2s">
+  <span>←</span><span>Inicio</span>
+</a>
+<button class="fab" id="fab" onclick="switchView()" style="display:none">
   <span class="fab-icon">📅</span>
   <span id="fabLabel">Ver cronograma detallado</span>
   <span class="fab-arrow">→</span>
@@ -363,7 +394,27 @@ thead th.week-even .date-box { background:#eef2fb; }
 
 <script>
 // ── VIEW SWITCHING
-let currentView = 'exec';
+let currentView = 'home';
+
+function goToPlanning(){
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('exec').classList.add('active');
+  document.getElementById('fab').style.display='flex';
+  document.getElementById('homeBtn').style.display='flex';
+  currentView = 'exec';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goHome(){
+  document.getElementById('exec').classList.remove('active');
+  document.getElementById('detail').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+  document.getElementById('fab').style.display='none';
+  document.getElementById('homeBtn').style.display='none';
+  currentView = 'home';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 function switchView(){
   if(currentView === 'exec'){
     document.getElementById('exec').classList.remove('active');
@@ -982,9 +1033,5 @@ fetchProgress();
 setInterval(fetchProgress, 300000);
 </script>
 
-
-
-
-
-</div>
-div>
+</body>
+</html>
