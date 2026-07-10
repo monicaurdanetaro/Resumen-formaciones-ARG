@@ -312,7 +312,7 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c4)">
         <div class="cap-population" style="color:var(--c4)">Supervisores</div>
         <div class="cap-name">Pilares de la Operación</div>
-        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">15–16 Jul</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">13–17 Jul</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
         <!-- PROGRESS BAR PILARES -->
         <div id="pi-progress-wrap" style="margin:10px 0 6px;background:#f5eefa;border-radius:8px;padding:10px 12px;border:1px solid #d7b8f0">
@@ -335,7 +335,7 @@ thead th.week-even .date-box { background:#eef2fb; }
       <div class="cap-card" style="border-top-color:var(--c5)">
         <div class="cap-population" style="color:var(--c5)">Supervisores</div>
         <div class="cap-name">Conteo y Ajuste de Inventario</div>
-        <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">22–23 Jul</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
+        <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">20–24 Jul</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sistema SIM · Conteos cíclicos y Ad Hoc · Autorización de ajustes · Prevención de descuadre</div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
@@ -440,15 +440,15 @@ const COURSES = [
   { id:4, name:'Pilares de la Operación', short:'Pilares Op.', color:'#8e44ad', colorLt:'#f5eefa',
     population:'Supervisores', duration:'1 hora', total:72,
     responsible:'Karol Brinkmann',
-    continuous:{ from:'2026-07-15', to:'2026-07-16', label:'1 grupo por área · según disponibilidad del gerente' },
-    asyncProgram:{ name:'Programa Pilares de la Operación', from:'2026-07-15', to:'2026-07-16', link:'https://academia.farmatodo.com' },
+    continuous:{ from:'2026-07-13', to:'2026-07-17', label:'1 grupo por área, según disponibilidad del gerente de área' },
+    asyncProgram:{ name:'Programa Pilares de la Operación', from:'2026-07-13', to:'2026-07-17', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1OQAMR61w9wkcc1pHOluiWblImdW8Ysdx_dE3bqv9kxQ/edit?tab=t.0',
     facilitators:'Área 1: Miguel González · Área 2: Karol Brinkmann · Área 3: Eduardo Páez' },
   { id:5, name:'Conteo y Ajuste de Inventario', short:'Inventario', color:'#16a085', colorLt:'#e8f8f5',
     population:'Supervisores', duration:'3 horas', total:72, displaySessions:3,
     responsible:'Karol Brinkmann',
-    continuous:{ from:'2026-07-22', to:'2026-07-23', label:'1 grupo por área · según disponibilidad del gerente' },
-    asyncProgram:{ name:'Programa Manejo de Inventarios', from:'2026-07-22', to:'2026-07-23', link:'https://academia.farmatodo.com' },
+    continuous:{ from:'2026-07-20', to:'2026-07-24', label:'1 grupo por área, según disponibilidad del gerente de área' },
+    asyncProgram:{ name:'Programa Manejo de Inventarios', from:'2026-07-20', to:'2026-07-24', link:'https://academia.farmatodo.com' },
     link:'https://docs.google.com/document/d/1bF0szNOUwmYi4V-oC51TZ_v08tZnVkufIbQuxpeBs3o/edit?tab=t.0',
     facilitators:'Área 1: Miguel González · Área 2: Karol Brinkmann · Área 3: Eduardo Páez' },
 ];
@@ -634,67 +634,7 @@ function renderCalendar(){
         bartd.style.cssText='padding:5px;vertical-align:middle;';
         const bar2=document.createElement('div');
         bar2.style.cssText=`height:52px;background:${c.colorLt};border-left:4px solid ${c.color};border-radius:8px;display:flex;flex-direction:column;justify-content:center;padding:0 12px;cursor:pointer;transition:background .15s;`;
-        if(c.id===3){
-          // Orden y Limpieza: show live progress bar inside
-          bar2.style.height='auto';
-          bar2.style.padding='7px 12px';
-          bar2.innerHTML=`
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-              <div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div>
-              <div id="cal-ol-count" style="font-size:9px;font-weight:700;color:${c.color}">Cargando...</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="font-size:8px;font-weight:600;color:${c.color}">${c.continuous.label}</div>
-              <div id="cal-ol-pct" style="font-size:9px;font-weight:800;color:${c.color}"></div>
-            </div>
-            <div style="background:rgba(255,255,255,.6);border-radius:4px;height:7px;overflow:hidden">
-              <div id="cal-ol-bar" style="height:100%;background:${c.color};border-radius:4px;width:0%;transition:width .8s ease"></div>
-            </div>`;
-          setTimeout(()=>{
-            const src=document.getElementById('ol-count-label');
-            const srcPct=document.getElementById('ol-pct-label');
-            const srcBar=document.getElementById('ol-progress-bar');
-            if(src&&src.textContent&&src.textContent!=='Cargando...'){
-              const calCount=document.getElementById('cal-ol-count');
-              const calPct=document.getElementById('cal-ol-pct');
-              const calBar=document.getElementById('cal-ol-bar');
-              if(calCount) calCount.textContent=src.textContent;
-              if(calPct) calPct.textContent=srcPct?srcPct.textContent:'';
-              if(calBar&&srcBar) calBar.style.width=srcBar.style.width;
-            }
-          }, 3500);
-        } else if(c.id===4){
-          // Pilares de la Operación: show live progress bar inside
-          bar2.style.height='auto';
-          bar2.style.padding='7px 12px';
-          bar2.innerHTML=`
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-              <div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div>
-              <div id="cal-pi-count" style="font-size:9px;font-weight:700;color:${c.color}">Cargando...</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="font-size:8px;font-weight:600;color:${c.color}">${c.continuous.label}</div>
-              <div id="cal-pi-pct" style="font-size:9px;font-weight:800;color:${c.color}"></div>
-            </div>
-            <div style="background:rgba(255,255,255,.6);border-radius:4px;height:7px;overflow:hidden">
-              <div id="cal-pi-bar" style="height:100%;background:${c.color};border-radius:4px;width:0%;transition:width .8s ease"></div>
-            </div>`;
-          setTimeout(()=>{
-            const src=document.getElementById('pi-count-label');
-            const srcPct=document.getElementById('pi-pct-label');
-            const srcBar=document.getElementById('pi-progress-bar');
-            if(src&&src.textContent&&src.textContent!=='Cargando...'){
-              const calCount=document.getElementById('cal-pi-count');
-              const calPct=document.getElementById('cal-pi-pct');
-              const calBar=document.getElementById('cal-pi-bar');
-              if(calCount) calCount.textContent=src.textContent;
-              if(calPct) calPct.textContent=srcPct?srcPct.textContent:'';
-              if(calBar&&srcBar) calBar.style.width=srcBar.style.width;
-            }
-          }, 3500);
-        } else {
-          bar2.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div><div style="font-size:8px;font-weight:700;color:${c.color};margin-top:2px">${c.continuous.label}</div>`;
-        }
+        bar2.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--navy)">${c.short}</div><div style="font-size:8px;font-weight:700;color:${c.color};margin-top:2px">${c.continuous.label}</div>`;
         bar2.addEventListener('mouseenter',()=>{ bar2.style.filter='brightness(.94)'; });
         bar2.addEventListener('mouseleave',()=>{ bar2.style.filter=''; });
         bar2.onclick=()=>openContinuousModal(c);
@@ -931,22 +871,6 @@ function _updateBar(barId, lblId, pctId, count, total) {
   if(bar) bar.style.width=pct+'%';
   if(lbl) lbl.textContent=count+' / '+total+' formados';
   if(pctEl) pctEl.textContent=pct+'% completado';
-  if(barId==='ol-progress-bar'){
-    const cb=document.getElementById('cal-ol-bar');
-    const cc=document.getElementById('cal-ol-count');
-    const cp=document.getElementById('cal-ol-pct');
-    if(cb) cb.style.width=pct+'%';
-    if(cc) cc.textContent=count+' / '+total+' formados';
-    if(cp) cp.textContent=pct+'%';
-  }
-  if(barId==='pi-progress-bar'){
-    const cb=document.getElementById('cal-pi-bar');
-    const cc=document.getElementById('cal-pi-count');
-    const cp=document.getElementById('cal-pi-pct');
-    if(cb) cb.style.width=pct+'%';
-    if(cc) cc.textContent=count+' / '+total+' formados';
-    if(cp) cp.textContent=pct+'%';
-  }
 }
 
 function _setErr(lblId, pctId) {
