@@ -247,12 +247,6 @@ thead th.week-even .date-box { background:#eef2fb; }
     </div>
     <h1 class="hero-title-ex">Planificación de Formaciones<br><span>Junio – Agosto 2026</span></h1>
     <p class="hero-sub-ex"></p>
-    <div class="hero-kpis">
-      <div class="hero-kpi"><div class="hero-kpi-val">6</div><div class="hero-kpi-lbl">Formaciones</div></div>
-      <div class="hero-kpi"><div class="hero-kpi-val">3</div><div class="hero-kpi-lbl">Poblaciones cubiertas</div></div>
-      <div class="hero-kpi"><div class="hero-kpi-val">8 <span>sem.</span></div><div class="hero-kpi-lbl">Semanas de ejecución</div></div>
-      <div class="hero-kpi"><div class="hero-kpi-val">31</div><div class="hero-kpi-lbl">Tiendas</div></div>
-    </div>
   </div>
 
   <div class="content-ex">
@@ -310,7 +304,6 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Ago</span><span class="cap-tag">8 grupos · 10 c/u</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 80 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
-        <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">📌 12 ago: entrenamiento de facilitadores · 13 ago: G1 y G2 (Equipo de Capacitación) · Desde el 17 ago: gerentes de tienda por área</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
         <div id="cond-progress-wrap" style="margin:10px 0 6px;background:#fef3e7;border-radius:8px;padding:10px 12px;border:1px solid #f8d4a8">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
@@ -667,7 +660,7 @@ function renderCalendar(){
     visibleCourses.forEach(c=>{
       const tr=document.createElement('tr');
       const ltd=document.createElement('td'); ltd.className='row-label-col';
-      if(c.asyncProgram) ltd.rowSpan=2;
+      // (ya no usamos rowSpan; cada fila async agrega su propia celda de label)
       ltd.innerHTML=`<div class="row-label-inner"><div class="row-label-bar" style="background:${c.color}"></div><div><div class="row-label-name">${c.short}</div><div class="row-label-pop">${c.population}</div></div></div>`;
       tr.appendChild(ltd);
 
@@ -764,8 +757,11 @@ function renderCalendar(){
         if(startIdx>=0 && endIdx>=0){
           const atr=document.createElement('tr');
 
-          // NO label cell here — covered by rowspan=2 on the presencial label
-
+          // Celda de label propia (mismo ancho/fondo que la fila principal, sin texto ni borde inferior)
+          const alabel=document.createElement('td');
+          alabel.className='row-label-col';
+          alabel.style.borderBottom='none';
+          atr.appendChild(alabel);
           // Cells before the bar (empty spacers)
           for(let i=0; i<startIdx; i++){
             const spacer=document.createElement('td');
