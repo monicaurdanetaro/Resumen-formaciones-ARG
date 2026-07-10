@@ -393,6 +393,7 @@ let currentView = 'home';
 
 function goToPlanning(){
   document.getElementById('home').classList.remove('active');
+  document.getElementById('home').style.display='none';
   document.getElementById('exec').style.display='block';
   document.getElementById('detail').style.display='block';
   document.getElementById('homeBtn').style.display='flex';
@@ -404,6 +405,7 @@ function goToPlanning(){
 function goHome(){
   document.getElementById('exec').style.display='none';
   document.getElementById('detail').style.display='none';
+  document.getElementById('home').style.display='flex';
   document.getElementById('home').classList.add('active');
   document.getElementById('homeBtn').style.display='none';
   currentView = 'home';
