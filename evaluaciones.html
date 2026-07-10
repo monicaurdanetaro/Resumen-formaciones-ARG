@@ -43,7 +43,7 @@
   .pr{background:#fcebeb;color:#a32d2d}.pb{background:#e6f1fb;color:#185fa5}
   .pgy{background:#f1efe8;color:#5f5e5a}
   /* Main module tabs */
-  .main-tabs{display:flex;gap:0;border-bottom:0.5px solid rgba(0,0,0,.12);background:#fff;padding:0 32px}
+  .main-tabs{display:flex;gap:0;border-bottom:0.5px solid rgba(0,0,0,.12);background:#fff;padding:0 32px;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .main-tab{font-size:13px;font-weight:500;padding:14px 20px;border-bottom:2px solid transparent;cursor:pointer;color:#888;white-space:nowrap;transition:all .15s}
   .main-tab.on{color:#3b5fe2;border-bottom-color:#3b5fe2}
   .main-tab:hover:not(.on){color:#444;background:#fafaf8}
@@ -81,7 +81,31 @@
   .people-inner td{padding:6px 8px;border-bottom:0.5px solid rgba(0,0,0,.05)}
   .people-inner tr:last-child td{border-bottom:none}
   .store-tip{font-size:12px;color:#bbb;margin-top:10px;text-align:center}
-  @media(max-width:680px){.mgrid{grid-template-columns:repeat(2,1fr)}.crow{grid-template-columns:1fr}.wrap{padding:14px}.hdr{padding:14px 16px}.main-tabs{padding:0 16px}}
+  @media(max-width:680px){
+    .mgrid{grid-template-columns:repeat(2,1fr)}
+    .crow{grid-template-columns:1fr}
+    .wrap{padding:14px}
+    .hdr{padding:14px 16px}
+    .main-tabs{padding:0 16px}
+    h1{font-size:17px}
+    .sb table{display:block;overflow-x:auto;white-space:nowrap}
+    .sb table thead,.sb table tbody{display:table;width:100%}
+    .gbar{flex-direction:column;align-items:flex-start}
+    .gbar-left{width:100%}
+    .area-filter-bar{flex-direction:column;align-items:flex-start}
+    .store-search-wrap{width:100%}
+    .store-search-wrap input{width:100% !important}
+    .sh{flex-wrap:wrap;gap:10px}
+    .sh > div{flex-wrap:wrap;width:100%}
+    .filt input{min-width:0}
+    .people-inner{padding:12px 10px 16px 14px}
+    .people-inner table{display:block;overflow-x:auto;white-space:nowrap}
+  }
+  @media(max-width:420px){
+    .mv{font-size:22px}
+    .mgrid{grid-template-columns:1fr 1fr;gap:8px}
+    .mc{padding:12px 14px}
+  }
 </style>
 </head>
 <body>
