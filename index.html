@@ -265,6 +265,20 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 32 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 1 día completo</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
+        <div id="ases-progress-wrap" style="margin:10px 0 6px;background:#eef1fd;border-radius:8px;padding:10px 12px;border:1px solid #c5d0f8">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c0);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="ases-count-label" style="font-size:11px;font-weight:800;color:var(--c0);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c0);padding:0;line-height:1" title="Actualizar">↻</button>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #c5d0f8">
+            <div id="ases-progress-bar" style="height:100%;background:var(--c0);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="ases-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c0);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+          </div>
+        </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Cecilia Soria</span></div>
       </div>
 
@@ -274,6 +288,20 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">14 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 164 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
+        <div id="most-progress-wrap" style="margin:10px 0 6px;background:#e9f7ef;border-radius:8px;padding:10px 12px;border:1px solid #b7e4c7">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c1);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="most-count-label" style="font-size:11px;font-weight:800;color:var(--c1);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c1);padding:0;line-height:1" title="Actualizar">↻</button>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #b7e4c7">
+            <div id="most-progress-bar" style="height:100%;background:var(--c1);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="most-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c1);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+          </div>
+        </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Deildre Barroso</span></div>
       </div>
 
@@ -282,8 +310,23 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Ago</span><span class="cap-tag">8 grupos · 10 c/u</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 80 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
+        <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">📌 12 ago: entrenamiento de facilitadores · 13 ago: G1 y G2 (Equipo de Capacitación) · Desde el 17 ago: gerentes de tienda por área</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
-        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>12 ago: entrenamiento de facilitadores · 13 ago: G1 y G2 a cargo del Equipo de Capacitación · Desde el 17 ago: gerentes de tienda por área<br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span></span></div>
+        <div id="cond-progress-wrap" style="margin:10px 0 6px;background:#fef3e7;border-radius:8px;padding:10px 12px;border:1px solid #f8d4a8">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="cond-count-label" style="font-size:11px;font-weight:800;color:var(--c2);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c2);padding:0;line-height:1" title="Actualizar">↻</button>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #f8d4a8">
+            <div id="cond-progress-bar" style="height:100%;background:var(--c2);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="cond-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c2);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+          </div>
+        </div>
+        <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span></span></div>
       </div>
 
       <div class="cap-card" style="border-top-color:var(--c3)">
@@ -337,6 +380,20 @@ thead th.week-even .date-box { background:#eef2fb; }
         <div class="cap-name">Conteo y Ajuste de Inventario</div>
         <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">20–24 Jul</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sistema SIM · Conteos cíclicos y Ad Hoc · Autorización de ajustes · Prevención de descuadre</div>
+        <div id="inv-progress-wrap" style="margin:10px 0 6px;background:#e8f8f5;border-radius:8px;padding:10px 12px;border:1px solid #a3e4d7">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:800;color:var(--c5);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
+            <span id="inv-count-label" style="font-size:11px;font-weight:800;color:var(--c5);margin-left:auto;white-space:nowrap">Cargando...</span>
+            <button onclick="fetchProgress()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--c5);padding:0;line-height:1" title="Actualizar">↻</button>
+          </div>
+          <div style="background:#fff;border-radius:6px;height:10px;overflow:hidden;border:1px solid #a3e4d7">
+            <div id="inv-progress-bar" style="height:100%;background:var(--c5);border-radius:6px;width:0%;transition:width .8s ease"></div>
+          </div>
+          <div style="margin-top:5px;display:flex;justify-content:space-between">
+            <span id="inv-pct-label" style="font-size:9px;color:#999;font-weight:600"></span>
+            <a href="evaluaciones.html" target="_blank" rel="noopener" style="font-size:9px;color:var(--c5);font-weight:700;text-decoration:none;cursor:pointer">Ver dashboard →</a>
+          </div>
+        </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
       </div>
 
@@ -353,12 +410,6 @@ thead th.week-even .date-box { background:#eef2fb; }
       <svg style="display:inline-block;vertical-align:middle;margin-left:10px;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);position:relative;top:-3px" width="54" height="36" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"><rect width="900" height="200" y="0" fill="#74acdf"/><rect width="900" height="200" y="200" fill="#fff"/><rect width="900" height="200" y="400" fill="#74acdf"/><g transform="translate(450,300)"><circle r="58" fill="#F6B40E" stroke="#85340A" stroke-width="5"/><circle r="38" fill="#F6B40E"/><g stroke="#85340A" stroke-width="5"><line x1="0" y1="-70" x2="0" y2="-86"/><line x1="0" y1="70" x2="0" y2="86"/><line x1="-70" y1="0" x2="-86" y2="0"/><line x1="70" y1="0" x2="86" y2="0"/><line x1="-49" y1="-49" x2="-61" y2="-61"/><line x1="49" y1="-49" x2="61" y2="-61"/><line x1="-49" y1="49" x2="-61" y2="61"/><line x1="49" y1="49" x2="61" y2="61"/><line x1="-26" y1="-66" x2="-32" y2="-80"/><line x1="26" y1="-66" x2="32" y2="-80"/><line x1="-66" y1="-26" x2="-80" y2="-32"/><line x1="66" y1="-26" x2="80" y2="-32"/><line x1="-26" y1="66" x2="-32" y2="80"/><line x1="26" y1="66" x2="32" y2="80"/><line x1="-66" y1="26" x2="-80" y2="32"/><line x1="66" y1="26" x2="80" y2="32"/></g><ellipse cx="0" cy="-8" rx="13" ry="17" fill="#85340A"/><circle cx="-9" cy="-4" r="5" fill="#85340A"/><circle cx="9" cy="-4" r="5" fill="#85340A"/><path d="M -13 6 Q 0 20 13 6" stroke="#85340A" stroke-width="3" fill="none"/></g></svg>
     </h1>
     <p class="hero-sub-det">Junio – Agosto 2026</p>
-    <div class="kpi-row" id="kpiRow">
-      <div class="kpi"><div class="kpi-val" style="color:var(--blue2)">6</div><div class="kpi-lbl">Formaciones</div><div class="kpi-bar" style="background:var(--blue2)"></div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--green)">3</div><div class="kpi-lbl">Poblaciones cubiertas</div><div class="kpi-bar" style="background:var(--green)"></div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--orange)">8</div><div class="kpi-lbl">Semanas de ejecución</div><div class="kpi-bar" style="background:var(--orange)"></div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--purple)">31</div><div class="kpi-lbl">Tiendas</div><div class="kpi-bar" style="background:var(--purple)"></div></div>
-    </div>
   </div>
 
   <div class="main-det">
@@ -568,7 +619,13 @@ function renderCalendar(){
 
   // All days from both months combined
   const allDays=[];
-  [{y:2026,m:6},{y:2026,m:7},{y:2026,m:8}].forEach(({y,m})=>{ relevantWorkdays(y,m,SESSIONS).forEach(d=>allDays.push(d)); });
+  // Combinar sesiones puntuales con las fechas de los cursos continuos, para que
+  // relevantWorkdays no recorte días que necesita una barra continua (Orden y Limpieza, Pilares, Inventario)
+  const allDateAnchors = [...SESSIONS];
+  COURSES.forEach(c=>{
+    if(c.continuous) { allDateAnchors.push({date:c.continuous.from}); allDateAnchors.push({date:c.continuous.to}); }
+  });
+  [{y:2026,m:6},{y:2026,m:7},{y:2026,m:8}].forEach(({y,m})=>{ relevantWorkdays(y,m,allDateAnchors).forEach(d=>allDays.push(d)); });
 
   // Week alternating index
   const dayWeekIndex={}; const seenWeeks=[];
@@ -627,6 +684,7 @@ function renderCalendar(){
         // Empty cells before bar
         for(let i=0;i<startIdx;i++){
           const td=document.createElement('td'); td.className='data-cell';
+          if(c.id!==3 && HOLIDAYS.includes(ds(allDays[i]))) td.style.background='#f4f4f4';
           td.innerHTML='<div class="empty-cell"><div class="empty-dash"></div></div>'; tr.appendChild(td);
         }
         // Spanning bar cell
@@ -642,6 +700,7 @@ function renderCalendar(){
         // Empty cells after bar
         for(let i=endIdx+1;i<allDays.length;i++){
           const td=document.createElement('td'); td.className='data-cell';
+          if(c.id!==3 && HOLIDAYS.includes(ds(allDays[i]))) td.style.background='#f4f4f4';
           td.innerHTML='<div class="empty-cell"><div class="empty-dash"></div></div>'; tr.appendChild(td);
         }
       } else {
@@ -833,11 +892,31 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); clo
 
 // ── LIVE PROGRESS BARS — Orden y Limpieza + Pilares ─────────────
 const _API_PROG = 'https://script.google.com/macros/s/AKfycbwMoGhL_56BE90DbpGrV5qa1fZQgKgYF0TMZbORFAe40Vi3Jgh0f4bBBkHoGcUQR2_6/exec';
-const _GID_OL   = '1142498963';
-const _GID_PI   = '1095051768';
-const _GID_NOM  = '1331171004';
+const _GID_OL    = '1142498963'; // Módulo 1 — Orden y Limpieza
+const _GID_PI    = '1095051768'; // Módulo 2 — Pilares de la Operación
+const _GID_INV   = '489869547';  // Módulo 3 — Conteo y Ajuste de Inventario
+const _GID_ASES  = '281104057';  // Asesoría Farmacéutica (asistencia)
+const _GID_MOST  = '362436169';  // Mostrador de farmacia (con nota)
+const _GID_COND  = '528961235';  // 5 Conductas de Servicio (asistencia)
+const _GID_NOM   = '1331171004'; // Nómina
 let _TOTAL_OL = 369;  // default, overridden live from nómina sheet
 const _TOTAL_PI = 72;
+const _TOTAL_INV = 72;
+const _TOTAL_ASES = 32;
+const _TOTAL_MOST = 164;
+const _TOTAL_COND = 80;
+
+// Parser crudo para la hoja de nómina (misma estructura que usa evaluaciones.html: 3 filas de encabezado)
+function _parseNomRows(txt) {
+  return txt.split('\n').map(line=>{
+    const cols=[]; let cur='',q=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){q=!q;}else if(c===','&&!q){cols.push(cur.trim());cur='';}else cur+=c;
+    }
+    cols.push(cur.trim()); return cols;
+  }).slice(3).filter(r=>r[5]&&r[12]);
+}
 
 function _parseRows(txt) {
   return txt.split('\n').map(line=>{
@@ -847,7 +926,7 @@ function _parseRows(txt) {
       if(c==='"'){q=!q;}else if(c===','&&!q){cols.push(cur.trim());cur='';}else cur+=c;
     }
     cols.push(cur.trim()); return cols;
-  }).filter(r=>r[0]&&r[2]).slice(1);
+  }).slice(1).filter(r=>r[0]&&r[2]);
 }
 
 function _dedup(rows, dniIdx, storeIdx) {
@@ -861,6 +940,32 @@ function _dedup(rows, dniIdx, storeIdx) {
     if(!map.has(key)||score>(parseInt((map.get(key)[1]||'').match(/^(\d+)/)?.[1])||0))map.set(key,r);
   });
   return map.size;
+}
+
+// Cuenta DNI únicos con asistencia "SI" en hojas de asistencia (col 1 = DNI, col 8 = SI/NO)
+function _dedupAsist(rows) {
+  const set = new Set();
+  rows.forEach(r=>{
+    const asistio = (r[8]||'').toString().trim().toUpperCase()==='SI';
+    if(!asistio) return;
+    const dni=(r[1]||'').toString().replace(/\.0$/,'').trim();
+    const nombre=(r[4]||'').trim().toUpperCase();
+    const key = (dni&&dni.length>3) ? dni : nombre;
+    if(key) set.add(key);
+  });
+  return set.size;
+}
+
+// Cuenta el total de personas en nómina que pertenecen a una Unidad de Negocio dada
+function _countNomByUN(nomRows, matchFn) {
+  const set = new Set();
+  nomRows.forEach(r=>{
+    const un = (r[8]||'').toString().trim().toUpperCase();
+    if(!matchFn(un)) return;
+    const dni = (r[2]||'').toString().replace(/\.0$/,'').trim();
+    if(dni && dni.length>3) set.add(dni);
+  });
+  return set.size;
 }
 
 function _updateBar(barId, lblId, pctId, count, total) {
@@ -880,47 +985,97 @@ function _setErr(lblId, pctId) {
 
 async function fetchProgress() {
   try {
-    const [r1, r2, rN] = await Promise.all([
+    const [r1, r2, r3, r4, r5, r6, rN] = await Promise.all([
       fetch(`${_API_PROG}?gid=${_GID_OL}`, {cache:'no-store'}),
       fetch(`${_API_PROG}?gid=${_GID_PI}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_INV}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_ASES}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_MOST}`, {cache:'no-store'}),
+      fetch(`${_API_PROG}?gid=${_GID_COND}`, {cache:'no-store'}),
       fetch(`${_API_PROG}?gid=${_GID_NOM}`, {cache:'no-store'})
     ]);
 
-    // Get live total from nómina (count non-empty rows skipping headers)
+    let TOTAL_PI = _TOTAL_PI, TOTAL_INV = _TOTAL_INV, TOTAL_ASES = _TOTAL_ASES, TOTAL_MOST = _TOTAL_MOST, TOTAL_COND = _TOTAL_COND;
+
+    // Nómina: total general (Orden y Limpieza) + totales por población (para las demás formaciones)
     if(rN.ok) {
       const tN = await rN.text();
       if(tN && tN.trim().length > 10) {
-        const nomRows = _parseRows(tN);  // already skips 1 header row
-        // Count unique DNIs (col 2 in nómina sheet)
+        const nomRows = _parseNomRows(tN);
+
         const dniSet = new Set();
         nomRows.forEach(r => {
           const dni = (r[2]||'').toString().replace(/\.0$/,'').trim();
+          const un = (r[8]||'').toString().trim().toUpperCase();
+          if(un === 'EXCLUIR') return;
           if(dni && dni.length > 3) dniSet.add(dni);
         });
         if(dniSet.size > 0) {
           _TOTAL_OL = dniSet.size;
-          // Update card tag
           const tag = document.querySelector('.cap-tag[data-ol-total]');
           if(tag) tag.textContent = '👥 ' + _TOTAL_OL + ' colaboradores';
         }
+
+        const cSup = _countNomByUN(nomRows, un => un.includes('SUPERVISOR'));
+        const cFarm = _countNomByUN(nomRows, un => un.includes('FARMACEUTICO'));
+        const cApvFarm = _countNomByUN(nomRows, un => un.includes('APV FARMACIA'));
+        const cApv = _countNomByUN(nomRows, un => un === 'APV');
+        if(cSup > 0) { TOTAL_PI = cSup; TOTAL_INV = cSup; }
+        if(cFarm > 0) TOTAL_ASES = cFarm;
+        if(cApvFarm > 0) TOTAL_MOST = cApvFarm;
+        if(cApv > 0) TOTAL_COND = cApv;
       }
     }
 
+    // Módulo 1 — Orden y Limpieza (formulario con nota, toda la tienda)
     if(r1.ok) {
       const t1 = await r1.text();
       if(t1 && t1.trim().length > 10)
         _updateBar('ol-progress-bar','ol-count-label','ol-pct-label', _dedup(_parseRows(t1),15,16), _TOTAL_OL);
     } else _setErr('ol-count-label','ol-pct-label');
 
+    // Módulo 2 — Pilares de la Operación (formulario con nota, supervisores)
     if(r2.ok) {
       const t2 = await r2.text();
       if(t2 && t2.trim().length > 10)
-        _updateBar('pi-progress-bar','pi-count-label','pi-pct-label', _dedup(_parseRows(t2),3,4), _TOTAL_PI);
+        _updateBar('pi-progress-bar','pi-count-label','pi-pct-label', _dedup(_parseRows(t2),3,4), TOTAL_PI);
     } else _setErr('pi-count-label','pi-pct-label');
+
+    // Módulo 3 — Conteo y Ajuste de Inventario (formulario con nota, supervisores)
+    if(r3.ok) {
+      const t3 = await r3.text();
+      if(t3 && t3.trim().length > 10)
+        _updateBar('inv-progress-bar','inv-count-label','inv-pct-label', _dedup(_parseRows(t3),2,4), TOTAL_INV);
+    } else _setErr('inv-count-label','inv-pct-label');
+
+    // Asesoría Farmacéutica (hoja de asistencia, farmacéuticos)
+    if(r4.ok) {
+      const t4 = await r4.text();
+      if(t4 && t4.trim().length > 10)
+        _updateBar('ases-progress-bar','ases-count-label','ases-pct-label', _dedupAsist(_parseRows(t4)), TOTAL_ASES);
+    } else _setErr('ases-count-label','ases-pct-label');
+
+    // Mostrador de farmacia (formulario con nota, APV de farmacia)
+    if(r5.ok) {
+      const t5 = await r5.text();
+      if(t5 && t5.trim().length > 10)
+        _updateBar('most-progress-bar','most-count-label','most-pct-label', _dedup(_parseRows(t5),2,4), TOTAL_MOST);
+    } else _setErr('most-count-label','most-pct-label');
+
+    // 5 Conductas de Servicio (hoja de asistencia, APV)
+    if(r6.ok) {
+      const t6 = await r6.text();
+      if(t6 && t6.trim().length > 10)
+        _updateBar('cond-progress-bar','cond-count-label','cond-pct-label', _dedupAsist(_parseRows(t6)), TOTAL_COND);
+    } else _setErr('cond-count-label','cond-pct-label');
 
   } catch(e) {
     _setErr('ol-count-label','ol-pct-label');
     _setErr('pi-count-label','pi-pct-label');
+    _setErr('inv-count-label','inv-pct-label');
+    _setErr('ases-count-label','ases-pct-label');
+    _setErr('most-count-label','most-pct-label');
+    _setErr('cond-count-label','cond-pct-label');
   }
 }
 fetchProgress();
