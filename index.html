@@ -202,7 +202,32 @@ thead th.week-even .date-box { background:#eef2fb; }
 .modal-link-btn:hover { background:var(--navy); }
 
 @media(max-width:860px){ .cap-grid{grid-template-columns:1fr 1fr;} .hero-ex{padding:36px 24px 32px;} .content-ex{padding:32px 20px 80px;} }
-@media(max-width:700px){ .main-det{padding:20px 12px 80px;} .hero-det{padding:30px 16px 24px;} .modal-grid{grid-template-columns:1fr;} .cap-grid{grid-template-columns:1fr;} .fab{bottom:16px;right:16px;} }
+@media(max-width:700px){
+  .main-det{padding:20px 12px 80px;}
+  .hero-det{padding:30px 16px 24px;}
+  .modal-grid{grid-template-columns:1fr;}
+  .cap-grid{grid-template-columns:1fr;}
+  .fab{bottom:16px;right:16px;}
+  .cal-table thead th.label-th{width:110px;min-width:110px;}
+  .cal-table tbody td.row-label-col{width:110px;min-width:110px;padding:0 10px;}
+  .row-label-name{font-size:10px;}
+  .row-label-pop{font-size:8px;}
+  #homeBtn{top:12px;right:12px;padding:7px 12px;font-size:12px;}
+  .hero-ex{padding-top:70px;}
+  .hero-det{padding-top:70px;}
+  .kpi-row{gap:8px;}
+  .kpi{min-width:130px;padding:12px 16px 10px;}
+  .filters{gap:6px;}
+  .filter-btn{font-size:11px;padding:4px 10px;}
+}
+@media(max-width:480px){
+  .hero-title-ex{font-size:24px;}
+  .cap-name{font-size:14px;}
+  .cap-tag{font-size:9px;}
+}
+@media(max-width:640px){
+  #homeCards{grid-template-columns:1fr !important;}
+}
 
 
 </style>
@@ -427,7 +452,7 @@ thead th.week-even .date-box { background:#eef2fb; }
 </div>
 
 <!-- ══ BOTÓN INICIO ══ -->
-<a href="#" id="homeBtn" onclick="goHome();return false;" style="position:fixed;top:18px;right:24px;z-index:999;background:#fff;color:#0f1e4a;border:1.5px solid #d0d9ee;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(15,30,74,0.1);text-decoration:none;transition:all .2s">
+<a href="#" id="homeBtn" onclick="goHome();return false;" style="position:fixed;top:18px;right:24px;z-index:1000;background:#fff;color:#0f1e4a;border:1.5px solid #d0d9ee;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(15,30,74,0.15);text-decoration:none;transition:all .2s">
   <span>←</span><span>Inicio</span>
 </a>
 
@@ -633,8 +658,11 @@ function renderCalendar(){
   const table=document.createElement('table'); table.className='cal-table';
 
   const cg=document.createElement('colgroup');
-  const lc=document.createElement('col'); lc.style.width='150px'; cg.appendChild(lc);
-  allDays.forEach(()=>{ const col=document.createElement('col'); col.style.width='88px'; cg.appendChild(col); });
+  const isMobileView = window.innerWidth < 680;
+  const labelColW = isMobileView ? '110px' : '150px';
+  const dayColW = isMobileView ? '64px' : '88px';
+  const lc=document.createElement('col'); lc.style.width=labelColW; cg.appendChild(lc);
+  allDays.forEach(()=>{ const col=document.createElement('col'); col.style.width=dayColW; cg.appendChild(col); });
   table.appendChild(cg);
 
   const thead=document.createElement('thead');
