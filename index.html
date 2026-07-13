@@ -561,14 +561,14 @@ const SESSIONS = [
   {id:'s23',date:'2026-06-09',cid:3,group:'Formación en tiendas',continuous:true},
 
   // Pilares de la Operación - 1 grupo por área, fecha según área
-  {id:'s32',date:'2026-07-16',cid:4,group:'Área 3',facilitator:'Miguel González',area:'Área 3'},
-  {id:'s33',date:'2026-07-16',cid:4,group:'Área 1',facilitator:'Eduardo Páez',area:'Área 1'},
-  {id:'s34',date:'2026-07-23',cid:4,group:'Área 2',facilitator:'Karol Brinkmann',area:'Área 2'},
+  {id:'s32',date:'2026-07-16',cid:4,group:'',facilitator:'Miguel González',area:'Área 3'},
+  {id:'s33',date:'2026-07-16',cid:4,group:'',facilitator:'Eduardo Páez',area:'Área 1'},
+  {id:'s34',date:'2026-07-23',cid:4,group:'',facilitator:'Karol Brinkmann',area:'Área 2'},
 
   // Conteo y Ajuste de Inventario - 1 grupo por área, fecha según área
-  {id:'s35',date:'2026-07-17',cid:5,group:'Área 1',facilitator:'Eduardo Páez',area:'Área 1'},
-  {id:'s36',date:'2026-07-23',cid:5,group:'Área 3',facilitator:'Miguel González',area:'Área 3'},
-  {id:'s37',date:'2026-07-24',cid:5,group:'Área 2',facilitator:'Karol Brinkmann',area:'Área 2'},
+  {id:'s35',date:'2026-07-17',cid:5,group:'',facilitator:'Eduardo Páez',area:'Área 1'},
+  {id:'s36',date:'2026-07-23',cid:5,group:'',facilitator:'Miguel González',area:'Área 3'},
+  {id:'s37',date:'2026-07-24',cid:5,group:'',facilitator:'Karol Brinkmann',area:'Área 2'},
 ];
 
 const byDate = {};
@@ -758,7 +758,7 @@ function renderCalendar(){
               mini.onclick=()=>openModal(s,day);
             } else {
               // Normal session — single or part of multi
-              const firstName = facLine ? (s.cid === 5 ? facLine : facLine.split(' ')[0]) : '';
+              const firstName = facLine ? facLine.split(' ')[0] : '';
               const areaDisplay = s.areaLabel || s.area || '';
               const areaTag = areaDisplay ? `<span style="background:${c.color};color:#fff;border-radius:3px;padding:0 4px;font-size:7px;font-weight:800;margin-left:2px">${areaDisplay}</span>` : '';
               mini.style.cssText=`background:${c.colorLt};border-left:3px solid ${c.color};border-radius:7px;padding:5px 7px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;min-height:${sessArr.length===1?'56px':'24px'};`;
@@ -851,7 +851,7 @@ function openModal(sess,day){
   document.getElementById('mGrid').innerHTML=`
     <div class="mfield"><div class="mfield-lbl">👥 Población a invitar</div><div class="mfield-val">${c.population}</div></div>
     <div class="mfield"><div class="mfield-lbl">⏱ Duración</div><div class="mfield-val">${c.duration}</div></div>
-    ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group}${simultLabel}</div></div>
+    ${pf}<div class="mfield ${wideClass}"><div class="mfield-lbl">📋 Grupo / Sesión</div><div class="mfield-val">${sess.group||sess.area||'—'}${simultLabel}</div></div>
     <div class="mfield wide"><div class="mfield-lbl">🎓 Facilitador(es)</div><div class="mfield-val">${facilitatorVal}</div></div>${pListHTML}`;
   document.getElementById('mLink').style.background=c.color; document.getElementById('mLink').href=c.link;
   document.getElementById('overlay').classList.add('open');
