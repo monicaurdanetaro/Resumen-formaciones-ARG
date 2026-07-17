@@ -75,7 +75,8 @@ body { font-family:'Nunito',sans-serif; min-height:100vh; overflow-x:hidden; }
 .section-label::after { content:''; flex:1; height:1px; background:var(--border-ex); }
 
 .cap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:52px; }
-.cap-card { background:var(--white); border-radius:14px; padding:22px 22px 20px; border:1px solid var(--border-ex); border-top:3px solid transparent; transition:box-shadow .2s; display:flex; flex-direction:column; }
+.cap-card { background:var(--white); border-radius:14px; padding:22px 22px 20px; border:1px solid var(--border-ex); border-top:3px solid transparent; transition:box-shadow .2s; display:flex; flex-direction:column; cursor:pointer; }
+.cap-content-link { margin-top:14px; padding-top:12px; border-top:1px solid var(--border-ex); font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px; }
 .cap-card:hover { box-shadow:0 6px 24px rgba(15,30,74,0.1); }
 .cap-population { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; }
 .cap-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.25; margin-bottom:14px; }
@@ -275,16 +276,19 @@ thead th.week-even .date-box { background:#eef2fb; }
   </div>
 
   <div class="content-ex">
-    <div class="section-label">Formaciones</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+      <div class="section-label" style="margin-bottom:0">Formaciones</div>
+      <a href="https://drive.google.com/drive/folders/1uKDGrni1SkWSwnNYhPQkgNAkg24PFxtF?usp=sharing" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--blue2);background:var(--blue-lt);border:1px solid #c5d0f8;border-radius:100px;padding:7px 16px;text-decoration:none;white-space:nowrap">📁 Ver toda la carpeta de material →</a>
+    </div>
     <div class="cap-grid">
 
-      <div class="cap-card" style="border-top-color:var(--c0)">
+      <div class="cap-card" style="border-top-color:var(--c0)" onclick="window.open('https://docs.google.com/presentation/d/1LGfclWtG3-iPiMlfJIgcJDyFKEJUyRdSzKl7eWNHG9M/edit?slide=id.p1#slide=id.p1','_blank')">
         <div class="cap-population" style="color:var(--c0)">Farmacéuticos</div>
         <div class="cap-name">Asesoría Farmacéutica</div>
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Junio</span><span class="cap-tag">2 grupos</span><span class="cap-tag" style="background:#eef1fd;color:var(--c0);border-color:#c5d0f8">👥 32 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 1 día completo</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div id="ases-progress-wrap" style="margin:10px 0 6px;background:#eef1fd;border-radius:8px;padding:10px 12px;border:1px solid #c5d0f8">
+        <div id="ases-progress-wrap" style="margin:10px 0 6px;background:#eef1fd;border-radius:8px;padding:10px 12px;border:1px solid #c5d0f8" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c0);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="ases-count-label" style="font-size:11px;font-weight:800;color:var(--c0);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -299,15 +303,16 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Cecilia Soria</span></div>
+        <div class="cap-content-link" style="color:var(--c0)">📄 Ver contenido de la formación →</div>
       </div>
 
-      <div class="cap-card" style="border-top-color:var(--c1)">
+      <div class="cap-card" style="border-top-color:var(--c1)" onclick="window.open('https://docs.google.com/presentation/d/13UZ84H87WdW2-RlSbYVYsiPTEfjL-IBG/edit?usp=drive_link&ouid=102359605384832308873&rtpof=true&sd=true','_blank')">
         <div class="cap-population" style="color:var(--c1)">Personal base de farmacia</div>
         <div class="cap-name">Atención en el mostrador de farmacia</div>
         <div class="cap-tags"><span class="cap-tag">3 horas</span><span class="cap-tag">Jun – Jul</span><span class="cap-tag">14 grupos</span><span class="cap-tag" style="background:#e9f7ef;color:var(--c1);border-color:#b7e4c7">👥 154 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Conociendo Farmatodo · El rol del farmacéutico en Farmatodo · Consulta farmacéutica de calidad · Dispensación con propósito · Un servicio que nos diferencia</div>
-        <div id="most-progress-wrap" style="margin:10px 0 6px;background:#e9f7ef;border-radius:8px;padding:10px 12px;border:1px solid #b7e4c7">
+        <div id="most-progress-wrap" style="margin:10px 0 6px;background:#e9f7ef;border-radius:8px;padding:10px 12px;border:1px solid #b7e4c7" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c1);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="most-count-label" style="font-size:11px;font-weight:800;color:var(--c1);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -322,15 +327,16 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span>Yessika Santos, Soledad Díaz y Deildre Barroso</span></div>
+        <div class="cap-content-link" style="color:var(--c1)">📄 Ver contenido de la formación →</div>
       </div>
 
-      <div class="cap-card" style="border-top-color:var(--c2)">
+      <div class="cap-card" style="border-top-color:var(--c2)" onclick="window.open('https://docs.google.com/presentation/d/1FLQNEt5r2qPq5B-yEdyDrFlYfSUYuXnV/edit?usp=sharing&ouid=102359605384832308873&rtpof=true&sd=true','_blank')">
         <div class="cap-population" style="color:var(--c2)">Personal base</div>
         <div class="cap-name">Servicio al Cliente y 5 Conductas de Servicio</div>
         <div class="cap-tags"><span class="cap-tag">2.5 horas</span><span class="cap-tag">Ago</span><span class="cap-tag">8 grupos · 10 c/u</span><span class="cap-tag" style="background:#fef3e7;color:var(--c2);border-color:#f8d4a8">👥 84 participantes</span></div>
         <div class="cap-tags" style="margin-top:-6px"><span class="cap-tag" style="background:#f0f9ff;color:#0369a1;border-color:#bae6fd">⏱ Inversión de tiempo facilitador: 2 días completos</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Cultura de servicio Farmatodo y las 5 conductas de servicio aplicadas a situaciones reales de tienda</div>
-        <div id="cond-progress-wrap" style="margin:10px 0 6px;background:#fef3e7;border-radius:8px;padding:10px 12px;border:1px solid #f8d4a8">
+        <div id="cond-progress-wrap" style="margin:10px 0 6px;background:#fef3e7;border-radius:8px;padding:10px 12px;border:1px solid #f8d4a8" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="cond-count-label" style="font-size:11px;font-weight:800;color:var(--c2);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -345,15 +351,16 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 1</span> Yajaira Urdaneta · Guillermo Dulce</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 2</span> Carlos Carrión · Oswaldo Saldivia</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#fef3e7;border:1px solid #f8d4a8;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#e67e22">ÁREA 3</span> Cristian Díaz · Gustavo Henriquez</span></span></div>
+        <div class="cap-content-link" style="color:var(--c2)">📄 Ver contenido de la formación →</div>
       </div>
 
-      <div class="cap-card" style="border-top-color:var(--c3)">
+      <div class="cap-card" style="border-top-color:var(--c3)" onclick="window.open('https://docs.google.com/document/d/1dWsYU8fl6dYglVpahdahO3CdsDSMU3msC-42DOSeZ8g/edit?tab=t.0','_blank')">
         <div class="cap-population" style="color:var(--c3)">Supervisores y toda la tienda</div>
         <div class="cap-name">Orden y Limpieza · Piso de Ventas</div>
         <div class="cap-tags"><span class="cap-tag">1 hora</span><span class="cap-tag">9 Jun – 31 Jul</span><span class="cap-tag">Continuo</span><span class="cap-tag" data-ol-total style="background:#fdecea;color:var(--c3);border-color:#f5b7b1">👥 369 colaboradores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Estándares de fachada y piso · Método FIFO/PEPS · Control de vencidos · Surtido y planograma</div>
         <!-- PROGRESS BAR -->
-        <div id="ol-progress-wrap" style="margin:10px 0 6px;background:#fdecea;border-radius:8px;padding:10px 12px;border:1px solid #f5b7b1">
+        <div id="ol-progress-wrap" style="margin:10px 0 6px;background:#fdecea;border-radius:8px;padding:10px 12px;border:1px solid #f5b7b1" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="ol-count-label" style="font-size:11px;font-weight:800;color:var(--c3);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -368,15 +375,16 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
+        <div class="cap-content-link" style="color:var(--c3)">📄 Ver contenido de la formación →</div>
       </div>
 
-      <div class="cap-card" style="border-top-color:var(--c4)">
+      <div class="cap-card" style="border-top-color:var(--c4)" onclick="window.open('https://docs.google.com/document/d/18TOobacmdWimFpzntLP3KEqHXkT1urXo/edit?usp=drive_link&ouid=102359605384832308873&rtpof=true&sd=true','_blank')">
         <div class="cap-population" style="color:var(--c4)">Supervisores</div>
         <div class="cap-name">Pilares de la Operación</div>
         <div class="cap-tags"><span class="cap-tag">4 horas</span><span class="cap-tag">20 Jul – 7 Ago</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#f5eefa;color:var(--c4);border-color:#d7b8f0">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sobre vuelo diario · Check-list de Planograma · Inventario de Ceros · Auditoría de conciliación</div>
         <!-- PROGRESS BAR PILARES -->
-        <div id="pi-progress-wrap" style="margin:10px 0 6px;background:#f5eefa;border-radius:8px;padding:10px 12px;border:1px solid #d7b8f0">
+        <div id="pi-progress-wrap" style="margin:10px 0 6px;background:#f5eefa;border-radius:8px;padding:10px 12px;border:1px solid #d7b8f0" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c4);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="pi-count-label" style="font-size:11px;font-weight:800;color:var(--c4);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -391,14 +399,15 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
+        <div class="cap-content-link" style="color:var(--c4)">📄 Ver contenido de la formación →</div>
       </div>
 
-      <div class="cap-card" style="border-top-color:var(--c5)">
+      <div class="cap-card" style="border-top-color:var(--c5)" onclick="window.open('https://docs.google.com/presentation/d/15ofpjM62nSa1BQ5XQb01oTfIMKMPr9Gb/edit?usp=sharing&ouid=102359605384832308873&rtpof=true&sd=true','_blank')">
         <div class="cap-population" style="color:var(--c5)">Supervisores</div>
         <div class="cap-name">Conteo y Ajuste de Inventario</div>
         <div class="cap-tags"><span class="cap-tag">4 horas</span><span class="cap-tag">20 Jul – 7 Ago</span><span class="cap-tag">1 grupo por área</span><span class="cap-tag" style="background:#e8f8f5;color:var(--c5);border-color:#a3e4d7">👥 72 supervisores</span></div>
         <div class="cap-capacidades"><strong>Contenido</strong>Sistema SIM · Conteos cíclicos y Ad Hoc · Autorización de ajustes · Prevención de descuadre</div>
-        <div id="inv-progress-wrap" style="margin:10px 0 6px;background:#e8f8f5;border-radius:8px;padding:10px 12px;border:1px solid #a3e4d7">
+        <div id="inv-progress-wrap" style="margin:10px 0 6px;background:#e8f8f5;border-radius:8px;padding:10px 12px;border:1px solid #a3e4d7" onclick="event.stopPropagation()">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             <span style="font-size:10px;font-weight:800;color:var(--c5);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Progreso de formación</span>
             <span id="inv-count-label" style="font-size:11px;font-weight:800;color:var(--c5);margin-left:auto;white-space:nowrap">Cargando...</span>
@@ -413,6 +422,7 @@ thead th.week-even .date-box { background:#eef2fb; }
           </div>
         </div>
         <div class="cap-facilitators"><span class="cap-facilitators-icon">🎓</span><span><span class="cap-facilitators-label">Facilitadores: </span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 1</span> Miguel González</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 2</span> Karol Brinkmann</span><br><span style="display:inline-flex;align-items:center;gap:6px;margin:2px 0"><span style="background:#f0f0f0;border:1px solid #ccc;border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;color:#555">ÁREA 3</span> Eduardo Páez</span></span></div>
+        <div class="cap-content-link" style="color:var(--c5)">📄 Ver contenido de la formación →</div>
       </div>
 
     </div>
