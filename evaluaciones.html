@@ -197,11 +197,10 @@
               <th style="text-align:center;padding:8px 10px;border-bottom:0.5px solid rgba(0,0,0,.1);font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.04em">Formados</th>
               <th style="text-align:center;padding:8px 10px;border-bottom:0.5px solid rgba(0,0,0,.1);font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.04em">Faltan</th>
               <th style="text-align:center;padding:8px 10px;border-bottom:0.5px solid rgba(0,0,0,.1);font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.04em">% Participación</th>
-              <th style="text-align:center;padding:8px 10px;border-bottom:0.5px solid rgba(0,0,0,.1);font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.04em">Avance vs mínimo (85%)</th>
             </tr>
           </thead>
           <tbody id="res-table-body">
-            <tr><td colspan="6" style="padding:20px;text-align:center;color:#bbb;font-size:13px">Cargando datos...</td></tr>
+            <tr><td colspan="5" style="padding:20px;text-align:center;color:#bbb;font-size:13px">Cargando datos...</td></tr>
           </tbody>
           <tfoot id="res-table-foot"></tfoot>
         </table>
@@ -2397,9 +2396,6 @@ function updateResumen(area) {
     const faltan = m.valid && m.nom > 0 ? Math.max(m.nom - m.form, 0) : null;
     const barW = Math.min(pct, 100);
     const barColor = colorForPct(pct);
-    const avanceM = pct >= MINIMO ? 100 : (m.nom > 0 ? Math.round(pct / MINIMO * 100) : 0);
-    const avanceColor = pct >= MINIMO ? '#3b6d11' : avanceM >= 60 ? '#854f0b' : '#a32d2d';
-    const avanceLabel = pct >= MINIMO ? '✓ 100%' : avanceM + '%';
     const pctColor = colorForPct(pct);
 
     return `<tr>
@@ -2407,7 +2403,6 @@ function updateResumen(area) {
       <td style="padding:12px 10px;text-align:center;border-bottom:0.5px solid rgba(0,0,0,.06);color:#666">${m.valid ? (m.nom || '—') : '<span style=\'color:#ccc\'>Sin conexión</span>'}</td>
       <td style="padding:12px 10px;text-align:center;border-bottom:0.5px solid rgba(0,0,0,.06);color:#666">${m.valid ? (m.form || 0) : '<span style=\'color:#ccc\'>—</span>'}</td>
       <td style="padding:12px 10px;text-align:center;border-bottom:0.5px solid rgba(0,0,0,.06);color:${faltan>0?'#a32d2d':'#3b6d11'};font-weight:500">${faltan===null?'—':(faltan>0?faltan:'✓ 0')}</td>
-      <td style="padding:12px 10px;text-align:center;border-bottom:0.5px solid rgba(0,0,0,.06);font-weight:500;color:${pctColor}">${m.valid && m.nom > 0 ? pct+'%' : '—'}</td>
       <td style="padding:12px 10px;border-bottom:0.5px solid rgba(0,0,0,.06)">
         ${!m.valid ? '<span style="color:#ccc;font-size:12px">Requiere conexión en vivo</span>' : `<div style="display:flex;align-items:center;gap:10px">
           <div style="flex:1;background:#f0eeea;border-radius:4px;height:7px;overflow:hidden;position:relative;min-width:80px">
@@ -2416,7 +2411,7 @@ function updateResumen(area) {
             <div style="position:absolute;left:${META}%;top:-2px;height:11px;width:1.5px;background:#854f0b;border-radius:1px"></div>
             <div style="position:absolute;left:${SUPERIOR}%;top:-2px;height:11px;width:1.5px;background:#3b6d11;border-radius:1px"></div>
           </div>
-          <span style="font-size:12px;font-weight:600;color:${avanceColor};min-width:36px;text-align:right">${avanceLabel}</span>
+          <span style="font-size:12px;font-weight:600;color:${pctColor};min-width:36px;text-align:right">${m.nom > 0 ? pct+'%' : '—'}</span>
         </div>`}
       </td>
     </tr>`;
@@ -2427,26 +2422,22 @@ function updateResumen(area) {
   // Footer totals
   const globalPct = totalNom > 0 ? Math.round(totalForm / totalNom * 100) : 0;
   const globalFaltan = Math.max(totalNom - totalForm, 0);
-
-  const avancePct = globalPct >= MINIMO ? 100 : Math.round(globalPct / MINIMO * 100);
-  const avanceColor = globalPct >= MINIMO ? '#3b6d11' : avancePct >= 60 ? '#854f0b' : '#a32d2d';
-  const avanceLabel = globalPct >= MINIMO ? '✓ 100%' : avancePct + '%';
+  const globalBarColor = colorForPct(globalPct);
 
   tfoot.innerHTML = `<tr style="background:#fff8e6;border-top:2px solid #ef9f27">
     <td style="padding:14px 10px;font-weight:700;font-size:14px">Total global</td>
     <td style="padding:14px 10px;text-align:center;font-weight:700;font-size:14px">${totalNom}</td>
     <td style="padding:14px 10px;text-align:center;font-weight:700;font-size:14px">${totalForm}</td>
     <td style="padding:14px 10px;text-align:center;font-weight:700;font-size:14px;color:${globalFaltan>0?'#a32d2d':'#3b6d11'}">${globalFaltan>0?globalFaltan:'✓ 0'}</td>
-    <td style="padding:14px 10px;text-align:center;font-size:18px;font-weight:700;color:${colorForPct(globalPct)}">${globalPct}%</td>
     <td style="padding:14px 10px">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="flex:1;background:#f0eeea;border-radius:4px;height:7px;overflow:hidden;position:relative;min-width:80px">
-          <div style="position:absolute;left:0;top:0;height:100%;width:${Math.min(avancePct,100)}%;background:${avanceColor};border-radius:4px"></div>
+          <div style="position:absolute;left:0;top:0;height:100%;width:${Math.min(globalPct,100)}%;background:${globalBarColor};border-radius:4px"></div>
           <div style="position:absolute;left:${MINIMO}%;top:-2px;height:11px;width:1.5px;background:#a32d2d;border-radius:1px"></div>
           <div style="position:absolute;left:${META}%;top:-2px;height:11px;width:1.5px;background:#854f0b;border-radius:1px"></div>
           <div style="position:absolute;left:${SUPERIOR}%;top:-2px;height:11px;width:1.5px;background:#3b6d11;border-radius:1px"></div>
         </div>
-        <span style="font-size:13px;font-weight:700;color:${avanceColor};min-width:36px;text-align:right">${avanceLabel}</span>
+        <span style="font-size:14px;font-weight:700;color:${globalBarColor};min-width:36px;text-align:right">${totalNom > 0 ? globalPct+'%' : '—'}</span>
       </div>
     </td>
   </tr>`;
