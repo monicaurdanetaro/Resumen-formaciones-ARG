@@ -165,7 +165,7 @@
 
       <!-- Progress bar global -->
       <div style="background:#fff;border:0.5px solid rgba(0,0,0,.1);border-radius:12px;padding:20px 24px;margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:8px">
           <span style="font-size:13px;font-weight:500;color:#444">Participación global (todas las formaciones)</span>
           <span style="font-size:22px;font-weight:500" id="res-global-pct">—</span>
         </div>
@@ -173,15 +173,15 @@
           <div id="res-global-bar" style="height:100%;border-radius:6px;background:#3b6d11;transition:width .4s;position:relative;z-index:1"></div>
           <!-- Umbral Mínimo 85% -->
           <div style="position:absolute;left:85%;top:-4px;height:20px;width:2.5px;background:#a32d2d;border-radius:2px;z-index:2"></div>
-          <div style="position:absolute;left:85%;top:-18px;transform:translateX(-50%);font-size:9px;color:#a32d2d;font-weight:600;white-space:nowrap">Mín. 85%</div>
+          <div style="position:absolute;left:85%;top:-20px;transform:translateX(-50%);font-size:9px;color:#a32d2d;font-weight:600;white-space:nowrap">Mín. 85%</div>
           <!-- Umbral Meta 90% -->
           <div style="position:absolute;left:90%;top:-4px;height:20px;width:2.5px;background:#854f0b;border-radius:2px;z-index:2"></div>
-          <div style="position:absolute;left:90%;top:14px;transform:translateX(-50%);font-size:9px;color:#854f0b;font-weight:600;white-space:nowrap">Meta 90%</div>
+          <div style="position:absolute;left:90%;top:16px;transform:translateX(-50%);font-size:9px;color:#854f0b;font-weight:600;white-space:nowrap">Meta 90%</div>
           <!-- Umbral Superior 95% -->
           <div style="position:absolute;left:95%;top:-4px;height:20px;width:2.5px;background:#3b6d11;border-radius:2px;z-index:2"></div>
-          <div style="position:absolute;left:95%;top:-18px;transform:translateX(-50%);font-size:9px;color:#3b6d11;font-weight:600;white-space:nowrap">Sup. 95%</div>
+          <div style="position:absolute;left:95%;top:-20px;transform:translateX(-50%);font-size:9px;color:#3b6d11;font-weight:600;white-space:nowrap">Sup. 95%</div>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:#bbb;margin-top:20px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#bbb;margin-top:24px">
           <span id="res-global-sub">— formados de — en nómina total</span>
         </div>
       </div>
@@ -2377,12 +2377,15 @@ function updateResumen(area) {
   const tbody = document.getElementById('res-table-body');
   const tfoot = document.getElementById('res-table-foot');
 
-  // Color según el nivel alcanzado: rojo (<mínimo), ámbar (mínimo-meta), verde (meta-superior), verde fuerte (>=superior)
+  // Color según el nivel alcanzado, con más matices por debajo del mínimo también
   function colorForPct(pct) {
-    if (pct >= SUPERIOR) return '#1f4d0c';
-    if (pct >= META) return '#3b6d11';
-    if (pct >= MINIMO) return '#854f0b';
-    return '#a32d2d';
+    if (pct >= SUPERIOR) return '#1f4d0c'; // verde fuerte
+    if (pct >= META) return '#3b6d11';     // verde
+    if (pct >= MINIMO) return '#854f0b';   // ámbar
+    if (pct >= 70) return '#d97706';       // naranja
+    if (pct >= 50) return '#ea580c';       // naranja-rojizo
+    if (pct >= 30) return '#dc2626';       // rojo
+    return '#991b1b';                      // rojo oscuro
   }
 
   let totalNom = 0, totalForm = 0;
