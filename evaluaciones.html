@@ -1688,16 +1688,34 @@ function parseCSV(txt){
 // Parse nómina CSV (columnas del Sheet):
 // [0]CodEmp [1]CUIL [2]DNI [3]Apellido [4]Nombre [5]NombreyApellido [6]Sexo [7]ESTATUS [8]UnidadNegocio [9]VP [10]AREA [11]RazSocial [12]Tienda [13]AREA [14]Categoria [15]CARGO ...
 function parseNomCSV(rows) {
-  return rows.slice(3).filter(r=>r[5]&&r[12]).map(r=>{
+  const parsed = rows.slice(3).filter(r=>r[5]&&r[12]).map(r=>{
     let tienda=(r[12]||'').trim().toUpperCase();
     if(tienda==='NERES')tienda='CALLAO';
     const area=parseInt(r[13])||0;
     const nombre=(r[5]||'').trim().toUpperCase();
     const cargo=(r[15]||'').trim().toUpperCase();
-    const dni=r[2]?String(r[2]).replace(/\.0$/,'').trim():'';
+    const dni=normDNI(r[2]);
     const un=(r[8]||'').trim().toUpperCase(); // Unidad de Negocio
     return [nombre,tienda,cargo,area,dni,un]; // 6 elementos: [0-4] como antes + [5]=UN
   }).filter(r=>r[5]!=='EXCLUIR'); // excluir personas marcadas como EXCLUIR en la nómina
+
+  // Deduplicar por DNI: si la misma persona aparece dos veces en la nómina
+  // (carga duplicada, cambio de tienda con registro viejo sin limpiar, etc.),
+  // nos quedamos con una sola entrada para que no se cuente dos veces.
+  const byDni = new Map();
+  const noDni = [];
+  parsed.forEach(r => {
+    const dni = r[4];
+    if (dni && dni.length > 3) {
+      byDni.set(dni, r); // el último registro con ese DNI gana (más reciente en la hoja)
+    } else {
+      noDni.push(r);
+    }
+  });
+  // Para los que no tienen DNI válido, deduplicar también por nombre normalizado
+  const byName = new Map();
+  noDni.forEach(r => { byName.set(normName(r[0]), r); });
+  return [...byDni.values(), ...byName.values()];
 }
 
 // ═══════════════════════════════════════════════════════════════════
