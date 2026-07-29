@@ -1177,6 +1177,33 @@ function findNomInfo(dni, nombre) {
   return null;
 }
 
+// Construye un índice DNI/nombre → info, limitado a una población filtrada
+// (ej. solo supervisores, solo APV de farmacia). Se construye una vez por render.
+function buildNomIndex(nomList) {
+  const byDni = {}, byName = {};
+  nomList.forEach(r => {
+    const d = normDNI(r[4]);
+    if (d) byDni[d] = {nombre:r[0],cargo:r[2],tienda:r[1],area:+r[3]};
+    const nn = normName(r[0]);
+    if (nn) byName[nn] = {nombre:r[0],cargo:r[2],tienda:r[1],area:+r[3]};
+  });
+  return {byDni, byName};
+}
+
+// Busca dentro de un índice ya construido con buildNomIndex(). Si la persona no
+// pertenece a esa población filtrada (aunque exista en la nómina general con otro
+// rol), no debe encontrarse acá: su respuesta no debe contarse en esta formación.
+function findInIndex(idx, dni, nombre) {
+  if (dni && idx.byDni[dni]) return idx.byDni[dni];
+  const nn = normName(nombre);
+  if (!nn) return null;
+  if (idx.byName[nn]) return idx.byName[nn];
+  for (const key in idx.byName) {
+    if (sameNorm(nn, key)) return idx.byName[key];
+  }
+  return null;
+}
+
 // ── Estado global ──
 let ACTIVE_AREA1=0, ACTIVE_AREA2=0;
 let STORE_SEARCH1='', STORE_SEARCH2='';
@@ -1390,6 +1417,7 @@ function renderAll2(rawResp, nom) {
   const nomToUse = supNom.length > 0 ? supNom : nom;
 
   const resp = dedup(rawResp, dniCol2, storeCol2);
+  const nomIdx2 = buildNomIndex(nomToUse);
 
   const nomByStore={},nomByArea={1:0,2:0,3:0};
   const storesWithSup=new Set();
@@ -1404,10 +1432,11 @@ function renderAll2(rawResp, nom) {
   const rByStore={},sByStore={},rByArea={1:[],2:[],3:[]};
   resp.forEach(r=>{
     const dni=dniCol2(r);
-    const nomInfo=findNomInfo(dni, r[2]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol2(r);
+    const nomInfo=findInIndex(nomIdx2, dni, r[2]);
+    if(!nomInfo)return; // no pertenece a esta población (supervisores) según nómina: no se cuenta
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const a=nomInfo?nomInfo.area:(areaCol2(r)||STORE_AREA[s]||0),score=sc(r[1]);
+    const a=nomInfo.area,score=sc(r[1]);
     rByStore[s]=(rByStore[s]||0)+1;
     if(!sByStore[s])sByStore[s]=[];
     if(score!==null)sByStore[s].push(score);
@@ -1436,18 +1465,19 @@ function renderAll2(rawResp, nom) {
   STORES.forEach(s=>{peopleByStore2[s]=[];});
   resp.forEach(r=>{
     const rDni=dniCol2(r);
-    const nomInfo=findNomInfo(rDni, r[2]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol2(r);
+    const nomInfo=findInIndex(nomIdx2, rDni, r[2]);
+    if(!nomInfo)return; // no pertenece a esta población según nómina
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const nombre=(r[2]||'').trim(),score2=sc(r[1]);
     if(!seenNorms2[s])seenNorms2[s]=[];
-    seenNorms2[s].push(normName(nomInfo?nomInfo.nombre:nombre));
+    seenNorms2[s].push(normName(nomInfo.nombre));
     const rDni2=rDni;
     if(rDni2&&rDni2!=='—'&&rDni2.length>4)seenDNIs2.add(rDni2);
     const rawFecha=(r[0]||'');
     const fm=rawFecha.match(/(\w{3} \w{3} \d{2} \d{4})|(\d{1,2}\/\d{1,2}\/\d{4})/);
     const fecha=fm?fm[0]:rawFecha.split(' ')[0];
-    peopleByStore2[s].push({nombre:nomInfo?nomInfo.nombre:nombre,cargo:nomInfo?nomInfo.cargo:(r[5]||'').trim(),score:score2,fecha,st:'r',dni:rDni2});
+    const score2=sc(r[1]);
+    peopleByStore2[s].push({nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni2});
   });
   nomToUse.forEach(r=>{
     const s=(r[1]||'').toUpperCase().trim();if(!STORES.includes(s))return;
@@ -1803,7 +1833,8 @@ async function tryLive(){
     renderAll2(resp2, nomLive);
 
     // Parse asistencia farmacéutica
-    const asistRows = parseAsistCSV(parseCSV(txtA));
+    const farmNomIdx = buildNomIndex(nomLive.filter(r => (r[5]||'').toUpperCase().includes('FARMACEUTICO')));
+    const asistRows = parseAsistCSV(parseCSV(txtA), farmNomIdx);
     // Parse resp3 — Inventarios: [0]fecha [1]score [2]DNI [3]nombre [4]tienda [5]cargo [6-15]Q1-10 [16]AREA
     const resp3=parseCSV(txt3).slice(1).filter(r=>r[0]&&r[3]).map(r=>{
       const rr=[...r];
@@ -1821,7 +1852,8 @@ async function tryLive(){
     renderAll5(mostResp, nomLive);
 
     // Parse 5 Conductas de Servicio
-    const condRows=parseMostCSV(parseCSV(txtC));
+    const apvNomIdx = buildNomIndex(nomLive.filter(r => (r[5]||'').toUpperCase().trim()==='APV'));
+    const condRows=parseMostCSV(parseCSV(txtC), apvNomIdx);
     renderAll6(condRows, nomLive);
 
     renderAll3(asistRows, nomLive);
@@ -1903,6 +1935,7 @@ function renderAll4(rawResp, nom) {
   const supNom = nom.filter(r=>(r[5]||'').toUpperCase().includes('SUPERVISOR'));
   const nomToUse = supNom.length>0?supNom:[];
   const resp = dedup(rawResp, dniCol4, storeCol4);
+  const nomIdx4 = buildNomIndex(nomToUse);
 
   const nomByStore={},nomByArea={1:0,2:0,3:0},storesWithSup=new Set();
   nomToUse.forEach(r=>{
@@ -1917,10 +1950,11 @@ function renderAll4(rawResp, nom) {
   const rByStore={},sByStore={},rByArea={1:[],2:[],3:[]};
   resp.forEach(r=>{
     const dni=dniCol4(r);
-    const nomInfo=findNomInfo(dni, r[3]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol4(r);
+    const nomInfo=findInIndex(nomIdx4, dni, r[3]);
+    if(!nomInfo)return; // no pertenece a esta población (supervisores) según nómina
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const a=nomInfo?nomInfo.area:(areaCol4(r)||STORE_AREA[s]||0),score=sc(r[1]);
+    const a=nomInfo.area,score=sc(r[1]);
     rByStore[s]=(rByStore[s]||0)+1;
     if(!sByStore[s])sByStore[s]=[];
     if(score!==null)sByStore[s].push(score);
@@ -1948,17 +1982,18 @@ function renderAll4(rawResp, nom) {
   STORES.forEach(s=>{peopleByStore4[s]=[];});
   resp.forEach(r=>{
     const rDni=dniCol4(r);
-    const nomInfo=findNomInfo(rDni, r[3]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol4(r);
+    const nomInfo=findInIndex(nomIdx4, rDni, r[3]);
+    if(!nomInfo)return; // no pertenece a esta población según nómina
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const nombre=(r[3]||'').trim(),score2=sc(r[1]);
+    const score2=sc(r[1]);
     if(!seenNorms4[s])seenNorms4[s]=[];
-    seenNorms4[s].push(normName(nomInfo?nomInfo.nombre:nombre));
+    seenNorms4[s].push(normName(nomInfo.nombre));
     if(rDni&&rDni.length>4)seenDNIs4.add(rDni);
     const rawFecha=(r[0]||'');
     const fm=rawFecha.match(/(\w{3} \w{3} \d{2} \d{4})|(\d{1,2}\/\d{1,2}\/\d{4})/);
     const fecha=fm?fm[0]:rawFecha.split(' ')[0];
-    peopleByStore4[s].push({nombre:nomInfo?nomInfo.nombre:nombre,cargo:nomInfo?nomInfo.cargo:(r[5]||'').trim(),score:score2,fecha,st:'r',dni:rDni});
+    peopleByStore4[s].push({nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni});
   });
   nomToUse.forEach(r=>{
     const s=(r[1]||'').toUpperCase().trim();if(!STORES.includes(s))return;
@@ -2007,28 +2042,22 @@ let cA5=null, cS5=null;
 let G5={nomByStore:{},rByStore:{},nomByArea:{1:0,2:0,3:0},rByArea:{1:0,2:0,3:0},peopleByStore:{}};
 
 // Cols: [0]CUIL [1]DNI [2]Apellido [3]Nombre [4]NombreApellido [5]ÁREA [6]Tienda [7]CARGO [8]CAPACITACION [9]OBSERVACION
-function parseMostCSV(rows){
+function parseMostCSV(rows, nomIdx){
   return rows.slice(1).filter(r=>r[4]&&r[6]).map(r=>{
-    let tienda=(r[6]||'').trim().toUpperCase();
-    if(tienda==='NERES'||tienda.includes('NERES'))tienda='CALLAO';
-    // fuzzy match to STORES
-    if(!STORES.includes(tienda)){
-      const found=STORES.find(st=>tienda.includes(st)||st.includes(tienda)||normName(tienda)===normName(st));
-      if(found)tienda=found;
-    }
     const dni=normDNI(r[1]);
     const nombre=(r[4]||'').trim().toUpperCase();
-    // La tienda real es siempre la de nómina (por DNI, o por nombre si el DNI no calza)
-    const nomInfo=findNomInfo(dni, nombre);
+    // La tienda real es siempre la de nómina. Si no pertenece a esta población, se descarta.
+    const nomInfo=nomIdx?findInIndex(nomIdx, dni, nombre):null;
+    if(!nomInfo) return null;
     return {
-      nombre:nomInfo?nomInfo.nombre:nombre,
+      nombre:nomInfo.nombre,
       dni:dni,
-      tienda:nomInfo?nomInfo.tienda.toUpperCase().trim():tienda,
-      area:nomInfo?nomInfo.area:(parseInt(r[5])||0),
-      cargo:nomInfo?nomInfo.cargo:(r[7]||'').trim().toUpperCase(),
+      tienda:nomInfo.tienda.toUpperCase().trim(),
+      area:nomInfo.area,
+      cargo:nomInfo.cargo,
       asistio:(r[8]||'').toString().trim().toUpperCase()==='SI'
     };
-  });
+  }).filter(Boolean);
 }
 
 // Cols formulario Mostrador (con nota): [0]fecha [1]score [2]DNI [3]nombre [4]tienda/farmacia [5]cargo [6-10]Q1-5 [11]AREA
@@ -2049,6 +2078,7 @@ function renderAll5(rawResp, nom) {
   const apvNom = nom.filter(r=>(r[5]||'').toUpperCase().includes('APV FARMACIA'));
   const nomToUse = apvNom.length>0?apvNom:[];
   const resp = dedup(rawResp, dniCol5, storeCol5);
+  const nomIdx5 = buildNomIndex(nomToUse);
 
   const nomByStore={},nomByArea={1:0,2:0,3:0},storesWithApv=new Set();
   nomToUse.forEach(r=>{
@@ -2062,10 +2092,11 @@ function renderAll5(rawResp, nom) {
   const rByStore={},sByStore={},rByArea={1:[],2:[],3:[]};
   resp.forEach(r=>{
     const dni=dniCol5(r);
-    const nomInfo=findNomInfo(dni, r[3]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol5(r);
+    const nomInfo=findInIndex(nomIdx5, dni, r[3]);
+    if(!nomInfo)return; // no pertenece a esta población (APV farmacia) según nómina
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const a=nomInfo?nomInfo.area:(areaCol5(r)||STORE_AREA[s]||0),score=sc(r[1]);
+    const a=nomInfo.area,score=sc(r[1]);
     rByStore[s]=(rByStore[s]||0)+1;
     if(!sByStore[s])sByStore[s]=[];
     if(score!==null)sByStore[s].push(score);
@@ -2095,17 +2126,18 @@ function renderAll5(rawResp, nom) {
   STORES.forEach(s=>{peopleByStore5[s]=[];});
   resp.forEach(r=>{
     const rDni=dniCol5(r);
-    const nomInfo=findNomInfo(rDni, r[3]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol5(r);
+    const nomInfo=findInIndex(nomIdx5, rDni, r[3]);
+    if(!nomInfo)return; // no pertenece a esta población según nómina
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const nombre=(r[3]||'').trim(),score2=sc(r[1]);
+    const score2=sc(r[1]);
     if(!seenNorms5[s])seenNorms5[s]=[];
-    seenNorms5[s].push(normName(nomInfo?nomInfo.nombre:nombre));
+    seenNorms5[s].push(normName(nomInfo.nombre));
     if(rDni&&rDni.length>4)seenDNIs5.add(rDni);
     const rawFecha=(r[0]||'');
     const fm=rawFecha.match(/(\w{3} \w{3} \d{2} \d{4})|(\d{1,2}\/\d{1,2}\/\d{4})/);
     const fecha=fm?fm[0]:rawFecha.split(' ')[0];
-    peopleByStore5[s].push({nombre:nomInfo?nomInfo.nombre:nombre,cargo:nomInfo?nomInfo.cargo:(r[5]||'').trim(),score:score2,fecha,st:'r',dni:rDni});
+    peopleByStore5[s].push({nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni});
   });
   nomToUse.forEach(r=>{
     const s=(r[1]||'').toUpperCase().trim();if(!STORES.includes(s))return;
@@ -2505,28 +2537,23 @@ let G3 = {nomByStore:{}, rByStore:{}, nomByArea:{1:0,2:0,3:0}, rByArea:{1:0,2:0,
 
 // Parse hoja Asistencia: fila 1 = header, datos desde fila 2
 // cols: [0]CUIL [1]DNI [2]Apellido [3]Nombre [4]NombreApellido [5]AREA [6]Tienda [7]Cargo [8]APACITACION
-function parseAsistCSV(rows) {
+function parseAsistCSV(rows, nomIdx) {
   return rows.slice(1).filter(r => r[4] && r[6]).map(r => {
-    let tienda=(r[6]||'').trim().toUpperCase();
-    if(tienda==='NERES'||tienda.includes('NERES'))tienda='CALLAO';
-    if(!STORES.includes(tienda)){
-      const found=STORES.find(st=>tienda.includes(st)||st.includes(tienda)||normName(tienda)===normName(st));
-      if(found)tienda=found;
-    }
     const dni=normDNI(r[1]);
     const nombre=(r[4]||'').trim().toUpperCase();
-    // La tienda real es siempre la de nómina (por DNI, o por nombre si el DNI no calza),
-    // nunca la que la persona escribió/seleccionó en el formulario de asistencia.
-    const nomInfo=findNomInfo(dni, nombre);
+    // La tienda real es siempre la de nómina (por DNI, o por nombre si el DNI no calza).
+    // Si la persona no pertenece a esta población según nómina, se descarta (null).
+    const nomInfo=nomIdx?findInIndex(nomIdx, dni, nombre):null;
+    if(!nomInfo) return null;
     return {
-      nombre: nomInfo?nomInfo.nombre:nombre,
+      nombre: nomInfo.nombre,
       dni:    dni,
-      tienda: nomInfo?nomInfo.tienda.toUpperCase().trim():tienda,
-      area:   nomInfo?nomInfo.area:(parseInt(r[5])||0),
-      cargo:  nomInfo?nomInfo.cargo:(r[7]||'').trim().toUpperCase(),
+      tienda: nomInfo.tienda.toUpperCase().trim(),
+      area:   nomInfo.area,
+      cargo:  nomInfo.cargo,
       asistio:(r[8]||'').toString().trim().toUpperCase() === 'SI'
     };
-  });
+  }).filter(Boolean);
 }
 
 function renderAll3(asistRows, nom) {
