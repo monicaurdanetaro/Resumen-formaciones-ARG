@@ -1430,13 +1430,21 @@ function renderAll2(rawResp, nom) {
   });
 
   const rByStore={},sByStore={},rByArea={1:[],2:[],3:[]};
+  // Primero: quedarnos con la mejor respuesta por identidad real de nómina (no por DNI crudo
+  // del formulario, que puede variar entre envíos de la misma persona).
+  const bestByKey2={};
   resp.forEach(r=>{
     const dni=dniCol2(r);
     const nomInfo=findInIndex(nomIdx2, dni, r[2]);
-    if(!nomInfo)return; // no pertenece a esta población (supervisores) según nómina: no se cuenta
+    if(!nomInfo)return;
     const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const a=nomInfo.area,score=sc(r[1]);
+    const score=sc(r[1]);
+    const nomKey = normDNI(dni) && NOM_BY_DNI[normDNI(dni)] ? normDNI(dni) : normName(nomInfo.nombre);
+    const prev=bestByKey2[nomKey];
+    if(!prev || (score??-1) > (prev.score??-1)) bestByKey2[nomKey]={s,a:nomInfo.area,score};
+  });
+  Object.values(bestByKey2).forEach(({s,a,score})=>{
     rByStore[s]=(rByStore[s]||0)+1;
     if(!sByStore[s])sByStore[s]=[];
     if(score!==null)sByStore[s].push(score);
@@ -1462,6 +1470,7 @@ function renderAll2(rawResp, nom) {
 
   // Build people for module 2
   const seenDNIs2=new Set(),seenNorms2={},peopleByStore2={};
+  const bestByNomKey2={}; // clave = identidad real en nómina (DNI de nómina o nombre normalizado)
   STORES.forEach(s=>{peopleByStore2[s]=[];});
   resp.forEach(r=>{
     const rDni=dniCol2(r);
@@ -1469,6 +1478,18 @@ function renderAll2(rawResp, nom) {
     if(!nomInfo)return; // no pertenece a esta población según nómina
     const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
+    const score2=sc(r[1]);
+    // Identidad real: DNI de nómina si lo tenemos, si no el nombre normalizado.
+    // Dos respuestas de la misma persona (aunque su DNI en el formulario difiera
+    // por formato/error) deben fusionarse en una sola fila con la mejor nota.
+    const nomKey = normDNI(rDni) && NOM_BY_DNI[normDNI(rDni)] ? normDNI(rDni) : normName(nomInfo.nombre);
+    const prev = bestByNomKey2[nomKey];
+    if(prev && (score2??-1) <= (prev.score??-1)) return; // ya hay una entrada mejor o igual
+    if(prev){
+      // reemplazar la entrada anterior (nota más baja) por esta
+      const idx = peopleByStore2[s].indexOf(prev);
+      if(idx>=0) peopleByStore2[s].splice(idx,1);
+    }
     if(!seenNorms2[s])seenNorms2[s]=[];
     seenNorms2[s].push(normName(nomInfo.nombre));
     const rDni2=rDni;
@@ -1476,8 +1497,9 @@ function renderAll2(rawResp, nom) {
     const rawFecha=(r[0]||'');
     const fm=rawFecha.match(/(\w{3} \w{3} \d{2} \d{4})|(\d{1,2}\/\d{1,2}\/\d{4})/);
     const fecha=fm?fm[0]:rawFecha.split(' ')[0];
-    const score2=sc(r[1]);
-    peopleByStore2[s].push({nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni2});
+    const entry={nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni2};
+    bestByNomKey2[nomKey]=entry;
+    peopleByStore2[s].push(entry);
   });
   nomToUse.forEach(r=>{
     const s=(r[1]||'').toUpperCase().trim();if(!STORES.includes(s))return;
