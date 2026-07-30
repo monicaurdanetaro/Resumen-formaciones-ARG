@@ -1320,11 +1320,11 @@ function renderAll1(rawResp, nom) {
   const rByStore={},sByStore={},rByArea={1:[],2:[],3:[]};
   resp.forEach(r=>{
     const dni=dniCol1(r);
-    // Always use nomina store if DNI matches (fallback: nombre)
     const nomInfo=findNomInfo(dni, r[2]);
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol1(r);
+    if(!nomInfo)return; // no está en la nómina: no se cuenta en ninguna tienda
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const a=nomInfo?nomInfo.area:(areaCol1(r)||STORE_AREA[s]||0),score=sc(r[1]);
+    const a=nomInfo.area,score=sc(r[1]);
     rByStore[s]=(rByStore[s]||0)+1;
     if(!sByStore[s])sByStore[s]=[];
     if(score!==null)sByStore[s].push(score);
@@ -1354,18 +1354,18 @@ function renderAll1(rawResp, nom) {
   resp.forEach(r=>{
     const rDni=dniCol1(r);
     const nomInfo=findNomInfo(rDni, r[2]);
-    // Use nomina store if DNI/nombre found, otherwise form store
-    const s=nomInfo?nomInfo.tienda.toUpperCase().trim():storeCol1(r);
+    if(!nomInfo)return; // no está en la nómina: no se cuenta ni se muestra
+    const s=nomInfo.tienda.toUpperCase().trim();
     if(!STORES.includes(s))return;
-    const nombre=(r[2]||'').trim(),score2=sc(r[1]);
-    seen.add(rDni?rDni+'||'+s:normName(nombre)+'||'+s);
+    const score2=sc(r[1]);
+    seen.add(rDni?rDni+'||'+s:normName(nomInfo.nombre)+'||'+s);
     if(!seenNorms[s])seenNorms[s]=[];
-    seenNorms[s].push(normName(nomInfo?nomInfo.nombre:nombre));
+    seenNorms[s].push(normName(nomInfo.nombre));
     if(rDni&&rDni!=='—'&&rDni.length>4)seenDNIs.add(rDni);
     const rawFecha=(r[0]||'');
     const fm=rawFecha.match(/(\w{3} \w{3} \d{2} \d{4})|(\d{1,2}\/\d{1,2}\/\d{4})/);
     const fecha=fm?fm[0]:rawFecha.split(' ')[0];
-    peopleByStore[s].push({nombre:nomInfo?nomInfo.nombre:nombre,cargo:nomInfo?nomInfo.cargo:(r[4]||'').trim(),score:score2,fecha,st:'r',dni:rDni});
+    peopleByStore[s].push({nombre:nomInfo.nombre,cargo:nomInfo.cargo,score:score2,fecha,st:'r',dni:rDni});
   });
   nom.forEach(r=>{
     const s=(r[1]||'').toUpperCase().trim();if(!STORES.includes(s))return;
