@@ -1801,13 +1801,13 @@ async function tryLive(){
   try {
     // Fetch nómina, resp1 y resp2 en paralelo
     const [r1,r2,r3,rN,rA,rM,rC]=await Promise.all([
-      fetchT(`${API}?gid=${GID_RESP1}`,12000),
-      fetchT(`${API}?gid=${GID_RESP2}`,12000),
-      fetchT(`${API}?gid=${GID_RESP3}`,12000),
-      fetchT(`${API}?gid=${GID_NOM}`,12000),
-      fetchT(`${API}?gid=${GID_ASIST}`,12000),
-      fetchT(`${API}?gid=${GID_MOST}`,12000),
-      fetchT(`${API}?gid=${GID_COND}`,12000)
+      fetchT(`${API}?gid=${GID_RESP1}`,30000),
+      fetchT(`${API}?gid=${GID_RESP2}`,30000),
+      fetchT(`${API}?gid=${GID_RESP3}`,30000),
+      fetchT(`${API}?gid=${GID_NOM}`,30000),
+      fetchT(`${API}?gid=${GID_ASIST}`,30000),
+      fetchT(`${API}?gid=${GID_MOST}`,30000),
+      fetchT(`${API}?gid=${GID_COND}`,30000)
     ]);
 
     if(!r1.ok||!r2.ok||!r3.ok||!rN.ok||!rA.ok||!rM.ok||!rC.ok) throw new Error('HTTP error');
